@@ -6,6 +6,7 @@ import { useRedux } from "../hooks/useRedux";
 const Register = () => {
   const { loading, dispatch } = useRedux();
 
+  const [loadImage, setLoadImage] = useState("");
   const [state, setState] = useState({
     username: "",
     email: "",
@@ -25,6 +26,11 @@ const Register = () => {
     if (e.target.files.length !== 0) {
       setState({ ...state, [e.target.name]: e.target.files[0] });
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setLoadImage(reader.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   // handle submit
@@ -98,7 +104,9 @@ const Register = () => {
 
             <div className="form-group">
               <div className="file-image">
-                <div className="image"></div>
+                <div className="image">
+                  {loadImage ? <img src={loadImage} /> : ""}
+                </div>
                 <div className="file">
                   <label htmlFor="image">Select Image</label>
                   <input
