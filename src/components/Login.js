@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { useRedux } from "../hooks/useRedux";
+import { _getLorem } from "../redux/actions/auth/test";
 const Login = () => {
+const { dispatch, loading} = useRedux()
+useEffect(() => {
+  dispatch(_getLorem())
+
+},[])
+if(loading){
+  return(
+    <h1>Loading </h1>
+  )
+ }
   return (
     <>
       <div>

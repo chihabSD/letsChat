@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { decrement, increment, incrementByAmount } from "../redux/counter";
+import { useRedux } from "../hooks/useRedux";
 
 const Register = () => {
-  const {count} = useSelector((state) => state.counter)
-  const dispatch = useDispatch()
+
+  const {loading, dispatch} = useRedux()
+ useEffect(() => {
+
+
+ },[]) 
+ if(loading){
+  return(
+    <h1>Loading </h1>
+  )
+ }
   return (
     <div className="register">
       <div className="card">
@@ -13,10 +22,7 @@ const Register = () => {
           <h3>Register</h3>
         </div>
 
-<h1>The count is:{count}</h1>
-<button onClick={() => dispatch(increment()) }>Increase</button>
-<button onClick={() => dispatch(decrement()) }>Decrement</button>
-<button onClick={() => dispatch(incrementByAmount(100)) }>Decrement</button>
+
         <div className="card-body">
           <form>
             <div className="form-group">
@@ -75,7 +81,7 @@ const Register = () => {
 
             <div className="form-group">
               <span>
-                <Link to="/messenger/login"> Login Your Account </Link>
+                <Link to="/login"> Login Your Account </Link>
               </span>
             </div>
           </form>
