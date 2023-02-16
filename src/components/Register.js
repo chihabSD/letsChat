@@ -1,20 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useRedux } from "../hooks/useRedux";
 
 const Register = () => {
+  const { loading, dispatch } = useRedux();
 
-  const {loading, dispatch} = useRedux()
- useEffect(() => {
+  const [state, setState] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    image: "",
+  });
+  const { username, password, email, confirmPassword, image } = state;
 
+  // handle inputs
+  const inputHandle = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
- },[]) 
- if(loading){
-  return(
-    <h1>Loading </h1>
-  )
- }
+  // handle image input
+  const handleImage = (e) => {
+    if (e.target.files.length !== 0) {
+      setState({ ...state, [e.target.name]: e.target.files[0] });
+    }
+  };
+
+  // handle submit
+  const handleSubmit = (e) => {
+    console.log(state);
+    e.preventDefault();
+  };
+  if (loading) {
+    return <h1>Loading </h1>;
+  }
   return (
     <div className="register">
       <div className="card">
@@ -22,9 +42,8 @@ const Register = () => {
           <h3>Register</h3>
         </div>
 
-
         <div className="card-body">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="username">User Name</label>
               <input
@@ -32,6 +51,9 @@ const Register = () => {
                 className="form-control"
                 placeholder="User Name"
                 id="username"
+                onChange={inputHandle}
+                name="username"
+                value={username}
               />
             </div>
 
@@ -42,6 +64,9 @@ const Register = () => {
                 className="form-control"
                 placeholder="Email"
                 id="email"
+                onChange={inputHandle}
+                name="email"
+                value={email}
               />
             </div>
 
@@ -52,6 +77,9 @@ const Register = () => {
                 className="form-control"
                 placeholder="Password"
                 id="password"
+                onChange={inputHandle}
+                name="password"
+                value={password}
               />
             </div>
 
@@ -62,6 +90,9 @@ const Register = () => {
                 className="form-control"
                 placeholder="Confirm Password"
                 id="confirmPassword"
+                onChange={inputHandle}
+                name="confirmPassword"
+                value={confirmPassword}
               />
             </div>
 
@@ -70,7 +101,13 @@ const Register = () => {
                 <div className="image"></div>
                 <div className="file">
                   <label htmlFor="image">Select Image</label>
-                  <input type="file" className="form-control" id="image" />
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="image"
+                    onChange={handleImage}
+                    name="image"
+                  />
                 </div>
               </div>
             </div>
