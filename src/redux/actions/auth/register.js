@@ -12,7 +12,10 @@ export const _register = (details) => {
       dispatch(clearLoading());
     } catch (error) {
       dispatch(setError(error.response.data.message));
-      console.log(error.response.data.message);
+      setTimeout(() => {
+
+      dispatch(clearLoading());
+      }, 1000)
     }
   };
 };

@@ -3,10 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRedux } from "../hooks/useRedux";
 import { _register } from "../redux/actions/auth/register";
 import { clearRegistered } from "../redux/reducers/register";
+import { ToastContainer, toast } from "react-toastify";
+import { Circles, Oval } from "react-loader-spinner";
+
+import "react-toastify/dist/ReactToastify.css";
+import { clearError } from "../redux/reducers/error";
 const Register = () => {
+  const { loading, dispatch, error, registered } = useRedux();
+  const notify = () => toast.success("Registeration completed successfully");
+  const toastId = React.useRef(null);
   const navigate = useNavigate();
-  const { loading, dispatch, registered } = useRedux();
-  const fileInput = useRef(null);
+
+
+  const errorNotify = () =>toastId.current = toast.error(error, {closeOnClick:dispatch(clearError())});
+  const dismiss = () =>  toast.dismiss(toastId.current);
+
+
 
   const [loadImage, setLoadImage] = useState("");
   const [state, setState] = useState({
@@ -52,12 +64,23 @@ const Register = () => {
 
   useEffect(() => {
     if (registered) {
+      notify();
       setTimeout(() => {
         navigate("/login");
         dispatch(clearRegistered());
-      }, 2000);
+      }, 1000);
     }
   }, [registered]);
+  useEffect(() => {
+    if(error){
+      errorNotify()
+      // setTimeout(() => {
+
+      //   dismiss()
+      // }, 3000)
+      
+    }
+  }, [error])
   return (
     <div className="register">
       <div className="card">
@@ -147,11 +170,31 @@ const Register = () => {
               </span>
             </div>
             <div className="form-group">
-              <span>
-                {!loading && <label htmlFor="image"> One sec...</label>}
-              </span>
+              <div className="loading">
+                {loading && (
+                  <>
+                    <div className="circle">
+                      <Oval
+                        height={20}
+                        width={80}
+                        color="#fff"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#4fa94d"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                      />
+                    </div>
+                    <span>One sec....</span>
+                  </>
+                )}
+              </div>
             </div>
           </form>
+      {/* <button onClick={dismiss}>Dismiss</button> */}
+          <ToastContainer />
         </div>
       </div>
     </div>
