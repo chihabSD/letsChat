@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {  useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRedux } from "../hooks/useRedux";
+import { _register } from "../redux/actions/auth/register";
 
 const Register = () => {
   const { loading, dispatch } = useRedux();
+  const fileInput = useRef(null)
 
   const [loadImage, setLoadImage] = useState("");
   const [state, setState] = useState({
@@ -14,7 +15,8 @@ const Register = () => {
     confirmPassword: "",
     image: "",
   });
-  const { username, password, email, confirmPassword, image } = state;
+  const [file, setFile] = useState(null);
+  const { username, password, email, confirmPassword,image } = state;
 
   // handle inputs
   const inputHandle = (e) => {
@@ -23,8 +25,14 @@ const Register = () => {
 
   // handle image input
   const handleImage = (e) => {
+    // console.log('target file', e.target.name, e.target.files[0]);
     if (e.target.files.length !== 0) {
-      setState({ ...state, [e.target.name]: e.target.files[0] });
+      // setFile(e.target.files[0])
+      setState({ ...state, image: e.target.files[0] });
+      // setFile(e.target.files[0])
+    //   setFile(s
+    //     URL.createObjectURL(e.target.files[0])
+    // );
     }
     const reader = new FileReader();
     reader.onload = () => {
@@ -35,8 +43,19 @@ const Register = () => {
 
   // handle submit
   const handleSubmit = (e) => {
-    console.log(state);
     e.preventDefault();
+    console.log('updated state after image', state.image);
+    const data = new FormData();
+
+    data.append("username", username);
+    data.append("email", email);
+    data.append("password", password);
+    data.append("confirmPassword", confirmPassword);
+    data.append("image",  image);
+
+
+    // console.log(data);
+    dispatch(_register(data));
   };
   if (loading) {
     return <h1>Loading </h1>;
@@ -49,7 +68,7 @@ const Register = () => {
         </div>
 
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} id="form">
             <div className="form-group">
               <label htmlFor="username">User Name</label>
               <input

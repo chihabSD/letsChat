@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useRedux } from "../hooks/useRedux";
-import { _getLorem } from "../redux/actions/auth/test";
+// import { _getLorem } from "../redux/actions/auth/test";
 const Login = () => {
-const { dispatch, loading} = useRedux()
+const {  loading} = useRedux()
 useEffect(() => {
-  dispatch(_getLorem())
+  // dispatch(_getLorem())
 
 },[])
 if(loading){
