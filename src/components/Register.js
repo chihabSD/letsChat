@@ -1,11 +1,12 @@
-import React, {  useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useRedux } from "../hooks/useRedux";
 import { _register } from "../redux/actions/auth/register";
-
+import { clearRegistered } from "../redux/reducers/register";
 const Register = () => {
-  const { loading, dispatch } = useRedux();
-  const fileInput = useRef(null)
+  const navigate = useNavigate();
+  const { loading, dispatch, registered } = useRedux();
+  const fileInput = useRef(null);
 
   const [loadImage, setLoadImage] = useState("");
   const [state, setState] = useState({
@@ -16,7 +17,7 @@ const Register = () => {
     image: "",
   });
   const [file, setFile] = useState(null);
-  const { username, password, email, confirmPassword,image } = state;
+  const { username, password, email, confirmPassword, image } = state;
 
   // handle inputs
   const inputHandle = (e) => {
@@ -25,14 +26,8 @@ const Register = () => {
 
   // handle image input
   const handleImage = (e) => {
-    // console.log('target file', e.target.name, e.target.files[0]);
     if (e.target.files.length !== 0) {
-      // setFile(e.target.files[0])
       setState({ ...state, image: e.target.files[0] });
-      // setFile(e.target.files[0])
-    //   setFile(s
-    //     URL.createObjectURL(e.target.files[0])
-    // );
     }
     const reader = new FileReader();
     reader.onload = () => {
@@ -44,22 +39,25 @@ const Register = () => {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('updated state after image', state.image);
+    console.log("updated state after image", state.image);
     const data = new FormData();
 
     data.append("username", username);
     data.append("email", email);
     data.append("password", password);
     data.append("confirmPassword", confirmPassword);
-    data.append("image",  image);
-
-
-    // console.log(data);
+    data.append("image", image);
     dispatch(_register(data));
   };
-  if (loading) {
-    return <h1>Loading </h1>;
-  }
+
+  useEffect(() => {
+    if (registered) {
+      setTimeout(() => {
+        navigate("/login");
+        dispatch(clearRegistered());
+      }, 2000);
+    }
+  }, [registered]);
   return (
     <div className="register">
       <div className="card">
@@ -146,6 +144,11 @@ const Register = () => {
             <div className="form-group">
               <span>
                 <Link to="/login"> Login Your Account </Link>
+              </span>
+            </div>
+            <div className="form-group">
+              <span>
+                {!loading && <label htmlFor="image"> One sec...</label>}
               </span>
             </div>
           </form>

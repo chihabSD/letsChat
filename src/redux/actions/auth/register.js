@@ -1,18 +1,17 @@
 import { authApiHandler } from "../../../api/auth";
 import { setError } from "../../reducers/error";
+import { clearLoading, setLoading } from "../../reducers/loading";
+import { setRegistered } from "../../reducers/register";
 import { names } from "../names";
 export const _register = (details) => {
   return async (dispatch) => {
     try {
-    //   const { data } = await axios.post(`${auth}/register`, details);
-    const {data}= await authApiHandler(names.REGISTER, details)
-
-      // dispatch(setLoading())
-      // await slowCode(1000)
-      // const { data } = await axios.post("http://localhost:5000/auth/register", {details});
-      console.log("Returned data", data);
+      dispatch(setLoading());
+      const { data } = await authApiHandler(names.REGISTER, details);
+      dispatch(setRegistered());
+      dispatch(clearLoading());
     } catch (error) {
-      dispatch(setError(error.response.data.message))
+      dispatch(setError(error.response.data.message));
       console.log(error.response.data.message);
     }
   };

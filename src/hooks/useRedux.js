@@ -4,10 +4,14 @@ const useRedux = () => {
   const state = useSelector((state) => state);
   const {
     loadingReducer: { loading },
+    registerReducer: { registered },
+    errorReducer: { error },
   } = state;
   return {
     dispatch,
     loading,
+    error,
+    registered,
   };
 };
 
