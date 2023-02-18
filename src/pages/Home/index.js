@@ -5,6 +5,7 @@ import { _logout } from "../../redux/actions/auth/logout";
 import { FaEllipsisH, FaEdit, FaSistrix } from "react-icons/fa";
 import ActiveFriend from "../../components/ActiveFriend";
 import Friends from "../../components/Friends";
+import RightSide from "../../components/RightSide";
 const Home = () => {
   const navigate = useNavigate();
   const {
@@ -94,6 +95,8 @@ const Home = () => {
             {/* End of friend section */}
           </div>
         </div>
+        {/* RIGHT SIDE  */}
+      <RightSide image={profilePic}/>
       </div>
     </div>
   );
