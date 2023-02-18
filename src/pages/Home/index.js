@@ -2,13 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRedux } from "../../hooks/useRedux";
 import { _logout } from "../../redux/actions/auth/logout";
-import { FaEllipsisH,FaEdit,FaSistrix } from "react-icons/fa";
+import { FaEllipsisH, FaEdit, FaSistrix } from "react-icons/fa";
+import ActiveFriend from "../../components/ActiveFriend";
+import Friends from "../../components/Friends";
 const Home = () => {
   const navigate = useNavigate();
   const {
     dispatch,
     account: { image, email, username },
+  
   } = useRedux();
+  const profilePic = `http://localhost:5000/images/${image}`;
   const handleLogout = () => {
     dispatch(_logout());
     navigate("/login");
@@ -21,10 +25,10 @@ const Home = () => {
             <div className="top">
               <div className="image-name">
                 <div className="image">
-                  <img src={`http://localhost:5000/images/${image}`} alt="" />
+                  <img src={profilePic} alt="" />
                 </div>
                 <div className="name">
-                  <h1>Hi {username}</h1>
+                  <h3>Hi {username}</h3>
                 </div>
               </div>
 
@@ -41,8 +45,7 @@ const Home = () => {
             <div className="friend-search">
               <div className="search">
                 <button>
-                  
-                  <FaSistrix />{" "}
+                  <FaSistrix />
                 </button>
                 <input
                   type="text"
@@ -51,6 +54,44 @@ const Home = () => {
                 />
               </div>
             </div>
+
+            {/* End friend search  */}
+            <div className="active-friends">
+              {<ActiveFriend image={`http://localhost:5000/images/${image}`} />}
+            </div>
+            <div className="friends">
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+              <div className="hover-friend">
+                <Friends image={profilePic}/>
+              </div>
+            </div>
+            {/* End of friend section */}
           </div>
         </div>
       </div>
