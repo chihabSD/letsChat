@@ -5,17 +5,18 @@ import { ENDPOINT } from "./endpoint";
 import { getHeader } from "./header";
 const auth = `${ENDPOINT}/auth`;
 
-const { REGISTER, LOGIN } = names;
+const { REGISTER, LOGIN, GET_PROFILE } = names;
 
 // handle auth
 export const authApiHandler = async (name, details) => {
-  console.log("sdfsdf", details);
-  //   const header = await getHeader();
+    const header = await getHeader();
   switch (name) {
     case REGISTER:
       return axios.post(`${auth}/register`, details);
     case LOGIN:
       return axios.post(`${auth}/login`, details);
+      case GET_PROFILE:
+        return axios.get(`${auth}/profile`,header );
     default:
       break;
   }

@@ -5,6 +5,7 @@ import { clearLoading, setLoading } from "../../reducers/loading";
 import { success } from "./success";
 // const TOKEN_NAME = 'expense_app_token';
 import { names } from "../names";
+import { getUserProfile } from "../profile";
 export const _login = (details) => {
   return async (dispatch) => {
     try {
@@ -12,6 +13,7 @@ export const _login = (details) => {
       const {data:{token }}  = await authApiHandler(names.LOGIN, details);
       setAuthHeader(token);
       dispatch(success(token));
+      dispatch(getUserProfile())
       //   dispatch(setRegistered());
       //   dispatch(clearLoading());
     } catch (error) {
