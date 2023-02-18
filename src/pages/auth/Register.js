@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRedux } from "../hooks/useRedux";
-import { _register } from "../redux/actions/auth/register";
-import { clearRegistered } from "../redux/reducers/register";
+import { useRedux } from "../../hooks/useRedux";
+import { _register } from "../../redux/actions/auth/register";
+import { clearRegistered } from "../../redux/reducers/register";
 import { ToastContainer, toast } from "react-toastify";
 import { Circles, Oval } from "react-loader-spinner";
 
 import "react-toastify/dist/ReactToastify.css";
-import { clearError } from "../redux/reducers/error";
+import { clearError } from "../../redux/reducers/error";
 const Register = () => {
   const { loading, dispatch, error, registered } = useRedux();
   const notify = () => toast.success("Registeration completed successfully");
@@ -193,7 +193,6 @@ const Register = () => {
               </div>
             </div>
           </form>
-      {/* <button onClick={dismiss}>Dismiss</button> */}
           <ToastContainer />
         </div>
       </div>
