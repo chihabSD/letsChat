@@ -4,6 +4,7 @@ const initialState = {
     forgotPassword: false,
     resetTokenVerified: false,
     passwordChanged: false,
+    authenticated: false,
     resetEmail: '',
     account: {},
   };
@@ -20,6 +21,15 @@ const initialState = {
       clearProfile: state => {
         state.account = {};
       },
+
+      authenticate: state => {
+        state.authenticated = true;
+      },
+      unauthenticate: state => {
+        state.authenticated = false;
+      },
+
+
       forgotPasswordSuccess: state => {
         state.forgotPassword = true;
       },
@@ -59,6 +69,7 @@ const initialState = {
   
   export const {
     getProfile,
+    authenticate, unauthenticate, 
     setTokenVerified,
     clearProfile,
     setPasswordChanged,

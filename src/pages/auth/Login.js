@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { _login } from "../../redux/actions/auth/login";
 import { clearError } from "../../redux/reducers/error";
 const Login = () => {
-const { loading, dispatch, error, registered } = useRedux();
+const { loading, dispatch, error, authenticated } = useRedux();
 const notify = () => toast.success("Registeration completed successfully");
 const toastId = React.useRef(null);
 const navigate = useNavigate();
@@ -27,6 +27,16 @@ const {  password, email} = state;
   e.preventDefault();
   dispatch(_login({email, password}))
  }
+
+ useEffect(() => {
+  if (authenticated) {
+    setTimeout(() => {
+      navigate("/");
+      // dispatch(clearRegistered());
+    }, 1000);
+  }
+}, [authenticated]);
+
  useEffect(() => {
   if(error){
     errorNotify()
