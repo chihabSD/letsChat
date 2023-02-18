@@ -9,13 +9,14 @@ import { getUserProfile } from "../profile";
 export const _login = (details) => {
   return async (dispatch) => {
     try {
-      //   dispatch(setLoading());
-      const {data:{token }}  = await authApiHandler(names.LOGIN, details);
+      dispatch(setLoading());
+      const {
+        data: { token },
+      } = await authApiHandler(names.LOGIN, details);
       setAuthHeader(token);
       dispatch(success(token));
-      dispatch(getUserProfile())
-      //   dispatch(setRegistered());
-      //   dispatch(clearLoading());
+      dispatch(getUserProfile());
+      dispatch(clearLoading());
     } catch (error) {
       dispatch(setError(error.response.data.message));
       setTimeout(() => {

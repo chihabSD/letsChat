@@ -4,6 +4,7 @@ import { useRedux } from "../../hooks/useRedux";
 import { ToastContainer, toast } from "react-toastify";
 import { _login } from "../../redux/actions/auth/login";
 import { clearError } from "../../redux/reducers/error";
+import { Oval } from "react-loader-spinner";
 const Login = () => {
 const { loading, dispatch, error, authenticated } = useRedux();
 const notify = () => toast.success("Registeration completed successfully");
@@ -91,6 +92,30 @@ const {  password, email} = state;
                   <Link to="/register"> Don't have any Account </Link>
                 </span>
               </div>
+
+              <div className="form-group">
+              <div className="loading">
+                {loading && (
+                  <>
+                    <div className="circle">
+                      <Oval
+                        height={20}
+                        width={80}
+                        color="#fff"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#4fa94d"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                      />
+                    </div>
+                    <span>Authenticating</span>
+                  </>
+                )}
+              </div>
+            </div>
             </form>
             <ToastContainer />
           </div>
