@@ -11,6 +11,7 @@ const Home = () => {
   const navigate = useNavigate();
   const {
     dispatch,
+    friends, 
     account: { image, email, username },
   
   } = useRedux();
@@ -65,36 +66,12 @@ const Home = () => {
               {<ActiveFriend image={`http://localhost:5000/images/${image}`} />}
             </div>
             <div className="friends">
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
-              <div className="hover-friend">
-                <Friends image={profilePic}/>
-              </div>
+             {friends && friends.length > 0 ? friends.map((fd) =>  <div className="hover-friend">
+                <Friends key={fd._id} image={ `http://localhost:5000/images/${fd.image}`} username={fd.username}/>
+              </div> ):'No friends'}
+            
+              
+           
             </div>
             {/* End of friend section */}
           </div>

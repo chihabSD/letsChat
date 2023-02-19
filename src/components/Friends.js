@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Friends = ({image}) => {
+const Friends = ({image, username}) => {
   return (
        <div className='friend'>
             <div className='friend-image'>
@@ -11,7 +11,7 @@ const Friends = ({image}) => {
 
             <div className='friend-name-seen'>
                  <div className='friend-name'>
-                      <h4>Kazi Ariyan</h4>
+                      <h4>{username}</h4>
                  </div>
 
             </div>

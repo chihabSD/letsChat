@@ -5,12 +5,13 @@ const useRedux = () => {
   const {
     loadingReducer: { loading },
     registerReducer: { registered },
+    friendsReducer: { friends },
     profileReducer: { authenticated, account },
     errorReducer: { error },
   } = state;
   return {
     dispatch,
-    authenticated, account, 
+    authenticated, account, friends, 
     loading,
     error,
     registered,
