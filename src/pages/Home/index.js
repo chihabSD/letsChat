@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRedux } from "../../hooks/useRedux";
 import { _logout } from "../../redux/actions/auth/logout";
@@ -8,21 +8,23 @@ import Friends from "../../components/Friends";
 import RightSide from "../../components/RightSide";
 import { _getFriends } from "../../redux/actions/friends/getFriends";
 const Home = () => {
+  const [currentFriend, setCurrentFriend] = useState("");
+  console.log(currentFriend);
   const navigate = useNavigate();
   const {
     dispatch,
-    friends, 
+    friends,
     account: { image, email, username },
-  
   } = useRedux();
   const profilePic = `http://localhost:5000/images/${image}`;
   const handleLogout = () => {
     dispatch(_logout());
     navigate("/login");
   };
+
   useEffect(() => {
-    dispatch(_getFriends())
-  }, [])
+    dispatch(_getFriends());
+  }, []);
   return (
     <div className="messenger">
       <div className="row">
@@ -39,7 +41,7 @@ const Home = () => {
               </div>
 
               <div className="icons">
-                <div className="icon">
+                <div onClick={() => dispatch(_logout())} className="icon">
                   <FaEllipsisH />
                 </div>
                 <div className="icon">
@@ -66,18 +68,24 @@ const Home = () => {
               {<ActiveFriend image={`http://localhost:5000/images/${image}`} />}
             </div>
             <div className="friends">
-             {friends && friends.length > 0 ? friends.map((fd) =>  <div className="hover-friend">
-                <Friends key={fd._id} image={ `http://localhost:5000/images/${fd.image}`} username={fd.username}/>
-              </div> ):'No friends'}
-            
-              
-           
+              {friends && friends.length > 0
+                ? friends.map((fd) => (
+                    <div onClick={() => setCurrentFriend(fd)} className="hover-friend">
+                      <Friends
+                        key={fd._id}
+                        image={`http://localhost:5000/images/${fd.image}`}
+                        username={fd.username}
+                      />
+                    </div>
+                  ))
+                : "No friends"}
             </div>
             {/* End of friend section */}
           </div>
         </div>
+        {currentFriend ?  <RightSide image={profilePic} currentFriend={currentFriend} /> :"Please select your friend"}
         {/* RIGHT SIDE  */}
-      <RightSide image={profilePic}/>
+       
       </div>
     </div>
   );
