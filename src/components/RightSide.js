@@ -1,8 +1,10 @@
 import React from "react";
 import { FaPhoneAlt, FaVideo, FaRocketchat } from "react-icons/fa";
+import { IMAGE_URL } from "../api/endpoint";
 import FriendInfo from "./FriendInfo";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
+import ProfileImage from "./ProfileImage";
 const RightSide = ({
   currentFriend,
 
@@ -21,7 +23,7 @@ const RightSide = ({
               <div className="header">
                 <div className="image-name">
                   <div className="image">
-                    <img src={`http://localhost:5000/images/${image}`} alt="" />
+                    <ProfileImage image={image}/>
                   </div>
                   <div className="name">
                     <h3> {username}</h3>

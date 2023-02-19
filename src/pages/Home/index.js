@@ -8,6 +8,7 @@ import Friends from "../../components/Friends";
 import RightSide from "../../components/RightSide";
 import { _getFriends } from "../../redux/actions/friends/getFriends";
 import { Oval } from "react-loader-spinner";
+import ProfileImage from "../../components/ProfileImage";
 const Home = () => {
   const navigate = useNavigate();
   const [currentFriend, setCurrentFriend] = useState("");
@@ -25,7 +26,6 @@ const Home = () => {
     friends,
     account: { image, email, username },
   } = useRedux();
-  const profilePic = `http://localhost:5000/images/${image}`;
   const handleLogout = () => {
     dispatch(_logout());
     navigate("/login");
@@ -50,7 +50,7 @@ const Home = () => {
             <div className="top">
               <div className="image-name">
                 <div className="image">
-                  <img src={profilePic} alt="" />
+                  <ProfileImage image={image}/>
                 </div>
                 <div className="name">
                   <h3>Hi {username}</h3>
@@ -58,7 +58,7 @@ const Home = () => {
               </div>
 
               <div className="icons">
-                <div onClick={() => dispatch(_logout())} className="icon">
+                <div onClick={()=>handleLogout()} className="icon">
                   <FaEllipsisH />
                 </div>
                 <div className="icon">
@@ -93,7 +93,7 @@ const Home = () => {
                     >
                       <Friends
                         key={fd._id}
-                        image={`http://localhost:5000/images/${fd.image}`}
+                        image={fd.image}
                         username={fd.username}
                       />
                     </div>
@@ -105,7 +105,7 @@ const Home = () => {
         </div>
         {currentFriend ? (
           <RightSide
-            image={profilePic}
+            image={image}
             currentFriend={currentFriend}
             inputHandle={inputHandle}
             newMessage={newMessage}
