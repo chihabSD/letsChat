@@ -7,10 +7,19 @@ import ActiveFriend from "../../components/ActiveFriend";
 import Friends from "../../components/Friends";
 import RightSide from "../../components/RightSide";
 import { _getFriends } from "../../redux/actions/friends/getFriends";
+import { Oval } from "react-loader-spinner";
 const Home = () => {
-  const [currentFriend, setCurrentFriend] = useState("");
-  console.log(currentFriend);
   const navigate = useNavigate();
+  const [currentFriend, setCurrentFriend] = useState("");
+  const [newMessage, setNewMessage] = useState("");
+
+  const inputHandle = (e) => {
+    setNewMessage(e.target.value);
+  };
+  const sendMessage = (e) => {
+    e.preventDefault();
+    console.log('message will be send', newMessage);
+  }
   const {
     dispatch,
     friends,
@@ -25,6 +34,14 @@ const Home = () => {
   useEffect(() => {
     dispatch(_getFriends());
   }, []);
+
+
+  useEffect(() => {
+  if(friends && friends.length > 0){
+    setCurrentFriend(friends[1])
+  }
+  }, [friends]);
+
   return (
     <div className="messenger">
       <div className="row">
@@ -70,7 +87,10 @@ const Home = () => {
             <div className="friends">
               {friends && friends.length > 0
                 ? friends.map((fd) => (
-                    <div onClick={() => setCurrentFriend(fd)} className="hover-friend">
+                    <div
+                      onClick={() => setCurrentFriend(fd)}
+                      className="hover-friend"
+                    >
                       <Friends
                         key={fd._id}
                         image={`http://localhost:5000/images/${fd.image}`}
@@ -83,9 +103,32 @@ const Home = () => {
             {/* End of friend section */}
           </div>
         </div>
-        {currentFriend ?  <RightSide image={profilePic} currentFriend={currentFriend} /> :"Please select your friend"}
+        {currentFriend ? (
+          <RightSide
+            image={profilePic}
+            currentFriend={currentFriend}
+            inputHandle={inputHandle}
+            newMessage={newMessage}
+            sendMessage ={sendMessage}
+          />
+        ) : (
+          <div className="center-middle">
+
+          <Oval
+            height={20}
+            width={80}
+            color="#fff"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#4fa94d"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+        )}
         {/* RIGHT SIDE  */}
-       
       </div>
     </div>
   );

@@ -1,60 +1,69 @@
-import React from 'react'
-import { FaPhoneAlt,FaVideo,FaRocketchat } from "react-icons/fa";
-import FriendInfo from './FriendInfo';
-import Message from './Message';
-import MessageSend from './MessageSend';
-const RightSide = ({ currentFriend}) => {
-  const {username, image} = currentFriend
+import React from "react";
+import { FaPhoneAlt, FaVideo, FaRocketchat } from "react-icons/fa";
+import FriendInfo from "./FriendInfo";
+import Message from "./Message";
+import MessageSend from "./MessageSend";
+const RightSide = ({
+  currentFriend,
+
+  inputHandle,
+  newMessage,
+  sendMessage 
+}) => {
+  const { username, image } = currentFriend;
   return (
-    <div className='col-9'>
-    <div className='right-side'>
-    <input type="checkbox" id='dot' />
-         <div className='row'>
-              <div className='col-8'>
-  <div className='message-send-show'>
-       <div className='header'>
-            <div className='image-name'>
-                 <div className='image'>
-                 <img src={`http://localhost:5000/images/${image}`} alt='' />
+    <div className="col-9">
+      <div className="right-side">
+        <input type="checkbox" id="dot" />
+        <div className="row">
+          <div className="col-8">
+            <div className="message-send-show">
+              <div className="header">
+                <div className="image-name">
+                  <div className="image">
+                    <img src={`http://localhost:5000/images/${image}`} alt="" />
+                  </div>
+                  <div className="name">
+                    <h3> {username}</h3>
+                  </div>
+                </div>
 
-                 </div>
-                 <div className='name'>
-                      <h3> {username}</h3>
-                 </div>
+                <div className="icons">
+                  <div className="icon">
+                    <FaPhoneAlt />
+                  </div>
+
+                  <div className="icon">
+                    <FaVideo />
+                  </div>
+
+                  <div className="icon">
+                    {/* <FaRocketchat/> */}
+                    <label htmlFor="dot">
+                      {" "}
+                      <FaRocketchat />{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <Message />
+              <MessageSend 
+              
+              inputHandle={inputHandle}
+              newMessage={newMessage}
+              sendMessage ={sendMessage }
+              />
             </div>
+          </div>
 
-  <div className='icons'>
-<div className='icon'>
-  <FaPhoneAlt/>
-</div>
-
-<div className='icon'>
-  <FaVideo/>
-</div>
-
-<div className='icon'>
-  {/* <FaRocketchat/> */}
-  <label htmlFor='dot'> <FaRocketchat/> </label>  
-</div>
-
-</div>
-
- </div>
- <Message />
- <MessageSend />
-     </div>
-              </div>  
-
-         <div className='col-4'>
+          <div className="col-4">
             {/* User About Page  */}
-            <FriendInfo  currentFriend={currentFriend}/>
-       </div>  
-
-
-         </div>
+            <FriendInfo currentFriend={currentFriend} />
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-  )
-}
+  );
+};
 
-export default RightSide
+export default RightSide;
