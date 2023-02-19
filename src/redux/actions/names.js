@@ -3,4 +3,6 @@ export const names = {
     REGISTER: 'register',
     LOGOUT: 'logout',
     GET_PROFILE: 'getProfile',
+    // Friends
+    GET_FRIENDS: 'getFriends',
   };

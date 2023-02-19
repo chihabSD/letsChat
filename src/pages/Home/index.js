@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRedux } from "../../hooks/useRedux";
 import { _logout } from "../../redux/actions/auth/logout";
@@ -6,6 +6,7 @@ import { FaEllipsisH, FaEdit, FaSistrix } from "react-icons/fa";
 import ActiveFriend from "../../components/ActiveFriend";
 import Friends from "../../components/Friends";
 import RightSide from "../../components/RightSide";
+import { _getFriends } from "../../redux/actions/friends/getFriends";
 const Home = () => {
   const navigate = useNavigate();
   const {
@@ -18,6 +19,9 @@ const Home = () => {
     dispatch(_logout());
     navigate("/login");
   };
+  useEffect(() => {
+    dispatch(_getFriends())
+  }, [])
   return (
     <div className="messenger">
       <div className="row">
