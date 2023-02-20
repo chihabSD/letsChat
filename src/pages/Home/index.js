@@ -14,7 +14,7 @@ import { _getMessage } from "../../redux/actions/message/getMessage";
 const Home = () => {
   const {
     dispatch,
-    friends,
+    friends,messages, 
     account: { image, email, username },
   } = useRedux();
   const navigate = useNavigate();
@@ -124,6 +124,7 @@ const Home = () => {
         </div>
         {currentFriend ? (
           <RightSide
+          messages={messages}
             image={image}
             currentFriend={currentFriend}
             inputHandle={inputHandle}

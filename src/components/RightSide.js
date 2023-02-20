@@ -8,6 +8,7 @@ import ProfileImage from "./ProfileImage";
 const RightSide = ({
   currentFriend,
 
+  messages, 
   inputHandle,
   newMessage,
   sendMessage 
@@ -48,7 +49,7 @@ const RightSide = ({
                   </div>
                 </div>
               </div>
-              <Message />
+              <Message messages={messages}/>
               <MessageSend 
               
               inputHandle={inputHandle}
