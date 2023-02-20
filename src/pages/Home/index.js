@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRedux } from "../../hooks/useRedux";
 import { _logout } from "../../redux/actions/auth/logout";
@@ -18,6 +18,7 @@ const Home = () => {
     account: { image, email, username },
   } = useRedux();
   const navigate = useNavigate();
+  const scrollRef = useRef()
   const [currentFriend, setCurrentFriend] = useState("");
   const [newMessage, setNewMessage] = useState("");
 
@@ -58,6 +59,12 @@ const Home = () => {
   
   }, [currentFriend?._id]);
 
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({'behavior':'smooth'})
+    
+    }, [messages]);
+  
   return (
     <div className="messenger">
       <div className="row">
@@ -125,6 +132,7 @@ const Home = () => {
         </div>
         {currentFriend ? (
           <RightSide
+          scrollRef={scrollRef}
           messages={messages}
             image={image}
             currentFriend={currentFriend}

@@ -11,7 +11,8 @@ const RightSide = ({
   messages, 
   inputHandle,
   newMessage,
-  sendMessage 
+  sendMessage , 
+  scrollRef
 }) => {
   const { username, image } = currentFriend;
   return (
@@ -49,7 +50,7 @@ const RightSide = ({
                   </div>
                 </div>
               </div>
-              <Message messages={messages}/>
+              <Message scrollRef={scrollRef} messages={messages}/>
               <MessageSend 
               
               inputHandle={inputHandle}

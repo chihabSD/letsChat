@@ -1,7 +1,7 @@
 import React from "react";
 import { useRedux } from "../hooks/useRedux";
 
-const Message = ({ messages }) => {
+const Message = ({ messages, scrollRef }) => {
   const { account } = useRedux();
   const messageLength = messages.length;
   return (
@@ -13,16 +13,16 @@ const Message = ({ messages }) => {
       ) : (
         messages.map((message) =>
           message.senderId === account._id ? (
-            <div className="my-message">
+            <div className="my-message" ref={scrollRef}>
               <div className="image-message">
                 <div className="my-text">
-                  <p className="message-text"> {message.message.text} </p>
+                  <p className="message-text"> me: {message.message.text} </p>
                 </div>
               </div>
               <div className="time">2 Jan 2022</div>
             </div>
           ) : (
-            <div className="fd-message">
+            <div className="fd-message" ref={scrollRef}>
               <div className="image-message-time">
                 <img
                   src="/image/46668businessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg"
@@ -30,7 +30,7 @@ const Message = ({ messages }) => {
                 />
                 <div className="message-time">
                   <div className="fd-text">
-                    <p className="message-text">I am Fine </p>
+                    <p className="message-text">friend {message.message.text}</p>
                   </div>
                   <div className="time">3 Jan 2022</div>
                 </div>
