@@ -51,7 +51,6 @@ const Register = () => {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("updated state after image", state.image);
     const data = new FormData();
 
     data.append("username", username);

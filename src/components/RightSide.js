@@ -7,9 +7,10 @@ import MessageSend from "./MessageSend";
 import ProfileImage from "./ProfileImage";
 const RightSide = ({
   currentFriend,
-
+  sendEmoji, 
   messages, 
   inputHandle,
+  sendImage, 
   newMessage,
   sendMessage , 
   scrollRef
@@ -52,7 +53,8 @@ const RightSide = ({
               </div>
               <Message scrollRef={scrollRef} messages={messages}/>
               <MessageSend 
-              
+              sendImage={sendImage}
+               sendEmoji={sendEmoji}
               inputHandle={inputHandle}
               newMessage={newMessage}
               sendMessage ={sendMessage }

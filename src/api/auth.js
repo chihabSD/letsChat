@@ -7,7 +7,6 @@ const auth = `${ENDPOINT}/auth`;
 
 const { REGISTER, LOGIN, GET_PROFILE } = names;
 
-// handle auth
 export const authApiHandler = async (name, details) => {
     const header = await getHeader();
   switch (name) {

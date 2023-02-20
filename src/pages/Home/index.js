@@ -11,6 +11,7 @@ import { Oval } from "react-loader-spinner";
 import ProfileImage from "../../components/ProfileImage";
 import { _sendMessage } from "../../redux/actions/message/sendMessage";
 import { _getMessage } from "../../redux/actions/message/getMessage";
+import { _sendImage } from "../../redux/actions/message/sendImage";
 const Home = () => {
   const {
     dispatch,
@@ -40,6 +41,25 @@ const Home = () => {
       setNewMessage("")
   };
 
+  const sendEmoji = emoji => {
+    // console.log(emoji);
+    setNewMessage(`${newMessage}` + emoji)
+  }
+  const sendImage = e => {
+    // console.log(e.target.files[0]);
+
+    if(e.target.files.length !==0){
+      const imageName = e.target.files[0].name;
+      const newImageName = Date.now() + imageName
+    
+      const formData = new FormData()
+      formData.append('senderName', username)
+      formData.append('imageName', newImageName)
+      formData.append('receiverId', currentFriend._id)
+      formData.append('image', e.target.files[0])
+      dispatch(_sendImage(formData))
+    }
+  }
   const handleLogout = () => {
     dispatch(_logout());
     navigate("/login");
@@ -132,6 +152,8 @@ const Home = () => {
         </div>
         {currentFriend ? (
           <RightSide
+          sendEmoji={sendEmoji}
+          sendImage={sendImage}
           scrollRef={scrollRef}
           messages={messages}
             image={image}

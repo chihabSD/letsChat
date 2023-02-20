@@ -5,7 +5,7 @@ import { ENDPOINT } from "./endpoint";
 // import { getHeader } from "./header";
 const messanger = `${ENDPOINT}/messanger`;
 
-const { GET_FRIENDS } = names;
+const { GET_FRIENDS, SEND_IMAGE } = names;
 
 // handle auth
 export const friendsApiHandler = async (name, details) => {
@@ -14,6 +14,7 @@ export const friendsApiHandler = async (name, details) => {
    
       case GET_FRIENDS:
         return axios.get(`${messanger}/get-friends`);
+
     default:
       break;
   }

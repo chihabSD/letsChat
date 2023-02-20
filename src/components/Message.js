@@ -1,4 +1,5 @@
 import React from "react";
+import { IMAGE_URL } from "../api/endpoint";
 import { useRedux } from "../hooks/useRedux";
 
 const Message = ({ messages, scrollRef }) => {
@@ -16,7 +17,17 @@ const Message = ({ messages, scrollRef }) => {
             <div className="my-message" ref={scrollRef}>
               <div className="image-message">
                 <div className="my-text">
-                  <p className="message-text"> me: {message.message.text} </p>
+                  <p className="message-text">
+                    {" "}
+                    {message.message.text === "" ? (
+                      <img
+                        src={`${IMAGE_URL}/${message.message.image}`}
+                        alt=""
+                      />
+                    ) : (
+                      message.message.text
+                    )}{" "}
+                  </p>
                 </div>
               </div>
               <div className="time">2 Jan 2022</div>
@@ -30,7 +41,9 @@ const Message = ({ messages, scrollRef }) => {
                 />
                 <div className="message-time">
                   <div className="fd-text">
-                    <p className="message-text">friend {message.message.text}</p>
+                    <p className="message-text">
+                      friend {message.message.text}
+                    </p>
                   </div>
                   <div className="time">3 Jan 2022</div>
                 </div>
