@@ -9,7 +9,14 @@ import RightSide from "../../components/RightSide";
 import { _getFriends } from "../../redux/actions/friends/getFriends";
 import { Oval } from "react-loader-spinner";
 import ProfileImage from "../../components/ProfileImage";
+import { _sendMessage } from "../../redux/actions/message/sendMessage";
+import { _getMessage } from "../../redux/actions/message/getMessage";
 const Home = () => {
+  const {
+    dispatch,
+    friends,
+    account: { image, email, username },
+  } = useRedux();
   const navigate = useNavigate();
   const [currentFriend, setCurrentFriend] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -19,13 +26,18 @@ const Home = () => {
   };
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log('message will be send', newMessage);
-  }
-  const {
-    dispatch,
-    friends,
-    account: { image, email, username },
-  } = useRedux();
+    // console.log('message will be send', newMessage);
+    dispatch(
+      _sendMessage({
+
+ 
+        senderName: username,
+        message: newMessage ? newMessage : 'Ready to chat with me ?', 
+        receiverId: currentFriend._id,
+      })
+    );
+  };
+
   const handleLogout = () => {
     dispatch(_logout());
     navigate("/login");
@@ -35,12 +47,15 @@ const Home = () => {
     dispatch(_getFriends());
   }, []);
 
-
   useEffect(() => {
-  if(friends && friends.length > 0){
-    setCurrentFriend(friends[1])
-  }
+    if (friends && friends.length > 0) {
+      setCurrentFriend(friends[1]);
+    }
   }, [friends]);
+  useEffect(() => {
+  dispatch(_getMessage(currentFriend._id))
+  
+  }, [currentFriend?._id]);
 
   return (
     <div className="messenger">
@@ -50,7 +65,7 @@ const Home = () => {
             <div className="top">
               <div className="image-name">
                 <div className="image">
-                  <ProfileImage image={image}/>
+                  <ProfileImage image={image} />
                 </div>
                 <div className="name">
                   <h3>Hi {username}</h3>
@@ -58,7 +73,7 @@ const Home = () => {
               </div>
 
               <div className="icons">
-                <div onClick={()=>handleLogout()} className="icon">
+                <div onClick={() => handleLogout()} className="icon">
                   <FaEllipsisH />
                 </div>
                 <div className="icon">
@@ -89,7 +104,11 @@ const Home = () => {
                 ? friends.map((fd) => (
                     <div
                       onClick={() => setCurrentFriend(fd)}
-                      className={currentFriend._id === fd._id ? 'hover-friend active' : "hover-friend"}
+                      className={
+                        currentFriend._id === fd._id
+                          ? "hover-friend active"
+                          : "hover-friend"
+                      }
                     >
                       <Friends
                         key={fd._id}
@@ -109,24 +128,23 @@ const Home = () => {
             currentFriend={currentFriend}
             inputHandle={inputHandle}
             newMessage={newMessage}
-            sendMessage ={sendMessage}
+            sendMessage={sendMessage}
           />
         ) : (
           <div className="center-middle">
-
-          <Oval
-            height={20}
-            width={80}
-            color="#fff"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#4fa94d"
-            strokeWidth={2}
-            strokeWidthSecondary={2}
-          />
-        </div>
+            <Oval
+              height={20}
+              width={80}
+              color="#fff"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="oval-loading"
+              secondaryColor="#4fa94d"
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          </div>
         )}
         {/* RIGHT SIDE  */}
       </div>

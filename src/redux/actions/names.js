@@ -5,4 +5,7 @@ export const names = {
     GET_PROFILE: 'getProfile',
     // Friends
     GET_FRIENDS: 'getFriends',
+
+    SEND_MESSAGE: 'send_message',
+    GET_MESSAGE: 'get_message',
   };
