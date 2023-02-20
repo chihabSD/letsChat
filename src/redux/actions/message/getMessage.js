@@ -10,7 +10,7 @@ export const _getMessage= (details) => {
     try {
       const {data:{messages}} = await messageApiHandler (names.GET_MESSAGE, details);
       
-      dispatch(insertMessages(messages))
+      dispatch(insertMessages([...messages]))
     } catch (e) {
       dispatch(setError(e.response.data.error));
     }

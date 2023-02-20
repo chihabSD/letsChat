@@ -36,6 +36,7 @@ const Home = () => {
         receiverId: currentFriend._id,
       })
     );
+      setNewMessage("")
   };
 
   const handleLogout = () => {

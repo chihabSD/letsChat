@@ -4,7 +4,6 @@ import { useRedux } from "../hooks/useRedux";
 const Message = ({ messages }) => {
   const { account } = useRedux();
   const messageLength = messages.length;
-  console.log(account._id);
   return (
     <div className="message-show">
       {messages && messageLength === 0 ? (
@@ -17,7 +16,7 @@ const Message = ({ messages }) => {
             <div className="my-message">
               <div className="image-message">
                 <div className="my-text">
-                  <p className="message-text"> How Are You? </p>
+                  <p className="message-text"> {message.message.text} </p>
                 </div>
               </div>
               <div className="time">2 Jan 2022</div>
