@@ -3,10 +3,12 @@ import { IMAGE_URL } from "../../../api/endpoint";
 import { useRedux } from "../../../hooks/useRedux";
 
 const Chat = ({ conversation, handleConversation, selectedConversation }) => {
- const {loading, conversations} = useRedux()
+ const {loading, conversations, account:{_id}} = useRedux()
   if(loading || conversations == undefined || conversation == null) {
     return <h1>Loading</h1>
   }
+
+  const userFound = conversation.users.find(user => user._id !== _id);
   return (
     <div
       className={`${
@@ -21,17 +23,18 @@ const Chat = ({ conversation, handleConversation, selectedConversation }) => {
       </div>
       <div className="chat-right">
         <div className="chat-right-top">
-          <p>09:30</p>
+          <p> {userFound.username}</p>
         </div>
         <div className="chat-right-bottom">
           <p>
-            DI :{conversation._id}
+           Latestest mess
           </p>
           <p>99</p>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default Chat;

@@ -1,5 +1,5 @@
 .center {
-    background-color: white;
+    background-color: #f8f8f8;
     border-right: 1px solid;
     display: flex;
     
@@ -7,7 +7,31 @@
     .messages-container {
         display: flex;
         flex: 1;
+        flex-direction: column;
+
     border-bottom: 1px solid;
+    .chat-bubble-left {
+        background-color: blue;
+        width: 200px;
+        display: flex;
+        ;height: auto;
+        padding: 10px;
+        border-radius: 7px;
+        margin:5px
+        // align-self: flex-start;
+    }
+    .chat-bubble-right{
+        background-color: orange;
+        align-self: flex-end;
+        display: flex;
+        margin:5px
+        ;height: auto;
+        padding: 10px;
+        
+        border-radius: 7px;
+        width: 200px;
+    
+    }
     }
     .messages-send-box {
         height: 100px;

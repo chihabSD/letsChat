@@ -28,8 +28,7 @@ const MessengerUI = () => {
     setMessage(e.target.value);
   };
   const handleSendButton = () => {
-    // get conversation Id
-    // insert message
+    
     dispatch(
       _sendMessage({
         conversationId: selectedConversation._id,
@@ -40,24 +39,15 @@ const MessengerUI = () => {
     );
   };
 
-  // useEffect(() => {
-
-  // }, [] )
+ 
   // Initialize current conversation
   useEffect(() => {
     if (conversations.length > 0) {
       setSelectedConversation(conversations[0]);
-     
     }
   }, [conversations]);
 
-  // useEffect(() => {
-  //   if (selectedConversation !== null) {
-  //      dispatch(_getMessage(selectedConversation._id));
-  //   }
-  // }, [selectedConversation]);
-
-  useEffect(() => {
+    useEffect(() => {
     dispatch(_getChatList());
   }, []);
   return (
