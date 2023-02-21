@@ -11,6 +11,7 @@ import Right from "./Right";
 
 const MessengerUI = () => {
   const scrollRef= useRef()
+  const scrollbottom = useRef()
   const { dispatch, conversations, messages,  loading, account:{username, _id} } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -40,8 +41,14 @@ const MessengerUI = () => {
       })
     );
   };
-
+  useEffect(() => {
+  window.setInterval(function() {
+    var elem = document.getElementById('message-container');
+    elem.scrollTop = elem.scrollHeight;
+  }, 5000);
  
+  }, [] )
+
   // Initialize current conversation
   useEffect(() => {
     if (conversations.length > 0) {
@@ -54,9 +61,11 @@ const MessengerUI = () => {
   }, []);
 
     useEffect(() => {
-  scrollRef.current?.scrollIntoView({behavior:'smooth'})
+  scrollRef.current?.scrollIntoView({behavior:'smooth', block: "end"})
   }, [messages]);
-
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({behavior:'smooth', block: "end"})
+    }, []);
   return (
     <MainLayOut>
       <Left

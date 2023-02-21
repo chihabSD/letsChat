@@ -22,12 +22,14 @@ const Center = ({
       (user) => user._id !== _id
     );
     return (
-      <div className="center">
+      <div className="center" id="message-container">
+        <div className="chat-header">
          {selectedConversation.users.map((user) => {
             if (user._id !== _id) return user.username;
           })}
 
-          <hr />
+
+        </div>
         <div className="messages-container">
          
 

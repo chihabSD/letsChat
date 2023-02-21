@@ -3,9 +3,12 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    margin-right: 1px;
+    // margin-right: 1px;
+    border-right: 0.6px solid lightgray
+    ;
     // dorder-right: 1px solid;
     .leftTop-container {
+        border-bottom: 0.6px solid lightgray;
     background-color: white;
     // border-bottom: 1px solid grey;
     padding: 10px;
