@@ -1,17 +1,22 @@
-import React from 'react'
-import Chat from './Chat'
+import React from "react";
+import Chat from "./Chat";
 
-const ChatList = ({chats, handleSelectedChat,
-  
-
-  selectedChat,
-  
-  }) => {
+const ChatList = ({
+  conversations,
+  handleConversation, 
+  selectedConversation,
+}) => {
   return (
-    <div className='chatList-container'>
-      {chats.map(chat => <Chat chat={chat} selectedChat={selectedChat}  handleSelectedChat={handleSelectedChat}/>)}
+    <div className="chatList-container">
+      {conversations.map((conversation) => (
+        <Chat
+          conversation={conversation}
+          selectedConversation={selectedConversation}
+          handleConversation={handleConversation}
+        />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default ChatList
+export default ChatList;

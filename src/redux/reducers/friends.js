@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   friends: {},
-  chats:{}, 
+  conversations:[], 
   messages: [ {
     _id: 0,
     user: { _id: 0, username: "fljsd adam" },
@@ -40,24 +40,14 @@ export const friendsReducer = createSlice({
         //   return item
         // })
       });
-      // console.log('friends', state.friends);
-      // console.log('payload', action.payload);
-      // const found = action.payload.map((message) => state.messages.find((item) => item._id == message._id))
-      // console.log(found)
-      // action.payload.some(message => {
-
-      //   state.messages.some(item => {
-      //     if()
-      //   })
-      // })
-
-      // if(action.payload)
-      // state.messages.push(...action.payload)
     },
+      insertChats: (state, action) => {
+        state.conversations = [...action.payload]
+      }
   },
 });
 
-export const { getFriends, insertMessages } = friendsReducer.actions;
+export const { getFriends, insertMessages, insertChats } = friendsReducer.actions;
 export default friendsReducer.reducer;
 
 const chats = [

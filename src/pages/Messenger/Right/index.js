@@ -7,7 +7,7 @@ const Right = ({ selectedUser, selectedChat }) => {
   const { dispatch, friends, account } = useRedux();
 
   const addToChatList = (user) => {
-    dispatch(_addToChatList({user:user._id}))
+    dispatch(_addToChatList({receiverId:user._id }))
   }
   useEffect(() => {
     dispatch(_getFriends());

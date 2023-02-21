@@ -5,7 +5,7 @@ import { ENDPOINT } from "./endpoint";
 import { getHeader } from "./header";
 const messanger = `${ENDPOINT}/messanger`;
 
-const { GET_FRIENDS, SEND_IMAGE , ADD_TO_CHATLIST} = names;
+const { GET_FRIENDS, SEND_IMAGE, GET_CHATLIST , ADD_TO_CHATLIST} = names;
 
 // handle auth
 export const friendsApiHandler = async (name, details) => {
@@ -17,6 +17,10 @@ export const friendsApiHandler = async (name, details) => {
 
         case ADD_TO_CHATLIST:
           return axios.post(`${messanger}/add-to-chatlist`, details, header);
+
+        case GET_CHATLIST:
+          return axios.get(`${messanger}/get-chatlist`, header);
+  
   
     default:
       break;

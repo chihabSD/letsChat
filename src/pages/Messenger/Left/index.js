@@ -7,18 +7,18 @@ import SearchFriendBox from "./SearchFriendBox";
 
 const Left = ({
   users,
-  chats,
+  conversations,
   handleSelectedUser,
   selectedUser,
-  handleSelectedChat,
-  selectedChat,
+  handleConversation, 
+  selectedConversation,
 }) => {
   return (
     <div className="leftside">
       <LeftTop />
       <SearchFriendBox />
       {/* <ActiveUsers /> */}
-      <ChatList chats={chats} handleSelectedChat={handleSelectedChat} selectedChat={selectedChat}/>
+      <ChatList conversations={conversations} handleConversation={handleConversation} selectedConversation={selectedConversation}/>
       {/* <NoChat /> */}
       {/* <ul>
         {users.map(user => <li onClick={() => handleSelectedUser(user)}>{user.name}</li>)}

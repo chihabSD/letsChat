@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
+import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import Center from "./Center";
 import Left from "./Left";
 import Right from "./Right";
 
 const MessengerUI = () => {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedChat, setSelectedChat] = useState({
-    _id: 0,
-    user: { _id: 0, username: "fljsd adam" },
+  const {dispatch, conversations}  =useRedux()
+  const [selectedConversation, setSelectedConversation] = useState({ _id: '63f48f0dc752d51d7f362441',
+    user: [{ _id: '63eff9959c1f57a35f545494', username: "fljsd adam" }, {_id:'63f29cf07b8dd771d5801944'}],
     message: { _id: 0, text: "Just a text " },
-    latestMessage: "Hi there ",
-  });
+    latestMessage: "Hi there "});
+
+    
+  const [selectedUser, setSelectedUser] = useState(null);
+  
   const [message, setMessage] = useState("");
   const users = [
-    { id: 0, name: "chihabslddine", email: "adam@gmail.com" },
+    { id: '', name: "chihabslddine", email: "adam@gmail.com" },
     { id: 2, name: "Another user", email: "adam@gmail.com" },
   ];
   const chats = [
@@ -31,8 +35,9 @@ const MessengerUI = () => {
       latestMessage: "Hi there ",
     },
   ];
-  const handleSelectedChat = (chat) => {
-    setSelectedChat(chat);
+  const handleConversation = (conversation) => {
+    console.log((conversation));
+    setSelectedConversation(conversation);
   };
   const handleSelectedUser = (user) => {
     setSelectedUser(user);
@@ -51,25 +56,29 @@ const MessengerUI = () => {
   };
   
   useEffect(() => {
-    setSelectedChat(chats[0]);
+    setSelectedConversation(conversations[0]);
   }, []);
+
+  // Initialize current conversation
+  // useEffect(() => {
+  //   setSelectedChat(chats[0]);
+  // }, []);
+ 
   useEffect(() => {
-    if(chats) {
-      console.log('ssjl');
-    }
-  }, [chats])
+    dispatch(_getChatList())
+  }, [])
   return (
     <MainLayOut>
       <Left
         handleSelectedUser={handleSelectedUser}
-        handleSelectedChat={handleSelectedChat}
-        selectedChat={selectedChat}
+        handleConversation={handleConversation}
+        conversations={conversations}
+        selectedConversation={selectedConversation}
         selectedUser={selectedUser}
         users={users}
-        chats={chats}
       />
 
-      <Center
+      {/* <Center
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
@@ -83,7 +92,7 @@ const MessengerUI = () => {
         selectedUser={selectedUser}
         selectedChat={selectedChat}
         users={users}
-      />
+      /> */}
     </MainLayOut>
   );
 };
