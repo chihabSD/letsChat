@@ -16,6 +16,9 @@ export const friendsReducer = createSlice({
     },
     // check if there are messages
     // if no message => set messages to empty else insert messages into it
+    insertSentMessage: (state, action) => {
+    state.messages.push(action.payload)
+    },
     insertMessages: (state, action) => {
       action.payload.length === 0 || action.payload === []
         ? (state.messages = [])
@@ -29,6 +32,6 @@ export const friendsReducer = createSlice({
   },
 });
 
-export const { getFriends, insertMessages, insertConversation } =
+export const { getFriends, insertSentMessage, insertMessages, insertConversation } =
   friendsReducer.actions;
 export default friendsReducer.reducer;

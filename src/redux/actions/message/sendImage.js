@@ -12,6 +12,7 @@ export const _sendImage= (details) => {
     //   dispatch(setLoading());
       const { data:{message} } = await messageApiHandler(names.SEND_IMAGE, details);
       
+      console.log(message);
         let messages = []
       messages.push(message)
       dispatch(insertMessages([...messages]))
