@@ -9,9 +9,10 @@ export const _sendMessage= (details) => {
     // dispatch(setLoading());
     try {
       const data = await messageApiHandler (names.SEND_MESSAGE, details);
-      let messages = []
-      messages.push(data.data.message)
-      dispatch(insertMessages([...messages]))
+      console.log(data.data);
+      // let messages = []
+      // messages.push(data.data.message)
+      // dispatch(insertMessages([...messages]))
       // console.log(data.data);
 
     //   dispatch(getProfile(data.data.user));

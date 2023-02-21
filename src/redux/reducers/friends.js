@@ -2,18 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   friends: {},
   conversations:[], 
-  messages: [ {
-    _id: 0,
-    user: { _id: 0, username: "fljsd adam" },
-    message: { _id: 0, text: "Just a text " },
-    latestMessage: "Hi there ",
-  },
-  {
-    _id: 1,
-    user: { _id: 2, username: "chihabeddine adam" },
-    message: { _id: 0, text: "second messge" },
-    latestMessage: "Hi there ",
-  },],
+  messages: [],
 };
 
 export const friendsReducer = createSlice({
@@ -24,10 +13,18 @@ export const friendsReducer = createSlice({
       state.friends = action.payload;
     },
     insertMessages: (state, action) => {
+      console.log('message', action.payload);
       // get all messages
       // check if message already exist in current message
       // if its, return null else insert the new message into array
-      action.payload.map((message) => {
+      if(action.payload.length === 0) {
+
+      state.messages = []
+      }else {
+        
+        console.log('updatting new ');
+        action.payload.map((message) => {
+        console.log(message);
         const findMessage = state.messages.find((item) => {
           return item._id === message._id;
         });
@@ -40,27 +37,13 @@ export const friendsReducer = createSlice({
         //   return item
         // })
       });
+    }
     },
-      insertChats: (state, action) => {
+      insertConversation: (state, action) => {
         state.conversations = [...action.payload]
       }
   },
 });
 
-export const { getFriends, insertMessages, insertChats } = friendsReducer.actions;
+export const { getFriends, insertMessages, insertConversation } = friendsReducer.actions;
 export default friendsReducer.reducer;
-
-const chats = [
-  {
-    _id: 0,
-    user: { _id: 0, username: "fljsd adam" },
-    message: { _id: 0, text: "Just a text " },
-    latestMessage: "Hi there ",
-  },
-  {
-    _id: 1,
-    user: { _id: 2, username: "chihabeddine adam" },
-    message: { _id: 0, text: "second messge" },
-    latestMessage: "Hi there ",
-  },
-];

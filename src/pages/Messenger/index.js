@@ -2,42 +2,32 @@ import React, { useEffect, useState } from "react";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
+import { _getMessage } from "../../redux/actions/message/getMessage";
+import { _sendImage } from "../../redux/actions/message/sendImage";
+import { _sendMessage } from "../../redux/actions/message/sendMessage";
 import Center from "./Center";
 import Left from "./Left";
 import Right from "./Right";
 
 const MessengerUI = () => {
-  const {dispatch, conversations}  =useRedux()
-  const [selectedConversation, setSelectedConversation] = useState({ _id: '63f48f0dc752d51d7f362441',
-    user: [{ _id: '63eff9959c1f57a35f545494', username: "fljsd adam" }, {_id:'63f29cf07b8dd771d5801944'}],
+  const { dispatch, conversations, loading } = useRedux();
+  const [selectedConversation, setSelectedConversation] = useState({
+    _id: "63f48f0dc752d51d7f362441",
+    user: [
+      { _id: "63eff9959c1f57a35f545494", username: "fljsd adam" },
+      { _id: "63f29cf07b8dd771d5801944" },
+    ],
     message: { _id: 0, text: "Just a text " },
-    latestMessage: "Hi there "});
+    latestMessage: "Hi there ",
+  });
 
-    
   const [selectedUser, setSelectedUser] = useState(null);
-  
+
   const [message, setMessage] = useState("");
-  const users = [
-    { id: '', name: "chihabslddine", email: "adam@gmail.com" },
-    { id: 2, name: "Another user", email: "adam@gmail.com" },
-  ];
-  const chats = [
-    {
-      _id: 0,
-      user: { _id: 0, username: "fljsd adam" },
-      message: { _id: 0, text: "Just a text " },
-      latestMessage: "Hi there ",
-    },
-    {
-      _id: 1,
-      user: { _id: 2, username: "chihabeddine adam" },
-      message: { _id: 0, text: "second messge" },
-      latestMessage: "Hi there ",
-    },
-  ];
+
   const handleConversation = (conversation) => {
-    console.log((conversation));
     setSelectedConversation(conversation);
+  dispatch(_getMessage(conversation._id))
   };
   const handleSelectedUser = (user) => {
     setSelectedUser(user);
@@ -46,27 +36,30 @@ const MessengerUI = () => {
     setMessage(e.target.value);
   };
   const handleSendButton = () => {
-    chats.push({
-      _id: 3,
-      user: { _id: 3, username: "inserted" },
-      message: { _id: 3, text: message ? message : "default message" },
-      latestMessage: "Last message",
-    });
-    console.log(chats);
+    // get conversation Id
+    // insert message
+    dispatch(
+      _sendMessage({
+        conversationId: selectedConversation._id,
+        message,
+        receiverId: "63f29cf07b8dd771d5801944",
+        senderName: "chihabeddine",
+      })
+    );
   };
-  
-  useEffect(() => {
-    setSelectedConversation(conversations[0]);
-  }, []);
 
   // Initialize current conversation
-  // useEffect(() => {
-  //   setSelectedChat(chats[0]);
-  // }, []);
- 
   useEffect(() => {
-    dispatch(_getChatList())
-  }, [])
+    if(conversations.lenght > 0){
+
+    setSelectedConversation(conversations[0]);
+    dispatch(_getMessage(selectedConversation._id))
+    }
+  }, [conversations]);
+
+  useEffect(() => {
+    dispatch(_getChatList());
+  }, []);
   return (
     <MainLayOut>
       <Left
@@ -75,24 +68,22 @@ const MessengerUI = () => {
         conversations={conversations}
         selectedConversation={selectedConversation}
         selectedUser={selectedUser}
-        users={users}
       />
 
-      {/* <Center
+
+      <Center
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
-        selectedChat={selectedChat}
-        users={users}
+        selectedConversation={selectedConversation}
         handleSendButton={handleSendButton}
       />
 
       <Right
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
-        selectedChat={selectedChat}
-        users={users}
-      /> */}
+        selectedConversation={selectedConversation}
+      />
     </MainLayOut>
   );
 };

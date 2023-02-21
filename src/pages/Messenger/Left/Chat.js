@@ -1,7 +1,13 @@
 import React from "react";
 import { IMAGE_URL } from "../../../api/endpoint";
+import { useRedux } from "../../../hooks/useRedux";
 
 const Chat = ({ conversation, handleConversation, selectedConversation }) => {
+
+ const {loading, conversations} = useRedux()
+  if(loading || conversations == undefined || conversation == null) {
+    return <h1>Loading</h1>
+  }
   return (
     <div
       className={`${
@@ -16,13 +22,11 @@ const Chat = ({ conversation, handleConversation, selectedConversation }) => {
       </div>
       <div className="chat-right">
         <div className="chat-right-top">
-          <p>{/* {conversation.user.username} */}</p>
           <p>09:30</p>
         </div>
         <div className="chat-right-bottom">
           <p>
             DI :{conversation._id}
-            {/* {conversation.latestMessage} */}
           </p>
           <p>99</p>
         </div>
