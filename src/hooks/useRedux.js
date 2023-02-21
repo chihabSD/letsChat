@@ -5,7 +5,7 @@ const useRedux = () => {
   const {
     loadingReducer: { loading },
     registerReducer: { registered },
-    friendsReducer: { friends, messages, conversations },
+    friendsReducer: { friends, messages, conversations, selectedConversation },
     profileReducer: { authenticated, account },
     errorReducer: { error },
   } = state;
@@ -15,6 +15,7 @@ const useRedux = () => {
     authenticated, account, friends, 
     loading,
     error,
+    selectedConversation,
     registered,
   };
 };

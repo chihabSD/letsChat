@@ -8,9 +8,27 @@ const Center = ({
  ,  handleMessageInput,
 }) => {
 
+  const { loading, messages, account:{_id} } = useRedux()
+const userFound = selectedConversation.users.find(user => user._id !== _id);
+  if(loading || selectedConversation == null){
+    return <div>Loading</div>
+  }
   return (
     <div className="center">
-      <div className="messages-container">{selectedConversation._id}</div>
+      <div className="messages-container">
+        {userFound.username}
+        {/* {selectedConversation.users.find(user => {
+          if(user._id !== _id) {
+            return (
+              <div>{user.username}</div>
+            )
+          }
+        } )} */}
+        {/* { selectedConversation.users.find(user => user._id !== _id (
+        user.username
+      ))} */}
+
+      </div>
       <div className="messages-send-box">
         <input
           type="text"

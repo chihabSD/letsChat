@@ -3,7 +3,6 @@ import { IMAGE_URL } from "../../../api/endpoint";
 import { useRedux } from "../../../hooks/useRedux";
 
 const Chat = ({ conversation, handleConversation, selectedConversation }) => {
-
  const {loading, conversations} = useRedux()
   if(loading || conversations == undefined || conversation == null) {
     return <h1>Loading</h1>

@@ -5,7 +5,6 @@ import {getProfile} from '../../reducers/profile';
 import { names } from '../names';
 
 export const _addToChatList= (details) => {
-  console.log('add to  chat list is called');
   return async dispatch => {
     // dispatch(setLoading());
     try {

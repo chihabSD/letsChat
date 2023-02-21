@@ -3,6 +3,7 @@ const initialState = {
   friends: {},
   conversations:[], 
   messages: [],
+  selectedConversation : null
 };
 
 export const friendsReducer = createSlice({
@@ -13,7 +14,6 @@ export const friendsReducer = createSlice({
       state.friends = action.payload;
     },
     insertMessages: (state, action) => {
-      console.log('message', action.payload);
       // get all messages
       // check if message already exist in current message
       // if its, return null else insert the new message into array
@@ -22,9 +22,7 @@ export const friendsReducer = createSlice({
       state.messages = []
       }else {
         
-        console.log('updatting new ');
         action.payload.map((message) => {
-        console.log(message);
         const findMessage = state.messages.find((item) => {
           return item._id === message._id;
         });
@@ -40,6 +38,7 @@ export const friendsReducer = createSlice({
     }
     },
       insertConversation: (state, action) => {
+        state.selectedConversation = action.payload[0]
         state.conversations = [...action.payload]
       }
   },

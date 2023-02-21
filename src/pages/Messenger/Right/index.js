@@ -16,7 +16,7 @@ const Right = ({ selectedUser, selectedChat }) => {
     <div className="right">
       {/* <ul>{friends && friends.map((user) => <li>{user.username}</li>)}</ul> */}
       <div className="uses">
-        {Object.keys(friends).length > 0  ? friends.map(user =>   <div>
+        {Object.keys(friends).length > 0  ? friends.map(user =>   <div key={user._id}> 
               {user.username}
 
               <div onClick={() => addToChatList(user)}>Add to private Chat</div>

@@ -9,7 +9,7 @@ const ChatList = ({
   return (
     <div className="chatList-container">
       {conversations.map((conversation) => (
-        <Chat
+        <Chat key={conversation._id}
           conversation={conversation}
           selectedConversation={selectedConversation}
           handleConversation={handleConversation}

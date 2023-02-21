@@ -11,15 +11,7 @@ import Right from "./Right";
 
 const MessengerUI = () => {
   const { dispatch, conversations, loading } = useRedux();
-  const [selectedConversation, setSelectedConversation] = useState({
-    _id: "63f48f0dc752d51d7f362441",
-    user: [
-      { _id: "63eff9959c1f57a35f545494", username: "fljsd adam" },
-      { _id: "63f29cf07b8dd771d5801944" },
-    ],
-    message: { _id: 0, text: "Just a text " },
-    latestMessage: "Hi there ",
-  });
+  const [selectedConversation, setSelectedConversation] = useState(null);
 
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -27,7 +19,7 @@ const MessengerUI = () => {
 
   const handleConversation = (conversation) => {
     setSelectedConversation(conversation);
-  dispatch(_getMessage(conversation._id))
+    dispatch(_getMessage(conversation._id));
   };
   const handleSelectedUser = (user) => {
     setSelectedUser(user);
@@ -48,14 +40,22 @@ const MessengerUI = () => {
     );
   };
 
+  // useEffect(() => {
+
+  // }, [] )
   // Initialize current conversation
   useEffect(() => {
-    if(conversations.lenght > 0){
-
-    setSelectedConversation(conversations[0]);
-    dispatch(_getMessage(selectedConversation._id))
+    if (conversations.length > 0) {
+      setSelectedConversation(conversations[0]);
+     
     }
   }, [conversations]);
+
+  useEffect(() => {
+    if (selectedConversation !== null) {
+       dispatch(_getMessage(selectedConversation._id));
+    }
+  }, [selectedConversation]);
 
   useEffect(() => {
     dispatch(_getChatList());
@@ -69,7 +69,6 @@ const MessengerUI = () => {
         selectedConversation={selectedConversation}
         selectedUser={selectedUser}
       />
-
 
       <Center
         handleMessageInput={handleMessageInput}
