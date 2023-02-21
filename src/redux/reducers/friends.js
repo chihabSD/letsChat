@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   friends: {},
-  conversations:[], 
+  conversations: [],
   messages: [],
-  selectedConversation : null
+
+  selectedConversation: null,
 };
 
 export const friendsReducer = createSlice({
@@ -13,36 +14,21 @@ export const friendsReducer = createSlice({
     getFriends: (state, action) => {
       state.friends = action.payload;
     },
+    // check if there are messages
+    // if no message => set messages to empty else insert messages into it
     insertMessages: (state, action) => {
-      // get all messages
-      // check if message already exist in current message
-      // if its, return null else insert the new message into array
-      if(action.payload.length === 0) {
-
-      state.messages = []
-      }else {
-        
-        action.payload.map((message) => {
-        const findMessage = state.messages.find((item) => {
-          return item._id === message._id;
-        });
-        if(findMessage) return null 
-         state.messages.push(message);
-
-        // const filter = state.messages.filter( item => item._id !== message._id)
-        // console.log(filter);
-        // let filtered = state.messages.filter(item => {
-        //   return item
-        // })
-      });
-    }
+      action.payload.length === 0 || action.payload === []
+        ? (state.messages = [])
+        : (state.messages = [...action.payload]);
     },
-      insertConversation: (state, action) => {
-        state.selectedConversation = action.payload[0]
-        state.conversations = [...action.payload]
-      }
+
+    insertConversation: (state, action) => {
+      state.selectedConversation = action.payload[0];
+      state.conversations = [...action.payload];
+    },
   },
 });
 
-export const { getFriends, insertMessages, insertConversation } = friendsReducer.actions;
+export const { getFriends, insertMessages, insertConversation } =
+  friendsReducer.actions;
 export default friendsReducer.reducer;

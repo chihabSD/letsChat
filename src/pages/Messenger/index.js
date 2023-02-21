@@ -51,11 +51,11 @@ const MessengerUI = () => {
     }
   }, [conversations]);
 
-  useEffect(() => {
-    if (selectedConversation !== null) {
-       dispatch(_getMessage(selectedConversation._id));
-    }
-  }, [selectedConversation]);
+  // useEffect(() => {
+  //   if (selectedConversation !== null) {
+  //      dispatch(_getMessage(selectedConversation._id));
+  //   }
+  // }, [selectedConversation]);
 
   useEffect(() => {
     dispatch(_getChatList());

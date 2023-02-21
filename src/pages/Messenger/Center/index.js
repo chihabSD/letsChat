@@ -9,14 +9,15 @@ const Center = ({
 }) => {
 
   const { loading, messages, account:{_id} } = useRedux()
-const userFound = selectedConversation.users.find(user => user._id !== _id);
+// const userFound = selectedConversation.users.find(user => user._id !== _id);
   if(loading || selectedConversation == null){
     return <div>Loading</div>
   }
   return (
     <div className="center">
       <div className="messages-container">
-        {userFound.username}
+        {/* {userFound.username} */}
+        ssss
         {/* {selectedConversation.users.find(user => {
           if(user._id !== _id) {
             return (
