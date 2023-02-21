@@ -19,6 +19,7 @@ const Left = ({
       <SearchFriendBox />
       {/* <ActiveUsers /> */}
       <ChatList conversations={conversations} handleConversation={handleConversation} selectedConversation={selectedConversation}/>
+     
       {/* <NoChat /> */}
       {/* <ul>
         {users.map(user => <li onClick={() => handleSelectedUser(user)}>{user.name}</li>)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
@@ -10,9 +10,9 @@ import Left from "./Left";
 import Right from "./Right";
 
 const MessengerUI = () => {
-  const { dispatch, conversations, loading } = useRedux();
+  const scrollRef= useRef()
+  const { dispatch, conversations, messages,  loading, account:{username, _id} } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
-
   const [selectedUser, setSelectedUser] = useState(null);
 
   const [message, setMessage] = useState("");
@@ -28,13 +28,15 @@ const MessengerUI = () => {
     setMessage(e.target.value);
   };
   const handleSendButton = () => {
-    
+    const receiver = selectedConversation.users.find(user => user._id !== _id)
+    // console.log(receiver._id);
     dispatch(
       _sendMessage({
+        // senderName,conversationId,  receiverId, message
         conversationId: selectedConversation._id,
         message,
-        receiverId: "63f29cf07b8dd771d5801944",
-        senderName: "chihabeddine",
+        receiverId: receiver._id,
+        senderName:username 
       })
     );
   };
@@ -50,6 +52,11 @@ const MessengerUI = () => {
     useEffect(() => {
     dispatch(_getChatList());
   }, []);
+
+    useEffect(() => {
+  scrollRef.current?.scrollIntoView({behavior:'smooth'})
+  }, [messages]);
+
   return (
     <MainLayOut>
       <Left
@@ -64,6 +71,7 @@ const MessengerUI = () => {
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
+        scrollRef={scrollRef}
         selectedConversation={selectedConversation}
         handleSendButton={handleSendButton}
       />

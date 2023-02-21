@@ -2,22 +2,34 @@
     background-color: #f8f8f8;
     border-right: 1px solid;
     display: flex;
-    
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    // height: 250px;
+//   overflow-y: scroll;
+-ms-overflow-style: none;  /* Internet Explorer 10+ */
+scrollbar-width: none;  /* Firefox */
     flex-direction: column;
     .messages-container {
         display: flex;
         flex: 1;
         flex-direction: column;
-
+        overflow-y: scroll;
+     
+        // overflow-y: auto;
+        // overflow:auto;
     border-bottom: 1px solid;
     .chat-bubble-left {
-        background-color: blue;
+        background-color: green;
         width: 200px;
+        color: white;
         display: flex;
         ;height: auto;
         padding: 10px;
         border-radius: 7px;
-        margin:5px
+        margin:5px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
         // align-self: flex-start;
     }
     .chat-bubble-right{
@@ -30,11 +42,19 @@
         
         border-radius: 7px;
         width: 200px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     
     }
+    }
+    .message-box-container {
+        background-color: white;
+        // height: 100%;
+        width: 100%;
     }
     .messages-send-box {
         height: 100px;
         padding: 10px;
+        
     }
 }
