@@ -1,7 +1,10 @@
 .messenger-container {
     flex: 1;
 display: grid;
-grid-template-columns: 20% 60% 20%;
+grid-template-columns: 25% 55% 20%;
+// background-color: yellow;
+// column-gap: 3px;
+// padding: 10px;
 grid-template-areas: "leftside center center rightside";
 height: 100vh;
 }

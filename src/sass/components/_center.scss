@@ -1,3 +1,16 @@
 .center {
-    background-color: blue;
+    background-color: white;
+    border-right: 1px solid;
+    display: flex;
+    
+    flex-direction: column;
+    .messages-container {
+        display: flex;
+        flex: 1;
+    border-bottom: 1px solid;
+    }
+    .messages-send-box {
+        height: 100px;
+        padding: 10px;
+    }
 }

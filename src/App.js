@@ -12,11 +12,11 @@ function App() {
   <BrowserRouter>
   <Routes>
     <Route element={<LoggedInRoutes/>}>
-    <Route path='/home' element={<Home/>}/> 
+    <Route path='/' element={<MessengerUI/>}/> 
     </Route>
     {/* Public */}
     <Route element={<NotLoggedInRoutes/>}>
-    <Route path='/' element={<MessengerUI/>}/> 
+    {/* <Route path='/' element={<MessengerUI/>}/>  */}
     <Route path='/login' element={<Login/>}/> 
     <Route path='/register' element={<Register/>}/> 
     </Route>

@@ -1,7 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   friends: {},
-  messages: [],
+  chats:{}, 
+  messages: [ {
+    _id: 0,
+    user: { _id: 0, username: "fljsd adam" },
+    message: { _id: 0, text: "Just a text " },
+    latestMessage: "Hi there ",
+  },
+  {
+    _id: 1,
+    user: { _id: 2, username: "chihabeddine adam" },
+    message: { _id: 0, text: "second messge" },
+    latestMessage: "Hi there ",
+  },],
 };
 
 export const friendsReducer = createSlice({
@@ -47,3 +59,18 @@ export const friendsReducer = createSlice({
 
 export const { getFriends, insertMessages } = friendsReducer.actions;
 export default friendsReducer.reducer;
+
+const chats = [
+  {
+    _id: 0,
+    user: { _id: 0, username: "fljsd adam" },
+    message: { _id: 0, text: "Just a text " },
+    latestMessage: "Hi there ",
+  },
+  {
+    _id: 1,
+    user: { _id: 2, username: "chihabeddine adam" },
+    message: { _id: 0, text: "second messge" },
+    latestMessage: "Hi there ",
+  },
+];

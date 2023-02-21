@@ -9,4 +9,8 @@ export const names = {
     SEND_MESSAGE: 'send_message',
     GET_MESSAGE: 'get_message',
     SEND_IMAGE: 'send_image',
+    ADD_TO_CHATLIST: 'addToChatList',
+    GET_CHATLIST: 'get_chatList',
+
+
   };
