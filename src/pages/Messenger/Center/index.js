@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineClose, AiOutlineExpand } from "react-icons/ai";
 import { FaExpand, FaExpandAlt, FaWindowClose } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
 import { emojis } from "../../../data";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
 import ChatBubble from "./ChatBubble";
@@ -15,14 +16,22 @@ const Center = ({
   selectedConversation,
   scrollRef,
   handleMessageInput,
-  toggleRight, 
-message, 
+  toggleRight,
+  message,
   handleToggleRight,
-
-  showEmojiBox, 
-  toggleEmojiBox
 }) => {
-  // const scrollRef = useRef()
+  const [showEmojiBox, setShowEmojiBox] = useState(false);
+  const el = useRef(null)
+
+
+  useClickOutside(el, () => {
+    setShowEmojiBox(false)
+  })
+  
+  const toggleEmojiBox = () => {
+    setShowEmojiBox((prev) => !prev);
+  };
+  
   const {
     loading,
     messages,
@@ -31,7 +40,7 @@ message,
   const notReady = loading || selectedConversation == null;
   return (
     <div className="center">
-        {/* {showEmojiBox  && <EmojiBox />} */}
+      {/* {showEmojiBox  && <EmojiBox />} */}
       <div className="chat-header">
         {notReady
           ? "Not ready"
@@ -40,8 +49,11 @@ message,
             })}
         <div className="chat-header-right">
           <div onClick={handleToggleRight}>
-            {toggleRight ?   <AiOutlineClose size={25}/>:<AiOutlineExpand fontSize={30}/>}
-          
+            {toggleRight ? (
+              <AiOutlineClose size={25} />
+            ) : (
+              <AiOutlineExpand fontSize={30} />
+            )}
           </div>
         </div>
       </div>
@@ -57,23 +69,31 @@ message,
           messages.map((message) =>
             message.senderId._id === _id ||
             message.senderId._id === undefined ? (
-              <ChatBubble key={message._id} scrollRef={scrollRef} right message={message} />
+              <ChatBubble
+                key={message._id}
+                scrollRef={scrollRef}
+                right
+                message={message}
+              />
             ) : (
-              <ChatBubble key={message._id} scrollRef={scrollRef} message={message} />
+              <ChatBubble
+                key={message._id}
+                scrollRef={scrollRef}
+                message={message}
+              />
             )
           )
         )}
-          
       </div>
-    
+
       <MessageBox
-       showEmojiBox={showEmojiBox}
-       toggleEmojiBox={toggleEmojiBox}
-      message={message}
+        showEmojiBox={showEmojiBox}
+        toggleEmojiBox={toggleEmojiBox}
+        message={message}
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}
       >
-        {showEmojiBox  && <EmojiBox />}
+        {showEmojiBox && <EmojiBox el={el} />}
       </MessageBox>
     </div>
   );

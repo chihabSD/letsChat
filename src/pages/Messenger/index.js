@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
 
@@ -12,7 +13,8 @@ import Right from "./Right";
 
 const MessengerUI = () => {
   const scrollRef= useRef()
-  const scrollbottom = useRef()
+  
+  // const emojiboxRef = useRef(null)
   const { dispatch, conversations, messages,  loading, account:{username, _id} } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
