@@ -1,12 +1,21 @@
 import React from 'react'
-import{FaGifts, FaImage, FaImages, FaPlusCircle, FaRegThumbsUp, FaSmile, FaStickerMule, FaStickyNote, FaThumbsUp} from 'react-icons/fa'
+import{FaGifts, FaImage, FaImages, FaPlusCircle, FaPlusSquare, FaRegThumbsUp, FaSmile, FaStickerMule, FaStickyNote, FaThumbsUp} from 'react-icons/fa'
 import{AiOutlineGif} from 'react-icons/ai'
 const MessageBox = ({handleMessageInput, handleSendButton}) => {
     const iconsSize = 25
   return (
     <div className="message-box-container">
 <div className="message-box-container-left">
-      <div className='item'><FaPlusCircle size={iconsSize}/> </div>
+      {/* <div className="image-upload">
+  <span>
+  <FaPlusSquare size={iconsSize}/> 
+  </span>
+
+  <input id="file-input" type="file" />
+</div> */}
+
+  {/* <input id="file-input" type="file" /> */}
+      <div className='item'><FaPlusSquare size={iconsSize}/> </div>
       <div className='item'><FaImages size={iconsSize}/> </div>
       <div className='item'><AiOutlineGif size={iconsSize}/> </div>
       <div className='item'><FaSmile size={iconsSize}/> </div>

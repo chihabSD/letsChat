@@ -37,6 +37,19 @@ scrollbar-width: none;  /* Firefox */
         // overflow-y: autzo;
         // overflow:auto;
     // border-bottom: 1px solid;
+
+    .messages-container-loading {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        p {
+            // font-weight: 100;
+            margin-top: 10px;
+            color: rgb(200, 200, 200);
+        } 
+    }
     .chat-bubble-left {
         background-color: #EBF6FF;
         max-width: 500px;
@@ -102,6 +115,9 @@ scrollbar-width: none;  /* Firefox */
         
         border-radius: 10px;
         padding: 10px;
+        *:focus {
+            outline: none;
+        }
         input {
             width: 100%;
         background-color: #f8f8f8;
@@ -133,11 +149,27 @@ scrollbar-width: none;  /* Firefox */
     }
 
     // End of middle
+    .image-upload>input {
+        display: none;
+      } 
     .message-box-container-left {
         display: flex;
+        .item:hover {
+            background-color: lightgray;
+
+            
+        }
         .item {
             margin-right: 10px;
             cursor: pointer;
+            width: 30px;
+            height: 30px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            
+            border-radius: 50%;
         }
+        
     }
 }
