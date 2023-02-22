@@ -17,9 +17,13 @@ const MessengerUI = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [toggleRight, setToggleRight] = useState(false);
+  const [showEmojiBox, setShowEmojiBox] = useState(false);
 
   const [message, setMessage] = useState("");
 
+  const toggleEmojiBox = () => {
+setShowEmojiBox(prev => !prev)
+  }
   const handleToggleRight = () => {
     setToggleRight(prev => !prev)
   }
@@ -98,6 +102,8 @@ const MessengerUI = () => {
         scrollRef={scrollRef}
         selectedConversation={selectedConversation}
         handleSendButton={handleSendButton}
+      showEmojiBox={showEmojiBox}
+      toggleEmojiBox={toggleEmojiBox}
       />
 
       <Right

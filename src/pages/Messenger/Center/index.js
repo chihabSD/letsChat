@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { AiOutlineClose, AiOutlineExpand } from "react-icons/ai";
 import { FaExpand, FaExpandAlt, FaWindowClose } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
+import { emojis } from "../../../data";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
 import ChatBubble from "./ChatBubble";
+import EmojiBox from "./EmojiBox";
 import MessageBox from "./MessageBox";
 import MessagesLoader from "./MessagesLoader";
 
@@ -16,6 +18,9 @@ const Center = ({
   toggleRight, 
 message, 
   handleToggleRight,
+
+  showEmojiBox, 
+  toggleEmojiBox
 }) => {
   // const scrollRef = useRef()
   const {
@@ -26,6 +31,7 @@ message,
   const notReady = loading || selectedConversation == null;
   return (
     <div className="center">
+        {/* {showEmojiBox  && <EmojiBox />} */}
       <div className="chat-header">
         {notReady
           ? "Not ready"
@@ -41,6 +47,8 @@ message,
       </div>
 
       <div className="messages-container">
+        {/* {emojis.map(emoji => <div>{emoji}</div>)} */}
+        {/* <EmojiBox /> */}
         {notReady ? (
           <MessagesLoader />
         ) : messages.length === 0 || messages === undefined ? (
@@ -55,12 +63,18 @@ message,
             )
           )
         )}
+          
       </div>
+    
       <MessageBox
+       showEmojiBox={showEmojiBox}
+       toggleEmojiBox={toggleEmojiBox}
       message={message}
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}
-      />
+      >
+        {showEmojiBox  && <EmojiBox />}
+      </MessageBox>
     </div>
   );
   // if (!loading || selectedConversation !== null) {

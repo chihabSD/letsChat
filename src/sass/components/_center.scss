@@ -34,6 +34,7 @@ scrollbar-width: none;  /* Firefox */
     .messages-container {
         display: flex;
         flex: 1;
+        position: relative;
         flex-direction: column;
         overflow-y: scroll;
      padding-bottom: 20px;
@@ -94,6 +95,7 @@ scrollbar-width: none;  /* Firefox */
     
     .message-box-container {
         // height: 100%;
+        position: relative;
         background-color:white;
         display: flex;
         justify-content: space-between;
@@ -176,5 +178,81 @@ scrollbar-width: none;  /* Firefox */
             border-radius: 50%;
         }
         
+    }
+    .emoji-box-container::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+    }
+    .emoji-box-container {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+        // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 10px;
+        background-color: white;
+        // border: 1px solid;
+        border-radius: 10px;
+        z-index: 1;
+      display: flex; 
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        margin-right: 30px;
+
+        // bottom: 0;
+//  botto      :  -230;
+top: -100;
+
+margin-bottom: 300px;
+// margin-bottom: 35%;
+
+        
+        width: 50%;
+        height: 250px;
+        .emoji-contents {
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: grid;
+        height: 100%;
+        width: 100%;
+            grid-auto-rows: auto;
+            grid-template: repeat(3, 1fr) / repeat(15, 1fr);
+       column-gap: 8px;
+       row-gap: 8px;
+margin-top: 15px;
+.emojiIcon:hover{
+    background-color: lightgray;
+}
+       .emojiIcon {
+        cursor: pointer;
+        // overflow: hidden;
+        // background-color: blue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+        }
+        .emojiheader-container {
+            padding: 10px;
+            // background-color: yellow;
+        .emojiheader-container-search {
+            height: 100%;
+            padding: 7px;
+            background-color: #f8f8f8;
+            // background-color: green;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            input {
+                flex: 1;
+                height: inherit;
+                padding: 5px;
+                margin-left: 10px;
+                border-style: none;
+                background-color: inherit;
+                font-size: 1rem;
+
+            }
+        }
+        }
+       
     }
 }

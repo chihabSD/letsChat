@@ -12,10 +12,12 @@ import {
   FaThumbsUp,
 } from "react-icons/fa";
 import { AiOutlineGif } from "react-icons/ai";
-const MessageBox = ({ handleMessageInput, message, handleSendButton }) => {
+const MessageBox = ({ children,  showEmojiBox, 
+    toggleEmojiBox,  handleMessageInput, message, handleSendButton }) => {
   const iconsSize = 25;
   return (
     <div className="message-box-container">
+        {children}
       <div className="message-box-container-left">
         {/* <div className="image-upload">
   <span>
@@ -48,7 +50,7 @@ const MessageBox = ({ handleMessageInput, message, handleSendButton }) => {
           name="message"
           onChange={handleMessageInput}
         />
-        <div className="emoji">
+        <div className="emoji" onClick={toggleEmojiBox}>
           <FaSmile size={iconsSize} />{" "}
         </div>
         {/* <button onClick={() => handleSendButton()}>Send </button> */}
