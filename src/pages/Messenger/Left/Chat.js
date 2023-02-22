@@ -12,6 +12,8 @@ const Chat = ({ conversation,users,  handleConversation, selectedConversation })
 
 // print
   return (
+    <div>
+
     <div
       className={`${
         selectedConversation._id === conversation._id
@@ -25,7 +27,8 @@ const Chat = ({ conversation,users,  handleConversation, selectedConversation })
       </div>
       <div className="chat-right">
         <div className="chat-right-top">
-          <p> {userFound.username}</p>
+          <h4> {userFound.username}</h4>
+        <div>99</div>
         </div>
         <div className="chat-right-bottom">
           <p>
@@ -34,6 +37,7 @@ const Chat = ({ conversation,users,  handleConversation, selectedConversation })
           <p>99</p>
         </div>
       </div>
+    </div>
     </div>
   );
   

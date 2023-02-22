@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
+
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
 import { _sendImage } from "../../redux/actions/message/sendImage";
@@ -15,9 +16,13 @@ const MessengerUI = () => {
   const { dispatch, conversations, messages,  loading, account:{username, _id} } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [toggleRight, setToggleRight] = useState(false);
 
   const [message, setMessage] = useState("");
 
+  const handleToggleRight = () => {
+    setToggleRight(prev => !prev)
+  }
   const handleConversation = (conversation) => {
     setSelectedConversation(conversation);
     dispatch(_getMessage(conversation._id));
@@ -67,7 +72,7 @@ const MessengerUI = () => {
     scrollRef.current?.scrollIntoView({behavior:'smooth', block: "end"})
     }, []);
   return (
-    <MainLayOut>
+    <MainLayOut toggleRight={toggleRight}>
       <Left
         handleSelectedUser={handleSelectedUser}
         handleConversation={handleConversation}
@@ -77,6 +82,8 @@ const MessengerUI = () => {
       />
 
       <Center
+      handleToggleRight ={handleToggleRight }
+      toggleRight={toggleRight}
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
@@ -86,6 +93,8 @@ const MessengerUI = () => {
       />
 
       <Right
+      handleToggleRight ={handleToggleRight }
+      toggleRight={toggleRight}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
         selectedConversation={selectedConversation}

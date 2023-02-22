@@ -2,10 +2,21 @@
     flex: 1;
 display: grid;
 height: calc(100vh -  40px) ;
-grid-template-columns: 25% 55% 20%;
+grid-template-columns: 300px 1fr 290px;
 // background-color: yellow;
 // column-gap: 3px;
 // padding: 10px;
 grid-template-areas: "leftside center center rightside";
 height: 100vh;
+}
+.messenger-container-toggleRight {
+    flex: 1;
+    display: grid;
+    height: calc(100vh -  40px) ;
+    grid-template-columns: 300px 1fr;
+    // background-color: yellow;
+    // column-gap: 3px;
+    // padding: 10px;
+    grid-template-areas: "leftside center";
+    height: 100vh;
 }

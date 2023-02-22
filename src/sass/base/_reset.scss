@@ -8,6 +8,7 @@
     --text-white: #fff;
     // --bg-color : #f1f1f1;
     --bg-color : #f1f1f1;
+    // --bg-color : #EBF6FF;
     --text-color : #050505;
     --icon-bg-color : #F5F5F5;
     --icon-color : #414141;
@@ -25,7 +26,10 @@
 }
 body{
     background-color: var(--bg-color);
-    font-family: 'Roboto',sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    // font-family: 'Source Sans Pro', sans-serif;
+    
+    // font-weight: 700;
 }
 .messenger.theme{
     --text-color : #fff;

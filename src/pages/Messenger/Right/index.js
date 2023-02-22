@@ -3,7 +3,7 @@ import { useRedux } from "../../../hooks/useRedux";
 import { _addToChatList } from "../../../redux/actions/friends/addToChatList";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
 
-const Right = ({ selectedUser, selectedChat }) => {
+const Right = ({ selectedUser, selectedChat, toggleRight, handleToggleRight  }) => {
   const { dispatch, friends, account } = useRedux();
 
   const addToChatList = (user) => {
@@ -13,7 +13,9 @@ const Right = ({ selectedUser, selectedChat }) => {
     dispatch(_getFriends());
   }, []);
   return (
-    <div className="right">
+    <div className= {`${toggleRight ? 'hideright':'right'}`} >
+      <p onClick={handleToggleRight}>Hide</p>
+    {/* <div className= {`${toggleRight ? 'right':'hideright'}`} > */}
       {/* <ul>{friends && friends.map((user) => <li>{user.username}</li>)}</ul> */}
       <div className="uses">
         {Object.keys(friends).length > 0  ? friends.map(user =>   <div key={user._id}> 

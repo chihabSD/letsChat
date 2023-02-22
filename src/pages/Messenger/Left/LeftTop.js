@@ -12,7 +12,7 @@ export const LeftTop = () => {
             <img src={`${IMAGE_URL}/${image}`}/>
         </div>
         <div className="usermenu">
-        <p>{_id}</p>
+        <p>{username}</p>
         <FaEllipsisV />
         </div>
     </div>
