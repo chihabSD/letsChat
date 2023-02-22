@@ -25,6 +25,11 @@ scrollbar-width: none;  /* Firefox */
             display: flex;
         height: 70px;
         align-items: center;
+
+        justify-content: space-between;
+        .chat-header-right {
+            display: flex;
+        }
     } // end of chat header
     .messages-container {
         display: flex;

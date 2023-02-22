@@ -33,26 +33,33 @@ const MessengerUI = () => {
   const handleMessageInput = (e) => {
     setMessage(e.target.value);
   };
-  const handleSendButton = () => {
-    const receiver = selectedConversation.users.find(user => user._id !== _id)
-    // console.log(receiver._id);
-    dispatch(
-      _sendMessage({
-        // senderName,conversationId,  receiverId, message
-        conversationId: selectedConversation._id,
-        message,
-        receiverId: receiver._id,
-        senderName:username 
-      })
-    );
+  const handleSendButton = (event) => {
+    if(event.code === 'Enter'){
+      const receiver = selectedConversation.users.find(user => user._id !== _id)
+      dispatch(
+        _sendMessage({
+          // senderName,conversationId,  receiverId, message
+          conversationId: selectedConversation._id,
+          message,
+          receiverId: receiver._id,
+          senderName:username 
+        })
+      );
+      setMessage('')
+    }
+
+    
   };
-  useEffect(() => {
-  window.setInterval(function() {
-    var elem = document.getElementById('message-container');
-    elem.scrollTop = elem.scrollHeight;
-  }, 5000);
+  // useEffect(() => {
+  // window.setInterval(function() {
+  //   var elem = document.getElementById('message-container');
+  //   elem.scrollTop = elem.scrollHeight;
+  // }, 5000);
  
-  }, [] )
+  // }, [] )
+
+
+  
 
   // Initialize current conversation
   useEffect(() => {
@@ -84,6 +91,7 @@ const MessengerUI = () => {
       <Center
       handleToggleRight ={handleToggleRight }
       toggleRight={toggleRight}
+      message={message}
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}

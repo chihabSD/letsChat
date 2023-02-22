@@ -14,7 +14,7 @@ const Right = ({ selectedUser, selectedChat, toggleRight, handleToggleRight  }) 
   }, []);
   return (
     <div className= {`${toggleRight ? 'hideright':'right'}`} >
-      <p onClick={handleToggleRight}>Hide</p>
+      {/* <p onClick={handleToggleRight}>Hide</p> */}
     {/* <div className= {`${toggleRight ? 'right':'hideright'}`} > */}
       {/* <ul>{friends && friends.map((user) => <li>{user.username}</li>)}</ul> */}
       <div className="uses">
