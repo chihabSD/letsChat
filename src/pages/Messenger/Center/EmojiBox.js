@@ -1,6 +1,9 @@
 import React from 'react'
-import { FaSearch } from 'react-icons/fa'
+import { FaCat, FaFlagUsa, FaObjectGroup, FaSearch, FaSmile } from 'react-icons/fa'
+import { CiBasketball, CiForkAndKnife } from 'react-icons/ci'
+import { TbIcons} from 'react-icons/tb'
 import { emojis } from '../../../data'
+import { AiFillCar, AiOutlineBulb } from 'react-icons/ai'
 const EmojiBox = () => {
   return (
     <div className='emoji-box-container'>
@@ -13,6 +16,18 @@ const EmojiBox = () => {
         <div className='emoji-contents'>
 
         {emojis.map(emoji =><div className='emojiIcon'>{emoji.emoji}</div>)}
+        </div>
+
+        <div className="emojibottom">
+       
+        <div className="item"><FaSmile /></div>
+        <div className="item"><FaCat /></div>
+        <div className="item"><CiForkAndKnife /></div>
+        <div className="item"><CiBasketball /></div>
+        <div className="item"><AiFillCar /></div>
+        <div className="item"><AiOutlineBulb /></div>
+        <div className="item"><TbIcons /></div>
+        <div className="item"><FaFlagUsa /></div>
         </div>
     </div>
   )

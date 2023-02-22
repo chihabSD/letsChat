@@ -186,7 +186,7 @@ scrollbar-width: none;  /* Firefox */
     .emoji-box-container {
         box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
         // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        padding: 10px;
+        // padding: 10px;
         background-color: white;
         // border: 1px solid;
         border-radius: 10px;
@@ -210,6 +210,7 @@ margin-bottom: 300px;
         .emoji-contents {
             overflow-y: auto;
             overflow-x: hidden;
+            padding: 10px;
             display: grid;
         height: 100%;
         width: 100%;
@@ -254,5 +255,22 @@ margin-top: 15px;
         }
         }
        
+    .emojibottom {
+        border-top: 0.6px solid lightgray;
+        margin-top: 10px;
+        display: grid;
+        padding: 10px;
+        width: 100%;
+        height:60px;
+        align-items: center;
+        grid-auto-rows: auto;
+        grid-template: repeat(3, 1fr) / repeat(8, 1fr);
+   column-gap: 8px;
+//    row-gap: 8px;
+   .item {
+    // background-color: green;
+   }
+      
+    }
     }
 }
