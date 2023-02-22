@@ -7,10 +7,13 @@ const useRedux = () => {
     registerReducer: { registered },
     friendsReducer: { friends, messages, conversations, selectedConversation },
     profileReducer: { authenticated, account },
+    toggleReducer:{rightSideToggled, emojiBoxyToggled}, 
     errorReducer: { error },
   } = state;
   return {
     dispatch,
+    rightSideToggled, 
+    emojiBoxyToggled, 
     messages,conversations,  
     authenticated, account, friends, 
     loading,

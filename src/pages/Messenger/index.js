@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import { useMain } from "../../hooks/useMainState";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
 
@@ -18,17 +19,9 @@ const MessengerUI = () => {
   const { dispatch, conversations, messages,  loading, account:{username, _id} } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [toggleRight, setToggleRight] = useState(false);
-  const [showEmojiBox, setShowEmojiBox] = useState(false);
+  const {message,setMessage , } = useMain()
 
-  const [message, setMessage] = useState("");
-
-  const toggleEmojiBox = () => {
-setShowEmojiBox(prev => !prev)
-  }
-  const handleToggleRight = () => {
-    setToggleRight(prev => !prev)
-  }
+  
   const handleConversation = (conversation) => {
     setSelectedConversation(conversation);
     dispatch(_getMessage(conversation._id));
@@ -37,6 +30,7 @@ setShowEmojiBox(prev => !prev)
     setSelectedUser(user);
   };
   const handleMessageInput = (e) => {
+    // console.log(e.target.value);
     setMessage(e.target.value);
   };
   const handleSendButton = (event) => {
@@ -56,16 +50,7 @@ setShowEmojiBox(prev => !prev)
 
     
   };
-  // useEffect(() => {
-  // window.setInterval(function() {
-  //   var elem = document.getElementById('message-container');
-  //   elem.scrollTop = elem.scrollHeight;
-  // }, 5000);
  
-  // }, [] )
-
-
-  
 
   // Initialize current conversation
   useEffect(() => {
@@ -84,8 +69,9 @@ setShowEmojiBox(prev => !prev)
   useEffect(() => {
     scrollRef.current?.scrollIntoView({behavior:'smooth', block: "end"})
     }, []);
+  
   return (
-    <MainLayOut toggleRight={toggleRight}>
+    <MainLayOut >
       <Left
         handleSelectedUser={handleSelectedUser}
         handleConversation={handleConversation}
@@ -95,22 +81,17 @@ setShowEmojiBox(prev => !prev)
       />
 
       <Center
-      handleToggleRight ={handleToggleRight }
-      toggleRight={toggleRight}
       message={message}
+      setMessage={setMessage}
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
         scrollRef={scrollRef}
         selectedConversation={selectedConversation}
         handleSendButton={handleSendButton}
-      showEmojiBox={showEmojiBox}
-      toggleEmojiBox={toggleEmojiBox}
       />
 
       <Right
-      handleToggleRight ={handleToggleRight }
-      toggleRight={toggleRight}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
         selectedConversation={selectedConversation}

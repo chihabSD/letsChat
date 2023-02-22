@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -6,9 +7,11 @@ import MessengerUI from './pages/Messenger';
 import NotLoggedInRoutes from './routes/LoggedInRoutes';
 import LoggedInRoutes from './routes/NotLoggedInRoutes';
 function App() {
+
+
   return (
     
-<div>
+
   <BrowserRouter>
   <Routes>
     <Route element={<LoggedInRoutes/>}>
@@ -22,7 +25,7 @@ function App() {
     </Route>
   </Routes>
   </BrowserRouter>
-</div>
+
   );
 }
 

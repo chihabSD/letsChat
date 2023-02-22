@@ -4,37 +4,32 @@ import { FaExpand, FaExpandAlt, FaWindowClose } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
 import { emojis } from "../../../data";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import { useMain } from "../../../hooks/useMainState";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
+import {  _toggleEmojiBox, _toggleRightSide } from "../../../redux/reducers/toggler";
 import ChatBubble from "./ChatBubble";
 import EmojiBox from "./EmojiBox";
 import MessageBox from "./MessageBox";
 import MessagesLoader from "./MessagesLoader";
-
 const Center = ({
   handleSendButton,
   selectedConversation,
   scrollRef,
   handleMessageInput,
-  toggleRight,
   message,
-  handleToggleRight,
 }) => {
-  const [showEmojiBox, setShowEmojiBox] = useState(false);
-  const el = useRef(null)
-
-
-  useClickOutside(el, () => {
-    setShowEmojiBox(false)
+ const {showEmojiBox, toggleEmojiBox,  handleOutsideClick,ref } =  useMain()
+  useClickOutside(ref, () => {
+    dispatch(_toggleEmojiBox())
   })
-  
-  const toggleEmojiBox = () => {
-    setShowEmojiBox((prev) => !prev);
-  };
   
   const {
     loading,
     messages,
+    rightSideToggled, 
+    dispatch,
+    emojiBoxyToggled, 
     account: { _id },
   } = useRedux();
   const notReady = loading || selectedConversation == null;
@@ -48,8 +43,8 @@ const Center = ({
               if (user._id !== _id) return user.username;
             })}
         <div className="chat-header-right">
-          <div onClick={handleToggleRight}>
-            {toggleRight ? (
+          <div onClick={()=> dispatch(_toggleRightSide())}>
+            {rightSideToggled ? (
               <AiOutlineClose size={25} />
             ) : (
               <AiOutlineExpand fontSize={30} />
@@ -87,13 +82,12 @@ const Center = ({
       </div>
 
       <MessageBox
-        showEmojiBox={showEmojiBox}
-        toggleEmojiBox={toggleEmojiBox}
+    
         message={message}
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}
       >
-        {showEmojiBox && <EmojiBox el={el} />}
+        {emojiBoxyToggled && <EmojiBox el={ref} />}
       </MessageBox>
     </div>
   );

@@ -12,8 +12,14 @@ import {
   FaThumbsUp,
 } from "react-icons/fa";
 import { AiOutlineGif } from "react-icons/ai";
+import { useMain } from "../../../hooks/useMainState";
+import { _toggleEmojiBox } from "../../../redux/reducers/toggler";
+import { useRedux } from "../../../hooks/useRedux";
 const MessageBox = ({ children,  showEmojiBox, 
-    toggleEmojiBox,  handleMessageInput, message, handleSendButton }) => {
+
+    toggleEmojiBox, message,   handleSendButton, handleMessageInput }) => {
+
+   const {emojiBoxyToggled, dispatch} =     useRedux()
   const iconsSize = 25;
   return (
     <div className="message-box-container">
@@ -48,9 +54,11 @@ const MessageBox = ({ children,  showEmojiBox,
           onKeyDown={(e) => handleSendButton(e)}
           placeholder="Say Something to Chihableddine "
           name="message"
+          
           onChange={handleMessageInput}
+        //   onChange={e => setMessage(e.target.value)}
         />
-        <div className="emoji" onClick={toggleEmojiBox}>
+        <div className="emoji" onClick={()=>dispatch(_toggleEmojiBox())}>
           <FaSmile size={iconsSize} />{" "}
         </div>
         {/* <button onClick={() => handleSendButton()}>Send </button> */}

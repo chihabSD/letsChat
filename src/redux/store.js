@@ -4,9 +4,12 @@ import errorReducer from "./reducers/error";
 import registerReducer from "./reducers/register";
 import profileReducer from "./reducers/profile";
 import  friendsReducer  from "./reducers/friends";
+import  toggleReducer  from "./reducers/toggler"
 export default configureStore({
   reducer: {
     profileReducer, 
+    
+    toggleReducer, 
     friendsReducer, 
     loadingReducer,
     errorReducer,
