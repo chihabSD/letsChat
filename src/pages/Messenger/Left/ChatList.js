@@ -1,11 +1,14 @@
 import React from "react";
+import { useRedux } from "../../../hooks/useRedux";
 import Chat from "./Chat";
+import ChatsLoading from "./ChatsLoading";
 
 const ChatList = ({
-  conversations,
+  // conversations,
   handleConversation,
   selectedConversation,
 }) => {
+  const {loading, conversations, account:{_id}} = useRedux()
   return (
     <div className="chatList-container">
       {/* {conversations.map(conversation => <ul>
@@ -15,9 +18,9 @@ const ChatList = ({
 {conversation.users.map(user => <h1>{user.username}</h1>)}
         </li>
       </ul>)} */}
-
-      {conversations.map((conversation) => {
+      {loading || conversations == undefined ? <ChatsLoading />: conversations.map((conversation) => {
         const users = conversation.users.map((user) => user);
+     
         return (
           <Chat
             key={conversation._id}
@@ -28,6 +31,7 @@ const ChatList = ({
           />
         );
       })}
+     
       {/* {conversations.map((conversation) => (
         <Chat key={conversation._id}
           conversation={conversation}

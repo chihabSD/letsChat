@@ -14,7 +14,7 @@ export const messageApiHandler = async (name, details) => {
       case SEND_MESSAGE:
         return axios.post(`${messanger}/send-message`, details, header);
       case GET_MESSAGE:
-        return axios.get(`${messanger}/get-message/${details}`, header);
+        return axios.get(`${messanger}/chat/${details}`, header);
         case SEND_IMAGE:
           return axios.post(`${messanger}/send-image`, details);
     default:

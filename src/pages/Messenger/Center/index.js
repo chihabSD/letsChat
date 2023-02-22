@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineClose, AiOutlineExpand } from "react-icons/ai";
-import { FaExpand, FaExpandAlt, FaWindowClose } from "react-icons/fa";
+import { GrExpand } from "react-icons/gr";
+import { BsArrowLeft} from "react-icons/bs";
+import { TbMessageCircle, TbMessageCircleOff} from "react-icons/tb";
 import { Oval } from "react-loader-spinner";
 import { emojis } from "../../../data";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useMain } from "../../../hooks/useMainState";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
-import {  _toggleEmojiBox, _toggleRightSide } from "../../../redux/reducers/toggler";
+import {
+  _toggleEmojiBox,
+  _toggleRightSide,
+} from "../../../redux/reducers/toggler";
 import ChatBubble from "./ChatBubble";
 import EmojiBox from "./EmojiBox";
 import MessageBox from "./MessageBox";
 import MessagesLoader from "./MessagesLoader";
+import EmptyLayout from "../../../Layouts/EmptyLayout";
 const Center = ({
   handleSendButton,
   selectedConversation,
@@ -19,17 +25,17 @@ const Center = ({
   handleMessageInput,
   message,
 }) => {
- const {showEmojiBox, toggleEmojiBox,  handleOutsideClick,ref } =  useMain()
+  const { ref } = useMain();
   useClickOutside(ref, () => {
-    dispatch(_toggleEmojiBox())
-  })
-  
+    dispatch(_toggleEmojiBox());
+  });
+
   const {
     loading,
     messages,
-    rightSideToggled, 
+    rightSideToggled,
     dispatch,
-    emojiBoxyToggled, 
+    emojiBoxyToggled,
     account: { _id },
   } = useRedux();
   const notReady = loading || selectedConversation == null;
@@ -43,11 +49,11 @@ const Center = ({
               if (user._id !== _id) return user.username;
             })}
         <div className="chat-header-right">
-          <div onClick={()=> dispatch(_toggleRightSide())}>
+          <div onClick={() => dispatch(_toggleRightSide())}>
             {rightSideToggled ? (
-              <AiOutlineClose size={25} />
+              <BsArrowLeft size={25} />
             ) : (
-              <AiOutlineExpand fontSize={30} />
+              <GrExpand fontSize={20} />
             )}
           </div>
         </div>
@@ -59,7 +65,14 @@ const Center = ({
         {notReady ? (
           <MessagesLoader />
         ) : messages.length === 0 || messages === undefined ? (
-          <h1>No message yet </h1>
+          <EmptyLayout>
+            <TbMessageCircleOff size={100}/>
+            <h1> No Messages</h1>
+            <p>When you have message, 
+              </p><p>
+              you will see them here
+              </p>
+          </EmptyLayout>
         ) : (
           messages.map((message) =>
             message.senderId._id === _id ||
@@ -82,7 +95,6 @@ const Center = ({
       </div>
 
       <MessageBox
-    
         message={message}
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}

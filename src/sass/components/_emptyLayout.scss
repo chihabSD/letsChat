@@ -1,0 +1,20 @@
+.empty-container {
+
+    display: flex;
+background-color: white;
+flex: 1;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+text-align: center;
+h1 {
+    color: blueviolet;
+    margin-bottom: 10px;
+}
+p {
+    text-align: center;
+    font-weight: 100;
+    color: gray;
+    
+}
+}

@@ -23,7 +23,13 @@ const MessengerUI = () => {
 
   
   const handleConversation = (conversation) => {
+    
+    // prevent calling api every time user click on existing chat
+    if(selectedConversation._id == conversation._id){
+      return
+    }
     setSelectedConversation(conversation);
+
     dispatch(_getMessage(conversation._id));
   };
   const handleSelectedUser = (user) => {
@@ -82,7 +88,6 @@ const MessengerUI = () => {
 
       <Center
       message={message}
-      setMessage={setMessage}
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}
         selectedUser={selectedUser}
