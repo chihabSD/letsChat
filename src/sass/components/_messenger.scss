@@ -20,3 +20,40 @@ height: 100vh;
     grid-template-areas: "leftside center";
     height: 100vh;
 }
+.mainLoading-container {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 100vh;
+    flex-direction: column;
+    h3 {
+        font-weight: 300;
+        color: grey;
+    }
+    .progressPercent{
+        font-weight: 600;
+        margin-top: 20px;
+        font-family:'Franklin Gothic Medium';
+        // position: absolute;
+        // left: 50%;
+        // top: 10;
+        // transform: translate(-50%,-50%);
+        // color: #eee;
+        // text-shadow: -1px 0 #555, 0 1px #555, 1px 0 #555, 0 -1px #555;
+    }
+}
+.progressbar{
+	position: relative;
+    margin-top: 20px;
+	overflow: hidden;
+	width: 350px;
+	height: 5px;
+	border-radius: 5px;
+	background-color: #eee;
+
+    
+}
+
+

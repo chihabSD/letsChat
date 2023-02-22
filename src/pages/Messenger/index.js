@@ -3,6 +3,7 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import { useMain } from "../../hooks/useMainState";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
+import MainLayoutLoading from "../../Layouts/MainLayoutLoading";
 
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
@@ -20,6 +21,8 @@ const MessengerUI = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const {message,setMessage , } = useMain()
+  const [filled, setFilled] = useState(0);
+	const [isRunning, setIsRunning] = useState(false);
 
   
   const handleConversation = (conversation) => {
@@ -76,9 +79,40 @@ const MessengerUI = () => {
     scrollRef.current?.scrollIntoView({behavior:'smooth', block: "end"})
     }, []);
   
+    useEffect(() => {
+      if (filled < 100 && isRunning) {
+        setTimeout(() => setFilled(prev => prev += 2), 50)
+      }
+    },[filled, isRunning])
+    
+    useEffect(() => {
+    if(loading || selectedConversation === null || selectedConversation === undefined){
+      setIsRunning(true)
+    }
+    }, [loading]);
+    
+    if(loading || selectedConversation === null || selectedConversation === undefined ){
+      return (
+        <MainLayoutLoading>
+        <h3> Loading Chats </h3>
+        <div className="progressbar">
+			  <div style={{
+				  height: "100%",
+				  width: `${filled}%`,
+				  backgroundColor: "#a66cff",
+				  transition:"width 0.5s"
+			  }}></div>
+		  </div>
+			  <div className="progressPercent">{ filled }%</div>
+        {/* <button onClick={()=>setIsRunning(true)}>Run </button> */}
+      </MainLayoutLoading>
+      )
+    }else {
+
   return (
-    <MainLayOut >
-      <Left
+
+      <MainLayOut>
+       <Left
         handleSelectedUser={handleSelectedUser}
         handleConversation={handleConversation}
         conversations={conversations}
@@ -101,8 +135,10 @@ const MessengerUI = () => {
         selectedUser={selectedUser}
         selectedConversation={selectedConversation}
       />
-    </MainLayOut>
+      </MainLayOut>
+     
   );
+    }
 };
 
 export default MessengerUI;
