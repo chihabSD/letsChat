@@ -18,6 +18,8 @@ import EmojiBox from "./EmojiBox";
 import MessageBox from "./MessageBox";
 import MessagesLoader from "./MessagesLoader";
 import EmptyLayout from "../../../Layouts/EmptyLayout";
+import MessageRight from "./MessageRight";
+import { MessageLeft } from "./MessageLeft";
 const Center = ({
   handleSendButton,
   selectedConversation,
@@ -29,7 +31,6 @@ const Center = ({
   useClickOutside(ref, () => {
     dispatch(_toggleEmojiBox());
   });
-
   const {
     loading,
     messages,
@@ -77,18 +78,20 @@ const Center = ({
           messages.map((message) =>
             message.senderId._id === _id ||
             message.senderId._id === undefined ? (
-              <ChatBubble
-                key={message._id}
-                scrollRef={scrollRef}
-                right
-                message={message}
-              />
+              <MessageRight message={message} key={message._id} scrollRef={scrollRef }/>
+              // <ChatBubble
+              //   key={message._id}
+              //   scrollRef={scrollRef}
+              //   right
+              //   message={message}
+              // />
             ) : (
-              <ChatBubble
-                key={message._id}
-                scrollRef={scrollRef}
-                message={message}
-              />
+              <MessageLeft message={message} key={message._id} scrollRef={scrollRef }/>
+              // <ChatBubble
+              //   key={message._id}
+              //   scrollRef={scrollRef}
+              //   message={message}
+              // />
             )
           )
         )}

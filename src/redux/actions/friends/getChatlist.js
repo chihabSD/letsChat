@@ -22,7 +22,7 @@ export const _getChatList = (details) => {
     setTimeout(() => {
       
     dispatch(clearLoading())
-    }, 3000);
+    }, 2000);
     } catch (e) {
       dispatch(setError(e.response.data.error));
     }
