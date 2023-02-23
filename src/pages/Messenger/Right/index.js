@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from "react";
+import { GrClose } from "react-icons/gr";
 import { IMAGE_URL } from "../../../api/endpoint";
 import { ToggleContext } from "../../../contexts";
 import { useMain } from "../../../hooks/useMainState";
 import { useRedux } from "../../../hooks/useRedux";
 import { _addToChatList } from "../../../redux/actions/friends/addToChatList";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
+import { _toggleRightSide } from "../../../redux/reducers/toggler";
 
 const Right = ({ selectedUser, selectedChat,  selectedConversation }) => {
   const { dispatch, loading, conversations,   friends, account:{_id}, rightSideToggled } = useRedux();
@@ -20,7 +22,13 @@ const Right = ({ selectedUser, selectedChat,  selectedConversation }) => {
   }, []);
   return (
     <div className= {`${rightSideToggled ? 'hideright':'right'}`} >
-    
+    <div className="leftTop-container right">
+    <div className="icon-close" onClick={()=>dispatch(_toggleRightSide())}>
+
+<GrClose size={18}  />
+</div>
+<h1>Contact info</h1>
+    </div>
       <div className="user-info">
 
 {/* { conversations[0].users.find(user => {
@@ -42,7 +50,7 @@ const Right = ({ selectedUser, selectedChat,  selectedConversation }) => {
 
         <p>Help peopel to build websites and apps + grows awarnes on social media </p>
     
-     
+    ss
 
      </div>
     </div>

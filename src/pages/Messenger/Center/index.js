@@ -50,16 +50,11 @@ const Center = ({
             })}
         <div className="chat-header-right">
           <div onClick={() => dispatch(_toggleRightSide())}>
-            {rightSideToggled ? (
-              <div className="expand-toggle">
+            {rightSideToggled && <div className="expand-toggle">
 
-              <BsArrowLeft size={25}  />
-              </div>
-            ) : (
-              <div className="expand-toggle">
-              <GrExpand fontSize={20} color="grey" />
-            </div>
-            )}
+<BsArrowLeft size={25}  />
+</div> }
+           
           </div>
         </div>
       </div>

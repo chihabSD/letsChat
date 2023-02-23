@@ -2,8 +2,46 @@
     background-color: white;
     position: relative;
     border-left: 0.6px solid lightgray;
+    // padding: 10px;
+    .leftTop-container {
+        border-bottom: 0.6px solid lightgray;
+    // background-color: orange;
+    background-color: white;
+    flex-direction: row;
+    // border-bottom: 1px solid grey;
     padding: 10px;
+        display: flex;
+    height: 70px;
+    align-items: center;
+
+    // justify-content: center;
+// justify-content: space-between;
+h1 {
+    margin-left: 15px;
+font-size: 1.2rem;
+}
+.icon-close:hover{
+    background-color: #f8f8f8;
+}
+.icon-close {
+    cursor: pointer;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    
+    border-radius: 50%;
+}
+
+}
+.right {
+    padding: 0 15px 0;
+
+}
     .user-info {
+
 
         padding-top: 20px;
         display: flex;
