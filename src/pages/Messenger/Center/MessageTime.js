@@ -5,7 +5,8 @@ export const MessageTime = ({date}) => {
   return (
     <div className='bottom'>
     {/* <p>{moment(date).format()}</p> */}
-    <Moment format="YYYY/MM/DD">{date}</Moment>
+    {/* <Moment format="YYYY/MM/DD">{date}</Moment> */}
+    <p>{date}</p>
 </div>
   )
 }

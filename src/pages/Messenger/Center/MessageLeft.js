@@ -14,7 +14,7 @@ export const MessageLeft = ({ message , scrollRef }) => {
         </div>
       </div>
 
-      <MessageTime />
+      {/* <MessageTime /> */}
     </div>
   );
 };
