@@ -1,9 +1,11 @@
 import React from 'react'
-
-export const MessageTime = () => {
+import moment from 'moment'
+import Moment from 'react-moment'
+export const MessageTime = ({date}) => {
   return (
     <div className='bottom'>
-    <p>Wed 23 Jul</p>
+    {/* <p>{moment(date).format()}</p> */}
+    <Moment format="YYYY/MM/DD">{date}</Moment>
 </div>
   )
 }

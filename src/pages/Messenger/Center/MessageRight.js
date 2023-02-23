@@ -10,7 +10,7 @@ const MessageRight = ({ message, scrollRef  }) => {
         </div>
       </div>
 
-      <MessageTime />
+      <MessageTime date={message.createdAt} />
     </div>
   );
 };
