@@ -60,7 +60,10 @@ const MessengerUI = () => {
     
   };
  
-
+  const selectedEmoji = emoji => {
+    console.log(emoji);
+  }
+  // USE EFFECT
   // Initialize current conversation
   useEffect(() => {
     if (conversations.length > 0) {
@@ -121,6 +124,7 @@ const MessengerUI = () => {
       />
 
       <Center
+      selectedEmoji={selectedEmoji}
       message={message}
         handleMessageInput={handleMessageInput}
         handleSelectedUser={handleSelectedUser}

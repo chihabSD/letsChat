@@ -1,36 +1,19 @@
-import React from 'react'
-import { useRedux } from '../../../hooks/useRedux'
-import { MessageLeft } from './MessageLeft'
-import MessageRight from './MessageRight'
-const ChatController = ({message, scrollRef}) => {
-    console.log(message.message);
-const {account:{_id}} = useRedux()
+import React from "react";
+import { useRedux } from "../../../hooks/useRedux";
+import { MessageLeft } from "./MessageLeft";
+import MessageRight from "./MessageRight";
+const ChatController = ({ message, scrollRef }) => {
+  console.log(message.message);
+  const {
+    account: { _id },
+  } = useRedux();
 
+  return message.senderId._id === _id || message.senderId._id === undefined ? (
+    <MessageRight message={message} key={message._id} scrollRef={scrollRef} />
+  ) : (
+    <MessageLeft message={message} key={message._id} scrollRef={scrollRef} />
+  );
+  
+};
 
-return (
-
-
-
-    message.senderId._id === _id ||
-              message.senderId._id === undefined ? (
-                <MessageRight
-                  message={message}
-                  key={message._id}
-                  scrollRef={scrollRef}
-                />
-              ) : (
-                <MessageLeft
-                  message={message}
-                  key={message._id}
-                  scrollRef={scrollRef}
-                />
-              )
-)
-//   return (
-//     <div>
-//         <h1>{message.message.text}</h1>
-//     </div>
-//   )
-}
-
-export default ChatController
+export default ChatController;

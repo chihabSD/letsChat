@@ -10,7 +10,7 @@ import { CiBasketball, CiForkAndKnife } from "react-icons/ci";
 import { TbIcons } from "react-icons/tb";
 import { emojis } from "../../../data";
 import { AiFillCar, AiOutlineBulb } from "react-icons/ai";
-const EmojiBox = ({el}) => {
+const EmojiBox = ({el,selectedEmoji}) => {
   const emojiCategory = [
     { id: 0, name: "people", icon: <FaSmile /> },
     { id: 1, name: "animals and nature", icon: <FaCat /> },
@@ -31,7 +31,7 @@ const EmojiBox = ({el}) => {
       </div>
       <div className="emoji-contents">
         {emojis.map((emoji) => (
-          <div className="emojiIcon">{emoji.emoji}</div>
+          <div key={emoji.emoji} className="emojiIcon" onClick={()=>selectedEmoji(emoji)}>{emoji.emoji}</div>
         ))}
       </div>
 

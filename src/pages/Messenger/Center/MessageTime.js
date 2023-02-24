@@ -3,7 +3,7 @@ import moment from 'moment'
 import Moment from 'react-moment'
 export const MessageTime = ({date}) => {
   return (
-    <div className='bottom'>
+    <div className='message-time'>
     {/* <p>{moment(date).format()}</p> */}
     {/* <Moment format="YYYY/MM/DD">{date}</Moment> */}
     <p>{date}</p>

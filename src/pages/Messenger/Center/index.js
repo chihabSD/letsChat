@@ -28,6 +28,7 @@ const Center = ({
   scrollRef,
   handleMessageInput,
   message,
+  selectedEmoji
 }) => {
   const { ref } = useMain();
   useClickOutside(ref, () => {
@@ -41,26 +42,10 @@ const Center = ({
   } = useRedux();
 
  
-  //
-
   const dates = new Set();
-  const groupMessages = (conversation) => {
-    // const group = [{date:null, messages:[]}];
-
-    //  moment(conversation.createdAt).format()
-
-
-    const item = conversation.map((message) => {
-    const formatedDate =  moment(message.createdAt, 'MM/D/YYYY')
-      // console.log(message);
-      // group.push({date:message.created_at, messages: })
-      return   <p>{moment(message.createdAt).format('MM/DD/YYYY')}</p> 
-    });
-    return item;
-  };
-
   const renderDate = (chat, dateNum) => {
-    const timestampDate = moment(chat.createdAt).format("dd/MM/yyyy");
+    // const timestampDate = moment(chat.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+    const timestampDate = moment(chat.createdAt).format('LLL');
     // Add to Set so it does not render again
     dates.add(dateNum);
 
@@ -94,35 +79,7 @@ const Center = ({
               </div>
             )
           })
-          // groupMessages(messages)
-            
-            
-           
           
-          //  messages.map(message => {
-          //   // if(message.se)
-          //   return <h1>{message.message.text}</h1>
-          //  })
-
-          // (
-
-          //   messages.map((message) =>
-              // message.senderId._id === _id ||
-              // message.senderId._id === undefined ? (
-              //   <MessageRight
-              //     message={message}
-              //     key={message._id}
-              //     scrollRef={scrollRef}
-              //   />
-              // ) : (
-              //   <MessageLeft
-              //     message={message}
-              //     key={message._id}
-              //     scrollRef={scrollRef}
-              //   />
-              // )
-          //   )
-          // )
         }
       </div>
 
@@ -131,7 +88,7 @@ const Center = ({
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}
       >
-        {emojiBoxyToggled && <EmojiBox el={ref} />}
+        {emojiBoxyToggled && <EmojiBox el={ref} selectedEmoji={selectedEmoji} />}
       </MessageBox>
     </div>
   );
