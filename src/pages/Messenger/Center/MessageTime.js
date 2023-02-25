@@ -1,22 +1,21 @@
-import React from 'react'
-import moment from 'moment'
-import Moment from 'react-moment'
-export const MessageTime = ({date}) => {
+import React from "react";
+import moment from "moment";
+import Moment from "react-moment";
+import { FaCheckDouble } from "react-icons/fa";
+export const MessageTime = ({ date, right }) => {
+  
+
   return (
-    <div className='message-time'>
-    {/* <p>{moment(date).format()}</p> */}
-    {/* <Moment format="YYYY/MM/DD">{date}</Moment> */}
-    <p>{date}</p>
-</div>
-  )
-}
-
-// import React from 'react'
-
-// export const MessageTime = () => {
-//   return (
-//     <div>
-//         <p>Wed 23 Jul</p>
-//     </div>
-//   )
-// }
+    <div className="message-time">
+      <div className="time">
+        <Moment
+          style={right ? { color: "white" } : { color: "#050505" }}
+          format="ll"
+        >
+          {date}
+        </Moment>
+      </div>
+      {right && <FaCheckDouble color="white" />}
+    </div>
+  );
+};

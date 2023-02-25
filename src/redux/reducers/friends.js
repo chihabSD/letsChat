@@ -1,9 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { groupMessages } from "../../helpers/groupMessages";
+var moment = require("moment"); // require
 const initialState = {
   friends: {},
   conversations: [],
   messages: [],
-
+  msgs: null,
   selectedConversation: null,
 };
 
@@ -14,15 +16,32 @@ export const friendsReducer = createSlice({
     getFriends: (state, action) => {
       state.friends = action.payload;
     },
-    // check if there are messages
-    // if no message => set messages to empty else insert messages into it
+
     insertSentMessage: (state, action) => {
-    state.messages.push(action.payload)
+      let messageFromPayload = action.payload;
+
+      let formatedDate = moment(action.payload.createdAt).format("YYYY-MM-DD");
+
+      let currentMessages = current(state.messages);
+      const index = currentMessages.findIndex(
+        (msg) => msg.timeLine === formatedDate
+      );
+      let newObj = currentMessages.map((item, index) => {
+        if (item.timeLine === formatedDate) {
+          return { ...item, messages: [...item.messages, action.payload] };
+        }
+        return {
+          ...item,
+        };
+      });
+      state.messages = newObj;
     },
+
     insertMessages: (state, action) => {
+      // call group Messages
       action.payload.length === 0 || action.payload === []
         ? (state.messages = [])
-        : (state.messages = [...action.payload]);
+        : (state.messages = groupMessages(action.payload));
     },
 
     insertConversation: (state, action) => {
@@ -32,6 +51,12 @@ export const friendsReducer = createSlice({
   },
 });
 
-export const { getFriends, insertSentMessage, insertMessages, insertConversation } =
-  friendsReducer.actions;
+export const {
+  getFriends,
+  insertSentMessage,
+  insertMessages,
+  insertConversation,
+} = friendsReducer.actions;
 export default friendsReducer.reducer;
+
+// Group

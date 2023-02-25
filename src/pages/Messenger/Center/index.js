@@ -6,6 +6,11 @@ import { TbMessageCircle, TbMessageCircleOff } from "react-icons/tb";
 import { Oval } from "react-loader-spinner";
 import { emojis } from "../../../data";
 import { Header } from "./Header";
+
+import { BsReply } from "react-icons/bs";
+import { FaSmile } from "react-icons/fa";
+import { TbDotsVertical } from "react-icons/tb";
+
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useMain } from "../../../hooks/useMainState";
 import { useRedux } from "../../../hooks/useRedux";
@@ -21,6 +26,8 @@ import MessageRight from "./MessageRight";
 import { MessageLeft } from "./MessageLeft";
 import moment from "moment";
 import ChatController from "./ChatController";
+import { TimeDivider } from "./TimeDivider";
+import { UserImage } from "../../../components/UserImage";
 import { MessageTime } from "./MessageTime";
 const Center = ({
   handleSendButton,
@@ -28,11 +35,27 @@ const Center = ({
   scrollRef,
   handleMessageInput,
   message,
-  selectedEmoji
+  selectedEmoji,
 }) => {
+  const currentMessage = React.useRef(null);
   const { ref } = useMain();
-  useClickOutside(ref, () => {
-    dispatch(_toggleEmojiBox());
+  const [reactionVisible, setReactionVisible] = useState(true);
+  const [selectedMessage, setSeelectedMessage] = useState(null);
+  const [sortedItems, setSortedItems] = useState([]);
+  const [loadingSortMessage, setLoadingSortMessage] = useState(false);
+
+  const toggleReactionModal = () => {
+    setReactionVisible((prev) => !prev);
+  };
+
+  // useClickOutside(ref, () => {
+  //   dispatch(_toggleEmojiBox());
+  // });
+  useClickOutside(currentMessage, () => {
+    console.log("use click is called");
+    // toggleReactionModal()
+    // setReactionVisible(false)
+    console.log("closed");
   });
   const {
     messages,
@@ -41,20 +64,40 @@ const Center = ({
     account: { _id },
   } = useRedux();
 
- 
   const dates = new Set();
   const renderDate = (chat, dateNum) => {
     // const timestampDate = moment(chat.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-    const timestampDate = moment(chat.createdAt).format('LLL');
+    const timestampDate = moment(chat.createdAt).format("LLL");
     // Add to Set so it does not render again
     dates.add(dateNum);
 
-    return <MessageTime date={timestampDate}/>;
+    return <TimeDivider date={timestampDate} />;
+  };
+  const selectedItem = (item) => {
+    console.log(item);
+    toggleReactionModal();
   };
 
+  const handleMouseEnter = () => {
+    console.log(currentMessage);
+  };
 
+  const handleMouseOver = (event) => {
+    console.log(JSON.parse(event.target.dataset.info));
+  };
+  useEffect(() => {
+    if (selectedMessage === null) {
+      return;
+    }
+    // console.log(selectedMessage, reactionVisible);
+  }, [selectedMessage]);
 
-  
+  const listener = () => {};
+  const handleHandleMouseLeave = () => {
+    // setReactionVisible(false)
+    // setSeelectedMessage(null)
+  };
+
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
@@ -69,17 +112,113 @@ const Center = ({
               <p>When you have message,</p>
               <p>you will see them here</p>
             </EmptyLayout>
-          ) : 
-          messages.map(message => {
-            const timestampDate = moment(message.createdAt).format("dd/MM/yyyy");
-            return (
-              <div className="message-container">
-             <ChatController scrollRef={scrollRef} key={message._id} message={message}/> 
-                {dates.has(timestampDate) ? null : renderDate(message, timestampDate)}
-              </div>
-            )
-          })
-          
+          ) : (
+            messages.map((timeline) => {
+              const timestampDate = moment(timeline.originalDate).format(
+                "dd/MM/yyyy"
+              );
+
+              return (
+                <div className="timeline-container" key={timeline.timeLine}>
+                  {timeline.messages.map((message) => {
+                    return message.senderId._id === _id ||
+                      message.senderId._id === undefined ? (
+                      <div
+                        className="bubble right"
+                        ref={scrollRef}
+                        key={message._id}
+                      >
+                        <div className="details hidden">
+                          <div className="item">
+                            <TbDotsVertical />
+                          </div>
+                          <div className="item">
+                            <BsReply />
+                          </div>
+                          <div className="item">
+                            <FaSmile className="icon" />
+                          </div>
+                        </div>
+
+                        <div className="message-content">
+                          {message.message.text}
+                          <MessageTime  date={message.createdAt} right/>
+                        </div>
+
+                        {/* MODAL */}
+                        {/* <div className="reactions-container">Right</div> */}
+                      </div>
+                    ) : (
+                      <div className="bubble" ref={scrollRef} key={message._id}>
+                        {/* <div className="reactions-container">Reactions</div> */}
+                        <div className="userimage-container">
+                          <UserImage
+                            image={message.receiverId.image}
+                            style={{ width: "40px", height: "40px" }}
+                          />
+                        </div>
+                        <div className="message-content">
+                          {message.message.text}
+                          <MessageTime  date={message.createdAt}/>
+                        </div>
+
+                        <div className="details hidden">
+                          <div className="item">
+                            <TbDotsVertical />
+                          </div>
+                          <div className="item">
+                            <BsReply />
+                          </div>
+                          <div className="item">
+                            <FaSmile className="icon" />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                    // return (
+                    //   <div className="bubble" ref={scrollRef} key={message._id}>
+
+                    //     <div className="message">{message.message.text}</div>
+                    //   </div>
+                    // )
+                  })}
+                  <TimeDivider date={timestampDate} />
+                </div>
+              );
+            })
+          )
+
+          // messages.map((message) => {
+          //   const timestampDate = moment(message.createdAt).format(
+          //     "dd/MM/yyyy"
+          //   );
+          //   return (
+          //     <div
+          //       className="message-container"
+          //       // onMouseOver={handleMouseEnter}
+          //       ref={currentMessage}
+          //       data-info={JSON.stringify(message)}
+          //       onClick={() => console.log(message)}
+          //       onMouseOver={handleMouseOver}
+          //     >
+          //       <ChatController
+          //         selectedItem={selectedItem}
+          //         // handleMouseEnter={handleMouseEnter}
+          //         currentMessage={currentMessage}
+          //         toggleReactionModal={toggleReactionModal}
+          //         reactionVisible={reactionVisible}
+          //         scrollRef={scrollRef}
+          //         key={message._id}
+          //         message={message}
+          //       />
+          //       {dates.has(timestampDate)
+          //         ? null
+          //         : renderDate(message, timestampDate)}
+          //     </div>
+          //   );
+          // }
+
+          // )
         }
       </div>
 
@@ -88,7 +227,9 @@ const Center = ({
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}
       >
-        {emojiBoxyToggled && <EmojiBox el={ref} selectedEmoji={selectedEmoji} />}
+        {emojiBoxyToggled && (
+          <EmojiBox el={ref} selectedEmoji={selectedEmoji} />
+        )}
       </MessageBox>
     </div>
   );
@@ -96,6 +237,7 @@ const Center = ({
 
 export default Center;
 
+/*************************************************************** */
 // import React, { useEffect, useRef, useState } from "react";
 // import { AiOutlineClose, AiOutlineExpand } from "react-icons/ai";
 // import { GrExpand } from "react-icons/gr";
@@ -103,6 +245,7 @@ export default Center;
 // import { TbMessageCircle, TbMessageCircleOff } from "react-icons/tb";
 // import { Oval } from "react-loader-spinner";
 // import { emojis } from "../../../data";
+// import { Header } from "./Header";
 // import { useClickOutside } from "../../../hooks/useClickOutside";
 // import { useMain } from "../../../hooks/useMainState";
 // import { useRedux } from "../../../hooks/useRedux";
@@ -113,56 +256,89 @@ export default Center;
 // } from "../../../redux/reducers/toggler";
 // import EmojiBox from "./EmojiBox";
 // import MessageBox from "./MessageBox";
-// import MessagesLoader from "./MessagesLoader";
 // import EmptyLayout from "../../../Layouts/EmptyLayout";
 // import MessageRight from "./MessageRight";
 // import { MessageLeft } from "./MessageLeft";
+// import moment from "moment";
+// import ChatController from "./ChatController";
+// import { TimeDivider } from "./TimeDivider";
 // const Center = ({
 //   handleSendButton,
 //   selectedConversation,
 //   scrollRef,
 //   handleMessageInput,
 //   message,
+//   selectedEmoji,
 // }) => {
+//   const currentMessage = React.useRef(null);
 //   const { ref } = useMain();
-//   useClickOutside(ref, () => {
-//     dispatch(_toggleEmojiBox());
-//   });
+//   const [reactionVisible, setReactionVisible] = useState(true);
+//   const [selectedMessage, setSeelectedMessage] = useState(null);
+
+//   const toggleReactionModal = () => {
+//     setReactionVisible((prev) => !prev);
+//   };
+
+//   // useClickOutside(ref, () => {
+//   //   dispatch(_toggleEmojiBox());
+//   // });
+//   useClickOutside(currentMessage, () => {
+//     console.log('use click is called');
+//     // toggleReactionModal()
+//     // setReactionVisible(false)
+//     console.log('closed');
+//   })
 //   const {
-//     loading,
 //     messages,
-//     rightSideToggled,
 //     dispatch,
 //     emojiBoxyToggled,
 //     account: { _id },
 //   } = useRedux();
-//   const notReady = loading || selectedConversation == null;
+
+//   const dates = new Set();
+//   const renderDate = (chat, dateNum) => {
+//     // const timestampDate = moment(chat.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+//     const timestampDate = moment(chat.createdAt).format("LLL");
+//     // Add to Set so it does not render again
+//     dates.add(dateNum);
+
+//     return <TimeDivider date={timestampDate} />;
+//   };
+//   const selectedItem = (item) => {
+//     console.log(item);
+//     toggleReactionModal();
+//   };
+
+//   const handleMouseEnter = () => {
+//     console.log(currentMessage);
+//   };
+
+//   const handleMouseOver = (event) => {
+//     console.log(JSON.parse(event.target.dataset.info));
+//   };
+// useEffect(() => {
+
+//   if(selectedMessage === null) {
+//     return
+//   }
+//   console.log(selectedMessage, reactionVisible);
+// }, [selectedMessage])
+
+// const listener = () => {
+
+// }
+// const handleHandleMouseLeave = () => {
+//   // setReactionVisible(false)
+//   // setSeelectedMessage(null)
+// }
+
 //   return (
 //     <div className="center">
 //       {/* {showEmojiBox  && <EmojiBox />} */}
-//       <div className="chat-header">
-//         {notReady
-//           ? "Not ready"
-//           : selectedConversation.users.map((user) => {
-//               if (user._id !== _id) return user.username;
-//             })}
-//         <div className="chat-header-right">
-//           <div onClick={() => dispatch(_toggleRightSide())}>
-//             {rightSideToggled && (
-//               <div className="expand-toggle">
-//                 <BsArrowLeft size={25} />
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       </div>
+//       <Header selectedConversation={selectedConversation} />
 
 //       <div className="messages-container">
-//         {/* {emojis.map(emoji => <div>{emoji}</div>)} */}
-//         {/* <EmojiBox /> */}
-//         {notReady ? (
-//           <MessagesLoader />
-//         ) : messages.length === 0 || messages === undefined ? (
+//         {messages.length === 0 || messages === undefined ? (
 //           <EmptyLayout>
 //             <TbMessageCircleOff size={100} />
 //             <h1> No Messages</h1>
@@ -170,33 +346,52 @@ export default Center;
 //             <p>you will see them here</p>
 //           </EmptyLayout>
 //         ) : (
-//           messages.map((message) =>
-//             message.senderId._id === _id ||
-//             message.senderId._id === undefined ? (
-//               <MessageRight
-//                 message={message}
-//                 key={message._id}
-//                 scrollRef={scrollRef}
-//               />
-//             ) : (
-//               // <ChatBubble
-//               //   key={message._id}
-//               //   scrollRef={scrollRef}
-//               //   right
-//               //   message={message}
-//               // />
-//               <MessageLeft
-//                 message={message}
-//                 key={message._id}
-//                 scrollRef={scrollRef}
-//               />
-//               // <ChatBubble
-//               //   key={message._id}
-//               //   scrollRef={scrollRef}
-//               //   message={message}
-//               // />
-//             )
-//           )
+//           messages.map(message => (
+//             <div  className={`${selectedMessage === message._id ? 'text-container selected':'text-container'}`}
+//             // data-info={JSON.stringify(message)}
+//             onMouseEnter= {()=> setSeelectedMessage(message._id)}
+//             onMouseLeave={handleHandleMouseLeave}
+//             // onMouseOver={handleMouseOver
+
+//             // }
+//             >
+//               {/* {reactionVisible && selectedMessage === message._id ? <div ref={currentMessage} className="modal-container"> Modal here </div>:null } */}
+//               {reactionVisible ? <div ref={currentMessage} className="modal-container"> Modal here </div>:null }
+//               {/* {reactionVisible && <div className={`${selectedMessage === message._id ? 'selected-modal':"modal-container"}`} > Modal </div>} */}
+//               <div className="action" onClick={toggleReactionModal}>Display Modals
+//               </div>
+//               {message.message.text}</div>
+//           ))
+//           // messages.map((message) => {
+//           //   const timestampDate = moment(message.createdAt).format(
+//           //     "dd/MM/yyyy"
+//           //   );
+//           //   return (
+//           //     <div
+//           //       className="message-container"
+//           //       // onMouseOver={handleMouseEnter}
+//           //       ref={currentMessage}
+//           //       data-info={JSON.stringify(message)}
+//           //       onClick={() => console.log(message)}
+//           //       onMouseOver={handleMouseOver}
+//           //     >
+//           //       <ChatController
+//           //         selectedItem={selectedItem}
+//           //         // handleMouseEnter={handleMouseEnter}
+//           //         currentMessage={currentMessage}
+//           //         toggleReactionModal={toggleReactionModal}
+//           //         reactionVisible={reactionVisible}
+//           //         scrollRef={scrollRef}
+//           //         key={message._id}
+//           //         message={message}
+//           //       />
+//           //       {dates.has(timestampDate)
+//           //         ? null
+//           //         : renderDate(message, timestampDate)}
+//           //     </div>
+//           //   );
+//           // }
+
 //         )}
 //       </div>
 
@@ -205,11 +400,12 @@ export default Center;
 //         handleMessageInput={handleMessageInput}
 //         handleSendButton={handleSendButton}
 //       >
-//         {emojiBoxyToggled && <EmojiBox el={ref} />}
+//         {emojiBoxyToggled && (
+//           <EmojiBox el={ref} selectedEmoji={selectedEmoji} />
+//         )}
 //       </MessageBox>
 //     </div>
 //   );
-
 // };
 
 // export default Center;
