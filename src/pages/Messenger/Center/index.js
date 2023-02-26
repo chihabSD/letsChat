@@ -41,8 +41,6 @@ const Center = ({
   const { ref } = useMain();
   const [reactionVisible, setReactionVisible] = useState(true);
   const [selectedMessage, setSeelectedMessage] = useState(null);
-  const [sortedItems, setSortedItems] = useState([]);
-  const [loadingSortMessage, setLoadingSortMessage] = useState(false);
 
   const toggleReactionModal = () => {
     setReactionVisible((prev) => !prev);
@@ -62,15 +60,7 @@ const Center = ({
     account: { _id },
   } = useRedux();
 
-  const dates = new Set();
-  const renderDate = (chat, dateNum) => {
-    // const timestampDate = moment(chat.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-    const timestampDate = moment(chat.createdAt).format("LLL");
-    // Add to Set so it does not render again
-    dates.add(dateNum);
 
-    return <TimeDivider date={timestampDate} />;
-  };
   const selectedItem = (item) => {
     console.log(item);
     toggleReactionModal();
@@ -91,7 +81,7 @@ const Center = ({
     // console.log(selectedMessage, reactionVisible);
   }, [selectedMessage]);
 
-  const listener = () => {};
+
   const handleHandleMouseLeave = () => {
     // setReactionVisible(false)
     // setSeelectedMessage(null)

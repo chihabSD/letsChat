@@ -9,6 +9,7 @@ import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
 import { _sendImage } from "../../redux/actions/message/sendImage";
 import { _sendMessage } from "../../redux/actions/message/sendMessage";
+import { _toggleEmojiBox } from "../../redux/reducers/toggler";
 import Center from "./Center";
 import Left from "./Left";
 import Right from "./Right";
@@ -19,6 +20,7 @@ const MessengerUI = () => {
   // const emojiboxRef = useRef(null)
   const { dispatch, conversations, messages,  loading, account:{username, _id} } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
+  // const [message, setMessage] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const {message,setMessage , } = useMain()
   const [filled, setFilled] = useState(0);
@@ -55,13 +57,16 @@ const MessengerUI = () => {
         })
       );
       setMessage('')
+      dispatch(_toggleEmojiBox())
+      
     }
 
     
   };
  
   const selectedEmoji = emoji => {
-    console.log(emoji);
+    setMessage( `${message}` + emoji.emoji)
+    console.log(message);
   }
   // USE EFFECT
   // Initialize current conversation

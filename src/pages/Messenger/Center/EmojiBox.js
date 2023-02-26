@@ -30,8 +30,8 @@ const EmojiBox = ({el,selectedEmoji}) => {
         </div>
       </div>
       <div className="emoji-contents">
-        {emojis.map((emoji) => (
-          <div key={emoji.emoji} className="emojiIcon" onClick={()=>selectedEmoji(emoji)}>{emoji.emoji}</div>
+        {emojis.map((emoji, index) => (
+          <div key={index} className="emojiIcon" onClick={()=>selectedEmoji(emoji)}>{emoji.emoji}</div>
         ))}
       </div>
 
