@@ -3,7 +3,6 @@
   display: flex;
   height: 100%;
   overflow: hidden;
-  // position: relative;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
   flex-direction: column;
@@ -38,28 +37,20 @@
     }
   } // end of chat header
   .timeline-container {
-    // margin-top: 10px;
-    //  position: relative;
-    // Divider
     display: flex;
     flex-direction: column;
     width: 100%;
 
     flex: 1;
-    // align-items: center;
     border: none;
     .time-divider {
       display: flex;
       margin: 5px 0;
-      // background-color: #f1f1f1;
       align-items: center;
       justify-content: center;
     }
-
     // BUBBLE CONTAINER
     .chat-box-container:hover {
-      // background-color: blue;
-
       .details {
         display: flex;
       }
@@ -67,23 +58,19 @@
 
     .chat-box-container {
       margin: 1px;
-      // width: 100%;
+      padding: 10px;
+      width: 100%;
       margin-top: 5px;
       border: none;
       display: flex;
       justify-content: flex-end;
-      // background-color: white;
 
       // DETAILS
       .details {
         display: none;
-        // background-color: red;
-        // display: flex;
         position: relative;
-        // margin-left: 10px;
         flex: 1;
         justify-content: flex-end;
-        // flex-direction: row-reverse;
         align-items: center;
         .item {
           cursor: pointer;
@@ -102,40 +89,24 @@
           }
         }
         .reactions-container {
-          // border: 10px solid black;
           border-radius: 20px;
-          // width: 30%;
           box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
             rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
             rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-          // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-          // padding: 10px;
           background-color: white;
-          // z-index: 999;
           z-index: 999;
-          // margin: 0 auzto;
           padding: 0px 10px;
-          // left: 0;
           left: 10;
-          // left: 100;
-          // top: -10px;
-          // top: -25px;
           bottom: 30px;
-          // bottom: 0;
-          // width: 50%;
-          // margin: auto;
           width: fit-content;
-
           display: flex;
           align-items: center;
           justify-content: center;
           position: absolute;
           .item {
-            // background-color: black;
             width: 30px;
             height: 30px;
             border-radius: 50%;
-
             justify-content: center;
             align-items: center;
             display: flex;
@@ -143,323 +114,60 @@
           }
         }
       }
-
-      // .details {
-      //   background-color: blue;
-      //   flex: 1;
-      //   display: flex;
-      //   justify-content: flex-end;
-      //   margin-right: 10px;
-      // }
       // MESSAGE CONTAINER
       .message-content {
         background-color: var(--main-color);
         color: white;
         position: relative;
-        max-width: 70%;
+        max-width: 65%;
         padding: 5px;
-        // margin-right: 200px;
         border-radius: 10px;
         .message-time {
           margin-top: 5px;
           display: flex;
           justify-content: flex-end;
           align-items: center;
-
-          // background-color: blue;
           .time {
             margin-right: 10px;
           }
           p {
-            // // color: black;
             color: #fff;
             font-weight: 300;
-            // font-size: 0.9rem;
           }
         }
       }
     }
+
+    // LEFT
     .chat-box-container.left:hover {
       .details {
-
         display: flex;
       }
     }
     .chat-box-container.left {
       justify-content: flex-start;
       .details {
-        // display: none;
-margin-left: 10px;
-        // display: flex;
+        margin-left: 10px;
         display: none;
-        // display: flex;
-        // justify-content: flex-start;
-        position: relative;
-        // margin-left: 10px;
         flex: 1;
-        // justify-content: flex-end;
         flex-direction: row-reverse;
         align-items: center;
-        .item {
-          cursor: pointer;
-          display: flex;
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
-          align-items: center;
-          justify-content: center;
-          margin-right: 5px;
-        }
-        .item:hover {
-          background-color: lightgray;
-          icon {
-            color: lightgray;
-          }
-        }
+
         .reactions-container {
-          // border: 10px solid black;
-          border-radius: 20px;
-          // width: 30%;
-          box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-            rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-            rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-          // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-          // padding: 10px;
-          background-color: white;
-          // z-index: 999;
-          z-index: 999;
-          // margin: 0 auzto;
-          padding: 0px 10px;
-          // left: 0px;
           right: 100px;
-          // right: -10;
-          // left: 100;
-          // top: -10px;
-          // top: -25px;
           bottom: 80px;
-          // bottom: 0;
-          // width: 50%;
-          // margin: auto;
-          width: fit-content;
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: absolute;
-          .item {
-            // background-color: black;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            margin: 10px;
-          }
         }
       }
 
       .message-content {
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5px 1px;
         background-color: #f1f1f1;
-        max-width: 70%;
         margin-top: 5px;
-        padding: 5px;
-        width: fit-content;
         padding: 3px 10px;
-        border-radius: 10px;
         color: black;
       }
-    }
-    .bubble:hover {
-    }
-    .bubble {
-      position: relative;
-      align-items: center;
-
-      display: flex;
-      // margin: 10px;
-      // padding: 10px;
-      width: 100%;
-      .message-content {
-        // background-color: orange;
-
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5px 1px;
-        background-color: #f1f1f1;
-        max-width: 70%;
-        margin-top: 5px;
-        padding: 5px;
-        width: fit-content;
-        padding: 3px 10px;
-        border-radius: 10px;
-
-        .message-time {
-          border-radius: 10px;
-          margin-top: 5px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          // background-color: blue;
-          .time {
-            margin-right: 10px;
-          }
-          p {
-            // // color: black;
-            // font-weight: 300;
-            // // font-size: 0.9rem;
-          }
-        }
-      }
       .userimage-container {
-        display: flex;
-        align-items: flex-end;
-      }
-
-      .details {
-        // display: none;
-        // background-color: red;
-        margin-left: 10px;
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        .item {
-          cursor: pointer;
-          display: flex;
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
-          align-items: center;
-          justify-content: center;
-          margin-right: 5px;
-        }
-        .item:hover {
-          background-color: lightgray;
-          icon {
-            color: lightgray;
-          }
-        }
-      }
-    }
-
-    .bubble.right:hover {
-      // background-color: blue;
-
-      background-color: #00aadc;
-      color: white;
-      border-color: #00aadc;
-      // width: calc(50% - 12px);
-      // height: calc(35vw + 20px);
-      z-index: 10;
-
-      .details {
-        display: flex;
-      }
-    }
-    .bubble.right {
-      // margin: auto;
-      // margin-right: 10px;
-      // margin-left: 10px;
-      // flex: 1;
-      width: 100%;
-      border: none;
-      display: flex;
-      // background-color: white;
-      justify-content: flex-end;
-      .details {
-        display: none;
-        flex: 1;
+        align-self: flex-end;
         margin-right: 10px;
-        // min-height: 70px;
-        height: 60px;
-        // max-height: 0px;
-        justify-content: flex-end;
-        // display: flex;
-        position: relative;
-        flex-direction: row;
-        align-items: center;
-        .item {
-          cursor: pointer;
-          display: flex;
-          width: 25px;
-          height: 25px;
-          border-radius: 50%;
-          align-items: center;
-          justify-content: center;
-          margin-right: 5px;
-        }
-        .reactions-container {
-          // border: 10px solid black;
-          border-radius: 20px;
-          // width: 30%;
-          box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-            rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-            rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-          // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-          // padding: 10px;
-          background-color: white;
-          // z-index: 999;
-          z-index: 999;
-          // margin: 0 auzto;
-          padding: 0px 10px;
-          // left: 0;
-          left: 10;
-          // left: 100;
-          // top: -10px;
-          // top: -25px;
-          bottom: 40px;
-          // bottom: 0;
-          // width: 50%;
-          // margin: auto;
-          width: fit-content;
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: absolute;
-          .item {
-            // background-color: black;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            margin: 10px;
-          }
-        }
-        .item:hover {
-          background-color: lightgray;
-          icon {
-            color: lightgray;
-          }
-        }
-      }
-
-      .message-content {
-        background-color: var(--main-color);
-        color: white;
-        position: relative;
-        // margin-right: 200px;
-        .message-time {
-          // border-radius: 10px;
-          margin-top: 5px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-
-          // background-color: blue;
-          .time {
-            margin-right: 10px;
-          }
-          p {
-            // // color: black;
-            color: #fff;
-            font-weight: 300;
-            // font-size: 0.9rem;
-          }
-        }
       }
     }
   }
@@ -467,12 +175,9 @@ margin-left: 10px;
     display: flex;
     background-color: white;
     flex: 1;
-    // position: relative;
     flex-direction: column;
     overflow-y: scroll;
     margin-bottom: 10px;
-    // padding: 0 15px;
-
     p {
       font-size: 0.8rem;
       font-weight: 400;
@@ -490,156 +195,11 @@ margin-left: 10px;
         color: rgb(200, 200, 200);
       }
     }
-    .text-container:hover {
-      // background-color: blue;
-      .action {
-        display: flex;
-      }
-    }
-    .text-container.selected {
-      background-color: yellow;
-    }
-    .text-container {
-      display: flex;
-      width: 100%;
-      // position: relative;
-      padding: 10px;
-      border: 1px solid;
-      margin-top: 10px;
-      .action {
-        display: none;
-      }
-      .selected-modal {
-        background-color: green;
-      }
-      .modal-container {
-        background-color: white;
-        border-radius: 30px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
-        border: 1px solid;
-        width: 200px;
-        z-index: 1;
-      }
-    }
+
     .message-container {
       margin-bottom: 3px;
       border: none;
       flex: 1;
-
-      .time-divider {
-        text-align: center;
-
-        width: 100%;
-        align-items: center;
-      }
-
-      // MESSAE UBBLE MAIN
-      .message-bubble:hover {
-        .details.hidden {
-          display: flex;
-        }
-      }
-      .message-bubble {
-        // position: relative;
-        display: flex;
-        border: none;
-        flex: 1;
-        // User image container
-        .userimage-container {
-          align-self: flex-end;
-          margin-right: 10px;
-        }
-
-        // Message
-        .message {
-          // font-weight: 300;
-          // font-size: 0.9rem;
-          box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5px 1px;
-          background-color: #f1f1f1;
-          max-width: 70%;
-          margin-top: 5px;
-          padding: 5px;
-          width: fit-content;
-          padding: 3px 10px;
-          border-radius: 10px;
-
-          .message-time {
-            border-radius: 10px;
-            margin-top: 5px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            // background-color: blue;
-            .time {
-              margin-right: 10px;
-            }
-            p {
-              // // color: black;
-              // font-weight: 300;
-              // // font-size: 0.9rem;
-            }
-          }
-          p {
-            font-weight: 300;
-            font-size: 0.9rem;
-            color: var(--text-color);
-          }
-        }
-
-        // Settings
-        .details.hidden {
-          display: none;
-        }
-        .details {
-          display: none;
-          // background-color: red;
-          margin-left: 10px;
-          display: flex;
-          flex-direction: row-reverse;
-          align-items: center;
-          .item {
-            cursor: pointer;
-            display: flex;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            margin-right: 5px;
-          }
-          .item:hover {
-            background-color: lightgray;
-            icon {
-              color: lightgray;
-            }
-          }
-        }
-
-        // REACTION MODAL
-      }
-
-      // MESSAGE ON THE RIGH
-      .message-bubble.right:hover {
-        .details {
-          flex-direction: row;
-        }
-      }
-      .message-bubble.right {
-        position: relative;
-
-        margin-top: 20px;
-        justify-content: flex-end;
-        .message {
-          background-color: var(--main-color);
-          p {
-            color: white;
-          }
-        }
-      }
     }
   } // end of messages container
 
@@ -736,10 +296,7 @@ margin-left: 10px;
   .emoji-box-container {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
       rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    // box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    // padding: 10px;
     background-color: white;
-    // border: 1px solid;
     border-radius: 10px;
     z-index: 1;
     display: flex;
@@ -747,9 +304,6 @@ margin-left: 10px;
     position: absolute;
     right: 0;
     margin-right: 30px;
-
-    // bottom: 0;
-    //  botto      :  -230;
     top: -100;
 
     margin-bottom: 300px;
@@ -774,8 +328,7 @@ margin-left: 10px;
       }
       .emojiIcon {
         cursor: pointer;
-        // overflow: hidden;
-        // background-color: blue;
+       
         display: flex;
         align-items: center;
         justify-content: center;
@@ -783,12 +336,10 @@ margin-left: 10px;
     }
     .emojiheader-container {
       padding: 10px;
-      // background-color: yellow;
       .emojiheader-container-search {
         height: 100%;
         padding: 7px;
         background-color: #f8f8f8;
-        // background-color: green;
         display: flex;
         align-items: center;
         border-radius: 10px;
