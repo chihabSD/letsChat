@@ -52,10 +52,10 @@ const Center = ({
   //   dispatch(_toggleEmojiBox());
   // });
   useClickOutside(currentMessage, () => {
-    console.log("use click is called");
+
     // toggleReactionModal()
-    // setReactionVisible(false)
-    console.log("closed");
+    setReactionVisible(false)
+ 
   });
   const {
     messages,
@@ -83,7 +83,8 @@ const Center = ({
   };
 
   const handleMouseOver = (event) => {
-    console.log(JSON.parse(event.target.dataset.info));
+    // console.log(JSON.parse(event.target.dataset.info));
+    // setReactionVisible(false)
   };
   useEffect(() => {
     if (selectedMessage === null) {
@@ -97,7 +98,10 @@ const Center = ({
     // setReactionVisible(false)
     // setSeelectedMessage(null)
   };
-
+  const handleSelectedMessage = (message) => {
+    setSeelectedMessage(message._id);
+    toggleReactionModal();
+  };
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
@@ -136,17 +140,57 @@ const Center = ({
                             <BsReply />
                           </div>
                           <div className="item">
-                            <FaSmile className="icon" />
+                            <FaSmile
+                              className="icon"
+                              onClick={() => handleSelectedMessage(message)}
+                            />
                           </div>
                         </div>
 
                         <div className="message-content">
                           {message.message.text}
-                          <MessageTime  date={message.createdAt} right/>
+                          <MessageTime date={message.createdAt} right />
+                          {/* {reactionVisible ? selectedMessage === message._id ?   null: null :null} */}
+                          {reactionVisible &&
+                          selectedMessage === message._id ? (
+                            <div className="reactions-container" 
+                            
+                            
+                            ref={currentMessage}
+              
+                onMouseOver={handleMouseOver}
+
+                            >
+                              <div className="item">
+                                <TbDotsVertical />
+                              </div>
+                              <div className="item">
+                                <BsReply />
+                              </div>
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
 
                         {/* MODAL */}
-                        {/* <div className="reactions-container">Right</div> */}
                       </div>
                     ) : (
                       <div className="bubble" ref={scrollRef} key={message._id}>
@@ -159,7 +203,7 @@ const Center = ({
                         </div>
                         <div className="message-content">
                           {message.message.text}
-                          <MessageTime  date={message.createdAt}/>
+                          <MessageTime date={message.createdAt} />
                         </div>
 
                         <div className="details hidden">
