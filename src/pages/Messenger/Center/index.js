@@ -52,10 +52,8 @@ const Center = ({
   //   dispatch(_toggleEmojiBox());
   // });
   useClickOutside(currentMessage, () => {
-
     // toggleReactionModal()
-    setReactionVisible(false)
- 
+    setReactionVisible(false);
   });
   const {
     messages,
@@ -128,7 +126,7 @@ const Center = ({
                     return message.senderId._id === _id ||
                       message.senderId._id === undefined ? (
                       <div
-                        className="bubble right"
+                        className="chat-box-container"
                         ref={scrollRef}
                         key={message._id}
                       >
@@ -145,21 +143,12 @@ const Center = ({
                               onClick={() => handleSelectedMessage(message)}
                             />
                           </div>
-                        </div>
-
-                        <div className="message-content">
-                          {message.message.text}
-                          <MessageTime date={message.createdAt} right />
-                          {/* {reactionVisible ? selectedMessage === message._id ?   null: null :null} */}
                           {reactionVisible &&
                           selectedMessage === message._id ? (
-                            <div className="reactions-container" 
-                            
-                            
-                            ref={currentMessage}
-              
-                onMouseOver={handleMouseOver}
-
+                            <div
+                              className="reactions-container"
+                              ref={currentMessage}
+                              onMouseOver={handleMouseOver}
                             >
                               <div className="item">
                                 <TbDotsVertical />
@@ -190,11 +179,13 @@ const Center = ({
                           ) : null}
                         </div>
 
-                        {/* MODAL */}
+                        <div className="message-content">
+                          {message.message.text}
+                          <MessageTime date={message.createdAt} right />
+                        </div>
                       </div>
                     ) : (
-                      <div className="bubble" ref={scrollRef} key={message._id}>
-                        {/* <div className="reactions-container">Reactions</div> */}
+                      <div className="chat-box-container left" ref={scrollRef} key={message._id}>
                         <div className="userimage-container">
                           <UserImage
                             image={message.receiverId.image}
@@ -214,17 +205,49 @@ const Center = ({
                             <BsReply />
                           </div>
                           <div className="item">
-                            <FaSmile className="icon" />
+                            <FaSmile
+                              className="icon"
+                              onClick={() => handleSelectedMessage(message)}
+                            />
                           </div>
+                          {reactionVisible &&
+                          selectedMessage === message._id ? (
+                            <div
+                              className="reactions-container"
+                              ref={currentMessage}
+                              onMouseOver={handleMouseOver}
+                            >
+                              <div className="item">
+                                <TbDotsVertical />
+                              </div>
+                              <div className="item">
+                                <BsReply />
+                              </div>
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+
+                              <div className="item">
+                                <FaSmile onClick={toggleReactionModal} />
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     );
-                    // return (
-                    //   <div className="bubble" ref={scrollRef} key={message._id}>
-
-                    //     <div className="message">{message.message.text}</div>
-                    //   </div>
-                    // )
+                  
                   })}
                   <TimeDivider date={timestampDate} />
                 </div>
