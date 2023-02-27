@@ -1,15 +1,15 @@
 import React from "react";
 import { MessageTime } from "./MessageTime";
-const MessageContents = ({ message, direction, handleImagePreview }) => {
+const MessageContents = ({ message:{message, type, imageUrl, createdAt}, direction, handleImagePreview }) => {
   return (
     <div className="message-content">
-      {message.type === "text" && message.message.text}
-      {message.type === "image" && (
-        <div className="message-image" onClick={() => handleImagePreview(message.imageUrl)}>
-          <img src={message.imageUrl} />
+      {type === "text" && message}
+      {type === "image" && (
+        <div className="message-image" onClick={() => handleImagePreview(imageUrl)}>
+          <img src={imageUrl} />
         </div>
       )}
-      <MessageTime date={message.createdAt} right={direction} />
+      <MessageTime date={createdAt} right={direction} />
     </div>
   );
 };

@@ -95,6 +95,7 @@ const Center = ({
   };
   return (
     <div className="center">
+    
       {/* {showEmojiBox  && <EmojiBox />} */}
       <Header selectedConversation={selectedConversation} />
 

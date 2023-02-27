@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { GrClose } from "react-icons/gr";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useMain } from "../../hooks/useMainState";
 import { useRedux } from "../../hooks/useRedux";
@@ -33,19 +34,18 @@ const MessengerUI = () => {
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
-  const instance =axios.create()
+  const instance = axios.create();
   instance.defaults.headers.common = {};
   const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
   const handleImageUpload = async (event) => {
-  
     const formData = new FormData();
 
     formData.append("file", event.target.files[0]);
-    formData.append("upload_preset", 'doodo2023');
+    formData.append("upload_preset", "doodo2023");
     try {
-      const data = await instance.post(url,  formData );
-      console.log('data', data.data.url);
-      setImageUrl(data.data.url)
+      const data = await instance.post(url, formData);
+      console.log("data", data.data.url);
+      setImageUrl(data.data.url);
 
       const receiver = selectedConversation.users.find(
         (user) => user._id !== _id
@@ -53,14 +53,13 @@ const MessengerUI = () => {
       dispatch(
         _sendMessage({
           // senderName,conversationId,  receiverId, message
-          type:'image', 
+          type: "image",
           conversationId: selectedConversation._id,
-          imageUrl : data.data.url,
+          imageUrl: data.data.url,
           receiverId: receiver._id,
           senderName: username,
         })
       );
-
     } catch (error) {
       console.log(error.response.data);
     }
@@ -182,6 +181,28 @@ const MessengerUI = () => {
   } else {
     return (
       <MainLayOut>
+        <div className="image-preview">
+          <div className="image-preview-modal">
+            <div className="modal-side left">
+              <div>
+                <div className="icon">
+
+                <GrClose  size={19}/>
+                </div>
+              </div>
+            </div>
+            <div className="image-content">
+              <img
+                src="https://res.cloudinary.com/doodo0tre/image/upload/v1677491265/letsChat/Screenshot_2023-02-22_at_22.10.46_hlkjjm.png"
+                alt=""
+              />
+            </div>
+
+            <div className="modal-side">
+              {/* <div>Rights</div> */}
+            </div>
+          </div>
+        </div>
         <Left
           handleSelectedUser={handleSelectedUser}
           handleConversation={handleConversation}
