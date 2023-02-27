@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useMain } from "../../hooks/useMainState";
@@ -9,7 +10,7 @@ import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
 import { _sendImage } from "../../redux/actions/message/sendImage";
 import { _sendMessage } from "../../redux/actions/message/sendMessage";
-import { _toggleEmojiBox } from "../../redux/reducers/toggler";
+import { _closeEmojiBox, _toggleEmojiBox } from "../../redux/reducers/toggler";
 import Center from "./Center";
 import Left from "./Left";
 import Right from "./Right";
@@ -22,11 +23,25 @@ const MessengerUI = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   // const [message, setMessage] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const {message,setMessage , } = useMain()
+  const {message,setMessage , toggleEmojiBox } = useMain()
   const [filled, setFilled] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
+	const [image, setImage] = useState(null);
 
   
+  const handleImageUpload = event => {
+    console.log(event.target.files[0]);
+    const formData = new FormData()
+  formData.append('image', event.target.files[0] )
+  formData.append('upload_preset', 'messageImages' )
+  try {
+    
+    // const data = axios.post('')
+  } catch (error) {
+    
+  }
+
+  }
   const handleConversation = (conversation) => {
     
     // prevent calling api every time user click on existing chat
@@ -57,16 +72,32 @@ const MessengerUI = () => {
         })
       );
       setMessage('')
-      dispatch(_toggleEmojiBox())
+      if(toggleEmojiBox) dispatch(_closeEmojiBox())
+      // dispatch(_closeEmojiBox())
       
     }
 
     
   };
+  const handleSend = () => {
+    const receiver = selectedConversation.users.find(user => user._id !== _id)
+    dispatch(
+      _sendMessage({
+        // senderName,conversationId,  receiverId, message
+        conversationId: selectedConversation._id,
+        message,
+        receiverId: receiver._id,
+        senderName:username 
+      })
+    );
+    setMessage('')
+    if(toggleEmojiBox) dispatch(_closeEmojiBox())
+    // dispatch(_closeEmojiBox())
+    
+  }
  
   const selectedEmoji = emoji => {
     setMessage( `${message}` + emoji.emoji)
-    console.log(message);
   }
   // USE EFFECT
   // Initialize current conversation
@@ -129,6 +160,8 @@ const MessengerUI = () => {
       />
 
       <Center
+      handleImageUpload={handleImageUpload}
+      handleSend={handleSend}
       selectedEmoji={selectedEmoji}
       message={message}
         handleMessageInput={handleMessageInput}

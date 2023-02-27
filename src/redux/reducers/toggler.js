@@ -10,10 +10,15 @@ export const toggleSlicer = createSlice({
     _toggleEmojiBox: (state, action) => {
       state.emojiBoxyToggled = !state.emojiBoxyToggled;
     },
+    _closeEmojiBox: (state, action) => {
+
+      state.emojiBoxyToggled = false
+    }, 
     _toggleRightSide: (state, action) => {
       state.rightSideToggled = !state.rightSideToggled;
+      
     },
   },
 });
-export const { _toggleRightSide, _toggleEmojiBox } = toggleSlicer.actions;
+export const { _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
 export default toggleSlicer.reducer;

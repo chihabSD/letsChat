@@ -29,13 +29,17 @@ import ChatController from "./ChatController";
 import { TimeDivider } from "./TimeDivider";
 import { UserImage } from "../../../components/UserImage";
 import { MessageTime } from "./MessageTime";
+import MessageContents from "./MessageContents";
+import MessageSetting from "./MessageSetting";
 const Center = ({
   handleSendButton,
   selectedConversation,
   scrollRef,
   handleMessageInput,
   message,
+  handleSend, 
   selectedEmoji,
+  handleImageUpload
 }) => {
   const currentMessage = React.useRef(null);
   const { ref } = useMain();
@@ -46,9 +50,9 @@ const Center = ({
     setReactionVisible((prev) => !prev);
   };
 
-  // useClickOutside(ref, () => {
-  //   dispatch(_toggleEmojiBox());
-  // });
+  useClickOutside(ref, () => {
+    dispatch(_toggleEmojiBox());
+  });
   useClickOutside(currentMessage, () => {
     // toggleReactionModal()
     setReactionVisible(false);
@@ -59,7 +63,6 @@ const Center = ({
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
-
 
   const selectedItem = (item) => {
     console.log(item);
@@ -81,12 +84,12 @@ const Center = ({
     // console.log(selectedMessage, reactionVisible);
   }, [selectedMessage]);
 
-
   const handleHandleMouseLeave = () => {
     // setReactionVisible(false)
     // setSeelectedMessage(null)
   };
   const handleSelectedMessage = (message) => {
+    console.log(message);
     setSeelectedMessage(message._id);
     toggleReactionModal();
   };
@@ -120,7 +123,17 @@ const Center = ({
                         ref={scrollRef}
                         key={message._id}
                       >
-                        <div className="details hidden">
+                        <MessageSetting
+                          reactionVisible={reactionVisible}
+                          toggleReactionModal={toggleReactionModal}
+                          message={message}
+                          selectedMessage={selectedMessage}
+                          handleSelectedMessage={()=>handleSelectedMessage(message)}
+                          currentMessage={currentMessage}
+                          handleMouseOver={handleMouseOver}
+                        />
+                          <MessageContents message={message} direction />
+                        {/* <div className="details hidden">
                           <div className="item">
                             <TbDotsVertical />
                           </div>
@@ -167,77 +180,35 @@ const Center = ({
                               </div>
                             </div>
                           ) : null}
-                        </div>
+                        </div> */}
 
-                        <div className="message-content">
-                          {message.message.text}
-                          <MessageTime date={message.createdAt} right />
-                        </div>
+                      
                       </div>
                     ) : (
-                      <div className="chat-box-container left" ref={scrollRef} key={message._id}>
+                      <div
+                        className="chat-box-container left"
+                        ref={scrollRef}
+                        key={message._id}
+                      >
                         <div className="userimage-container">
                           <UserImage
                             image={message.receiverId.image}
                             style={{ width: "40px", height: "40px" }}
                           />
                         </div>
-                        <div className="message-content">
-                          {message.message.text}
-                          <MessageTime date={message.createdAt} />
-                        </div>
+                        <MessageContents message={message}  />
 
-                        <div className="details hidden">
-                          <div className="item">
-                            <TbDotsVertical />
-                          </div>
-                          <div className="item">
-                            <BsReply />
-                          </div>
-                          <div className="item">
-                            <FaSmile
-                              className="icon"
-                              onClick={() => handleSelectedMessage(message)}
-                            />
-                          </div>
-                          {reactionVisible &&
-                          selectedMessage === message._id ? (
-                            <div
-                              className="reactions-container"
-                              ref={currentMessage}
-                              onMouseOver={handleMouseOver}
-                            >
-                              <div className="item">
-                                <TbDotsVertical />
-                              </div>
-                              <div className="item">
-                                <BsReply />
-                              </div>
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-                            </div>
-                          ) : null}
-                        </div>
+                        <MessageSetting
+                          reactionVisible={reactionVisible}
+                          toggleReactionModal={toggleReactionModal}
+                          message={message}
+                          selectedMessage={selectedMessage}
+                          handleSelectedMessage={()=>handleSelectedMessage(message)}
+                          currentMessage={currentMessage}
+                          handleMouseOver={handleMouseOver}
+                        />
                       </div>
                     );
-                  
                   })}
                   <TimeDivider date={timestampDate} />
                 </div>
@@ -280,6 +251,8 @@ const Center = ({
       </div>
 
       <MessageBox
+      handleImageUpload={handleImageUpload}
+      handleSend={handleSend}
         message={message}
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}

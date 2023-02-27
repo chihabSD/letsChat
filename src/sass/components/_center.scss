@@ -154,7 +154,7 @@
         align-items: center;
 
         .reactions-container {
-          right: 100px;
+          left: 10px;
           bottom: 80px;
         }
       }
@@ -212,10 +212,36 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px 0px;
+    padding: 0 20px 0px;
     width: 100%;
     height: 60px;
     border-top: 0.2px solid lightgray;
+
+    .image-select {
+      cursor: pointer;
+      margin-right: 10px;
+      width: 35px;
+      height: 35px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      label:hover {
+        background-color: red;
+      }
+      label {
+        cursor: pointer;
+        background-color: grey;
+        width: 35px;
+        height: 35px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        border-radius: 50%;
+      }
+    }
+    .image-select > input {
+      display: none;
+    }
   }
   .messages-send-box {
     padding: 10px;
@@ -270,6 +296,22 @@
   // End of middle
   .image-upload > input {
     display: none;
+  }
+
+  .send:hover {
+    background-color: rgba(89, 89, 246, 0.761);
+  }
+  .send {
+    background-color: var(--main-color);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    cursor: pointer;
   }
   .message-box-container-left {
     display: flex;
@@ -328,7 +370,7 @@
       }
       .emojiIcon {
         cursor: pointer;
-       
+
         display: flex;
         align-items: center;
         justify-content: center;
