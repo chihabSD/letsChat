@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     rightSideToggled :false, 
-    emojiBoxyToggled: false
+    emojiBoxyToggled: false, 
+    messageMessagePreview: false
 };
 export const toggleSlicer = createSlice({
   name: "error",
   initialState,
   reducers: {
+    _toggleMessageImagePrview: (state, action) => {
+      state.messageMessagePreview = !state.messageMessagePreview;
+    },
     _toggleEmojiBox: (state, action) => {
       state.emojiBoxyToggled = !state.emojiBoxyToggled;
     },
@@ -20,5 +24,5 @@ export const toggleSlicer = createSlice({
     },
   },
 });
-export const { _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
+export const {_toggleMessageImagePrview , _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
 export default toggleSlicer.reducer;

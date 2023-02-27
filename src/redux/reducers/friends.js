@@ -6,6 +6,7 @@ const initialState = {
   conversations: [],
   messages: [],
   msgs: null,
+  imagePreview:[], 
   selectedConversation: null,
 };
 
@@ -48,6 +49,12 @@ export const friendsReducer = createSlice({
       state.selectedConversation = action.payload[0];
       state.conversations = [...action.payload];
     },
+    insertImagePreview:(state, action) => {
+      state.imagePreview = action.payload
+    }, 
+    resetImagePreview:(state, action) => {
+      state.imagePreview = []
+    }
   },
 });
 
@@ -56,6 +63,7 @@ export const {
   insertSentMessage,
   insertMessages,
   insertConversation,
+  resetImagePreview, insertImagePreview
 } = friendsReducer.actions;
 export default friendsReducer.reducer;
 

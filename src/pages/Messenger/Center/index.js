@@ -17,6 +17,7 @@ import { useRedux } from "../../../hooks/useRedux";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
 import {
   _toggleEmojiBox,
+  _toggleMessageImagePrview,
   _toggleRightSide,
 } from "../../../redux/reducers/toggler";
 import EmojiBox from "./EmojiBox";
@@ -31,21 +32,28 @@ import { UserImage } from "../../../components/UserImage";
 import { MessageTime } from "./MessageTime";
 import MessageContents from "./MessageContents";
 import MessageSetting from "./MessageSetting";
+import { insertImagePreview } from "../../../redux/reducers/friends";
 const Center = ({
   handleSendButton,
   selectedConversation,
   scrollRef,
   handleMessageInput,
   message,
-  handleSend, 
+  handleSend,
   selectedEmoji,
-  handleImageUpload
+  handleImageUpload,
 }) => {
   const currentMessage = React.useRef(null);
   const { ref } = useMain();
   const [reactionVisible, setReactionVisible] = useState(true);
   const [selectedMessage, setSeelectedMessage] = useState(null);
 
+  const handleImagePreview = (msg) => {
+    const { imageUrl } = msg;
+    dispatch(insertImagePreview({ imageUrl }));
+
+    dispatch(_toggleMessageImagePrview());
+  };
   const toggleReactionModal = () => {
     setReactionVisible((prev) => !prev);
   };
@@ -95,7 +103,6 @@ const Center = ({
   };
   return (
     <div className="center">
-    
       {/* {showEmojiBox  && <EmojiBox />} */}
       <Header selectedConversation={selectedConversation} />
 
@@ -129,11 +136,17 @@ const Center = ({
                           toggleReactionModal={toggleReactionModal}
                           message={message}
                           selectedMessage={selectedMessage}
-                          handleSelectedMessage={()=>handleSelectedMessage(message)}
+                          handleSelectedMessage={() =>
+                            handleSelectedMessage(message)
+                          }
                           currentMessage={currentMessage}
                           handleMouseOver={handleMouseOver}
                         />
-                          <MessageContents message={message} direction />
+                        <MessageContents
+                          message={message}
+                          direction
+                          handleImagePreview={handleImagePreview}
+                        />
                         {/* <div className="details hidden">
                           <div className="item">
                             <TbDotsVertical />
@@ -182,8 +195,6 @@ const Center = ({
                             </div>
                           ) : null}
                         </div> */}
-
-                      
                       </div>
                     ) : (
                       <div
@@ -197,14 +208,19 @@ const Center = ({
                             style={{ width: "40px", height: "40px" }}
                           />
                         </div>
-                        <MessageContents message={message}  />
+                        <MessageContents
+                          message={message}
+                          handleImagePreview={handleImagePreview}
+                        />
 
                         <MessageSetting
                           reactionVisible={reactionVisible}
                           toggleReactionModal={toggleReactionModal}
                           message={message}
                           selectedMessage={selectedMessage}
-                          handleSelectedMessage={()=>handleSelectedMessage(message)}
+                          handleSelectedMessage={() =>
+                            handleSelectedMessage(message)
+                          }
                           currentMessage={currentMessage}
                           handleMouseOver={handleMouseOver}
                         />
@@ -252,8 +268,8 @@ const Center = ({
       </div>
 
       <MessageBox
-      handleImageUpload={handleImageUpload}
-      handleSend={handleSend}
+        handleImageUpload={handleImageUpload}
+        handleSend={handleSend}
         message={message}
         handleMessageInput={handleMessageInput}
         handleSendButton={handleSendButton}

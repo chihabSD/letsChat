@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { GrClose } from "react-icons/gr";
+import MessageImagePreview from "../../components/MessageImagePreview";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useMain } from "../../hooks/useMainState";
 import { useRedux } from "../../hooks/useRedux";
@@ -25,6 +26,7 @@ const MessengerUI = () => {
     conversations,
     messages,
     loading,
+    messageMessagePreview, 
     account: { username, _id },
   } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
@@ -181,28 +183,7 @@ const MessengerUI = () => {
   } else {
     return (
       <MainLayOut>
-        <div className="image-preview">
-          <div className="image-preview-modal">
-            <div className="modal-side left">
-              <div>
-                <div className="icon">
-
-                <GrClose  size={19}/>
-                </div>
-              </div>
-            </div>
-            <div className="image-content">
-              <img
-                src="https://res.cloudinary.com/doodo0tre/image/upload/v1677491265/letsChat/Screenshot_2023-02-22_at_22.10.46_hlkjjm.png"
-                alt=""
-              />
-            </div>
-
-            <div className="modal-side">
-              {/* <div>Rights</div> */}
-            </div>
-          </div>
-        </div>
+     
         <Left
           handleSelectedUser={handleSelectedUser}
           handleConversation={handleConversation}
