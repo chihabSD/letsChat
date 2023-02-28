@@ -6,7 +6,7 @@ import {getProfile} from '../../reducers/profile';
 import { names } from '../names';
 
 export const _getMessage= (details) => {
-  console.log('get messaes is called');
+  console.log('Get MSG');
   return async dispatch => {
     // dispatch(setLoading());
     try {

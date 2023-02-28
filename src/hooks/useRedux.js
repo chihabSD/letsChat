@@ -5,7 +5,7 @@ const useRedux = () => {
   const {
     loadingReducer: { loading },
     registerReducer: { registered },
-    friendsReducer: { friends, messages, conversations,imagePreview,  selectedConversation },
+    friendsReducer: { friends,messageReactions,latestReaction , currentMessage,   messages, conversations,imagePreview,  selectedConversation },
     profileReducer: { authenticated, account },
     toggleReducer:{rightSideToggled, emojiBoxyToggled, messageMessagePreview}, 
     errorReducer: { error },
@@ -13,10 +13,13 @@ const useRedux = () => {
   return {
     dispatch,
     rightSideToggled, 
-    emojiBoxyToggled, 
+    messageReactions, 
+    emojiBoxyToggled,currentMessage,  
+    
     messages,conversations,  
     authenticated, account, friends, 
     loading,
+    latestReaction , 
     error,
     selectedConversation,
     registered,

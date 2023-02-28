@@ -11,6 +11,7 @@ export const names = {
     SEND_IMAGE: 'send_image',
     ADD_TO_CHATLIST: 'addToChatList',
     GET_CHATLIST: 'get_chatList',
+    REACT_TO_MESSAGE: 'react_to_message',
 
 
   };

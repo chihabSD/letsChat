@@ -32,7 +32,8 @@ import { UserImage } from "../../../components/UserImage";
 import { MessageTime } from "./MessageTime";
 import MessageContents from "./MessageContents";
 import MessageSetting from "./MessageSetting";
-import { insertImagePreview } from "../../../redux/reducers/friends";
+import { insertImagePreview, setCurrentMessage } from "../../../redux/reducers/friends";
+import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
 const Center = ({
   handleSendButton,
   selectedConversation,
@@ -42,18 +43,22 @@ const Center = ({
   handleSend,
   selectedEmoji,
   handleImageUpload,
+  imageUploading,
 }) => {
   const currentMessage = React.useRef(null);
   const { ref } = useMain();
-  const [reactionVisible, setReactionVisible] = useState(true);
+  const [reactionVisible, setReactionVisible] = useState(false);
+  const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
 
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
     dispatch(insertImagePreview({ imageUrl }));
-
     dispatch(_toggleMessageImagePrview());
   };
+  const toggleSettingModal    = () => {
+    setSettingsModalVisible(prev => !prev)
+  }
   const toggleReactionModal = () => {
     setReactionVisible((prev) => !prev);
   };
@@ -96,15 +101,51 @@ const Center = ({
     // setReactionVisible(false)
     // setSeelectedMessage(null)
   };
-  const handleSelectedMessage = (message) => {
-    console.log(message);
+  const handleSelectedMessage =  ( message) => {
     setSeelectedMessage(message._id);
     toggleReactionModal();
   };
+  const handleMessageAction = (message) => {
+    setSeelectedMessage(message._id)
+    // setSeelectedMessage(message._id);
+    // console.log('sss');
+    // setSettingsModalVisible(true);
+    toggleSettingModal()
+  }
+  const handleSelectedReaction = (emoji, message) => {
+// setTimeout(() => {
+  
+// dispatch(setCurrentMessage(message))
+
+// }, 1000);
+
+    dispatch(
+      _reactToMessage({
+        messageId: message._id,
+        reactedBy: _id,
+        reaction: emoji,
+      })
+    );
+
+    toggleReactionModal();
+  };
+
+const handleSettings = (setting, message) => {
+
+  console.log(setting, message._id);
+if(setting === 'Remove'){
+  // Remove the message
+}
+}
+  const handleReactionUpdate = (details) => {
+    console.log(details);
+  }
+ 
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
       <Header selectedConversation={selectedConversation} />
+
 
       <div className="messages-container">
         {
@@ -132,7 +173,12 @@ const Center = ({
                         key={message._id}
                       >
                         <MessageSetting
+                        handleSettings={handleSettings}
+                        settingsModalVisbile={settingsModalVisbile}
+                        handleMessageAction={() => handleMessageAction(message)}
+                          handleSelectedReaction={handleSelectedReaction}
                           reactionVisible={reactionVisible}
+                          settingsModalVisible={settingsModalVisbile}
                           toggleReactionModal={toggleReactionModal}
                           message={message}
                           selectedMessage={selectedMessage}
@@ -143,58 +189,14 @@ const Center = ({
                           handleMouseOver={handleMouseOver}
                         />
                         <MessageContents
+                        handleReactionUpdate={handleReactionUpdate}
+                          toggleReactionModal={toggleReactionModal}
                           message={message}
                           direction
+                          imageUploading={imageUploading}
                           handleImagePreview={handleImagePreview}
                         />
-                        {/* <div className="details hidden">
-                          <div className="item">
-                            <TbDotsVertical />
-                          </div>
-                          <div className="item">
-                            <BsReply />
-                          </div>
-                          <div className="item">
-                            <FaSmile
-                              className="icon"
-                              onClick={() => handleSelectedMessage(message)}
-                            />
-                          </div>
-                          {reactionVisible &&
-                          selectedMessage === message._id ? (
-                            <div
-                              className="reactions-container"
-                              ref={currentMessage}
-                              onMouseOver={handleMouseOver}
-                            >
-                              <div className="item">
-                                <TbDotsVertical />
-                              </div>
-                              <div className="item">
-                                <BsReply />
-                              </div>
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-
-                              <div className="item">
-                                <FaSmile onClick={toggleReactionModal} />
-                              </div>
-                            </div>
-                          ) : null}
-                        </div> */}
+                        
                       </div>
                     ) : (
                       <div
@@ -209,12 +211,20 @@ const Center = ({
                           />
                         </div>
                         <MessageContents
+                          toggleReactionModal={toggleReactionModal}
                           message={message}
+                          handleReactionUpdate={handleReactionUpdate}
+                          imageUploading={imageUploading}
                           handleImagePreview={handleImagePreview}
                         />
 
                         <MessageSetting
+                        handleSettings={handleSettings}
+                        handleMessageAction={handleMessageAction}
+                          handleSelectedReaction={handleSelectedReaction}
                           reactionVisible={reactionVisible}
+                          settingsModalVisible={settingsModalVisbile}
+                          setReactionVisible={setReactionVisible}
                           toggleReactionModal={toggleReactionModal}
                           message={message}
                           selectedMessage={selectedMessage}

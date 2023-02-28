@@ -26,7 +26,7 @@ const MessengerUI = () => {
     conversations,
     messages,
     loading,
-    messageMessagePreview, 
+    messageMessagePreview,
     account: { username, _id },
   } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
@@ -36,6 +36,7 @@ const MessengerUI = () => {
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+  const [imageUploading, setImageUploading] = useState(false);
   const instance = axios.create();
   instance.defaults.headers.common = {};
   const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
@@ -46,7 +47,7 @@ const MessengerUI = () => {
     formData.append("upload_preset", "doodo2023");
     try {
       const data = await instance.post(url, formData);
-      console.log("data", data.data.url);
+      setImageUploading(true);
       setImageUrl(data.data.url);
 
       const receiver = selectedConversation.users.find(
@@ -62,6 +63,10 @@ const MessengerUI = () => {
           senderName: username,
         })
       );
+      setTimeout(() => {
+
+        setImageUploading(false)
+      }, 1000)
     } catch (error) {
       console.log(error.response.data);
     }
@@ -183,7 +188,6 @@ const MessengerUI = () => {
   } else {
     return (
       <MainLayOut>
-     
         <Left
           handleSelectedUser={handleSelectedUser}
           handleConversation={handleConversation}
@@ -193,6 +197,7 @@ const MessengerUI = () => {
         />
 
         <Center
+        imageUploading={imageUploading}
           handleImageUpload={handleImageUpload}
           handleSend={handleSend}
           selectedEmoji={selectedEmoji}
