@@ -90,10 +90,7 @@ const Center = ({
     console.log(currentMessage);
   };
 
-  const handleMouseOver = (event) => {
-    // console.log(JSON.parse(event.target.dataset.info));
-    // setReactionVisible(false)
-  };
+  const handleMouseOver = (event) => {};
   useEffect(() => {
     if (selectedMessage === null) {
       return;
@@ -128,9 +125,11 @@ const Center = ({
     );
 
     if (findMessage.reactions.length === 0) {
+      console.log("empty");
       dispatch(_reactToMessage(data));
     } else {
       const findEmoji = findMessage.reactions.find((emoji) => emoji.by === _id);
+      if (findEmoji === undefined) return dispatch(_reactToMessage(data));
       if (findEmoji.reaction === emoji) {
         dispatch(_reactToMessage({ ...data, current: true }));
       } else {
