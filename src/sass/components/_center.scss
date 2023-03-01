@@ -120,6 +120,7 @@
           // background-color: blue;
           height: 50px;
           border-radius: 20px;
+          min-width: 60%;
           box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
             rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
             rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -131,10 +132,11 @@
           width: fit-content;
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: space-between;
           position: absolute;
           .item.selected {
-            background-color: grey;
+            background-color: lightgray;
+            margin: 10px;
           }
           .item {
             width: 30px;
@@ -247,13 +249,9 @@ cursor: pointer;
         margin-left: 95%;
         right: 10px;
 
-        // align-self: flex-end;
-        // background-color: blue;
+ 
         bottom: 15px;
-        // left: 70px;
-        // transform: translateX(-50%);
-        // -webkit-transform: translateX(100%);
-       
+  
       }
 
       .userimage-container {

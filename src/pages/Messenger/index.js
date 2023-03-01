@@ -27,7 +27,6 @@ const MessengerUI = () => {
     account: { username, _id },
   } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
-  // const [message, setMessage] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const { message, setMessage, toggleEmojiBox } = useMain();
   const [filled, setFilled] = useState(0);
@@ -88,7 +87,6 @@ const MessengerUI = () => {
       );
       dispatch(
         _sendMessage({
-          // senderName,conversationId,  receiverId, message
           conversationId: selectedConversation._id,
           message,
           receiverId: receiver._id,
