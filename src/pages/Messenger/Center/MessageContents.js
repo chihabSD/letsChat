@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
 import { useRedux } from "../../../hooks/useRedux";
+import { _toggleReactionListModal } from "../../../redux/reducers/toggler";
 import { MessageTime } from "./MessageTime";
 const MessageContents = ({
   message,
@@ -14,6 +15,7 @@ const MessageContents = ({
     messageReactions,
     currentMessage,
     latestReaction,
+    dispatch
   } = useRedux();
 
   
@@ -26,12 +28,8 @@ const MessageContents = ({
   );
 
   const updateReaction = () => {
-    if (isUserReacted) {
-      // handleReactionUpdate(message.)
-      console.log("user already reacteed");
-    } else {
-      console.log("user not reacted");
-    }
+    // console.log('Current reactoin', findReaction);
+    // dispatch(_toggleReactionListModal())
   };
 
   return (
@@ -49,7 +47,7 @@ const MessageContents = ({
 
       {findReaction.reactions.length === 0 && null}
       {findReaction.reactions.length == 1 && (
-        <div className="reaction" onClick={updateReaction}>
+        <div className="reaction" onClick={()=>dispatch(_toggleReactionListModal())}>
           <Reaction>
             {findReaction.reactions.map((reaction) => (
               <div key={reaction._id}>{reaction.reaction}</div>
@@ -58,7 +56,7 @@ const MessageContents = ({
         </div>
       )}
       {findReaction.reactions.length > 1 && (
-        <div className="reaction plus" onClick={updateReaction}>
+        <div className="reaction plus" onClick={()=>dispatch(_toggleReactionListModal())}>
           <Reaction>
             {`${findReaction.reactions[0].reaction} ${findReaction.reactions.length} `}
           </Reaction>

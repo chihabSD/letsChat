@@ -23,10 +23,7 @@ import {
 import EmojiBox from "./EmojiBox";
 import MessageBox from "./MessageBox";
 import EmptyLayout from "../../../Layouts/EmptyLayout";
-import MessageRight from "./MessageRight";
-import { MessageLeft } from "./MessageLeft";
 import moment from "moment";
-import ChatController from "./ChatController";
 import { TimeDivider } from "./TimeDivider";
 import { UserImage } from "../../../components/UserImage";
 import { MessageTime } from "./MessageTime";
@@ -108,9 +105,7 @@ const Center = ({
   };
   const handleMessageAction = (message) => {
     setSeelectedMessage(message._id);
-    // setSeelectedMessage(message._id);
-    // console.log('sss');
-    // setSettingsModalVisible(true);
+   
     toggleSettingModal();
   };
   const handleSelectedReaction = (emoji, message) => {

@@ -5,25 +5,47 @@ const useRedux = () => {
   const {
     loadingReducer: { loading },
     registerReducer: { registered },
-    friendsReducer: { friends,messageReactions,latestReaction , currentMessage,   messages, conversations,imagePreview,  selectedConversation },
+    friendsReducer: {
+      friends,
+      messageReactions,
+      latestReaction,
+      
+      currentMessage,
+      messages,
+      conversations,
+      
+      imagePreview,
+      selectedConversation,
+    },
     profileReducer: { authenticated, account },
-    toggleReducer:{rightSideToggled, emojiBoxyToggled, messageMessagePreview}, 
+    toggleReducer: {
+      rightSideToggled,
+      emojiBoxyToggled,
+      messageMessagePreview,
+      reactionListModal,
+    },
     errorReducer: { error },
   } = state;
   return {
     dispatch,
-    rightSideToggled, 
-    messageReactions, 
-    emojiBoxyToggled,currentMessage,  
+    rightSideToggled,
+    messageReactions,
+    emojiBoxyToggled,
+    currentMessage,
     
-    messages,conversations,  
-    authenticated, account, friends, 
+    reactionListModal,
+    messages,
+    conversations,
+    authenticated,
+    account,
+    friends,
     loading,
-    latestReaction , 
+    latestReaction,
     error,
     selectedConversation,
     registered,
-    messageMessagePreview, imagePreview
+    messageMessagePreview,
+    imagePreview,
   };
 };
 
