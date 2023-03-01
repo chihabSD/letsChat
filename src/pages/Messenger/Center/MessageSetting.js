@@ -17,7 +17,7 @@ const MessageSetting = ({
   handleSettings,
 }) => {
   const {
-    messageReactions, 
+    messageReactions,
     account: { _id },
   } = useRedux();
   const condition = reactionVisible && selectedMessage === message._id;
@@ -29,11 +29,10 @@ const MessageSetting = ({
     (reaction) => reaction._id === message._id
   );
 
+  const currentUser = findReaction.reactions.find((emoji) => emoji.by === _id);
 
- 
-  
-  const currentReaction = findReaction.reactions.map(r => r.reaction)
-  const finalReaction = currentReaction.map(r => r.reaction)
+  const currentReaction = findReaction.reactions.map((r) => r.reaction);
+  const finalReaction = currentReaction.map((r) => r.reaction);
   // console.log(currentReaction);
   // console.log('current currentReaction', currentReaction);
   // const getUserReaction = messageReactions.find(
@@ -78,7 +77,14 @@ const MessageSetting = ({
               key={reaction}
               // className={`${finalReaction === undefined ? "item" : finalReaction == reaction ? 'item selected':'item'}`}
               // className={`${findReaction.reactions.map(reaction => reaction.reaction === reaction ? 'item selected':'item')}`}
-              className={`${findReaction.reactions.map(i => i.reaction === undefined  ? 'item': i.reaction === reaction ? 'item selected':'item h')}`}
+              // className={`${currentUser === reaction.by ? 'item selected' :'item '}`}
+              className={`${findReaction.reactions.map((i) =>
+                i.reaction === undefined
+                  ? "item"
+                  : i.reaction === reaction && i.by === _id
+                  ? "item selected"
+                  : "item h"
+              )}`}
               // className="item"
             >
               {reaction}

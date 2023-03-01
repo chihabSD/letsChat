@@ -32,7 +32,10 @@ import { UserImage } from "../../../components/UserImage";
 import { MessageTime } from "./MessageTime";
 import MessageContents from "./MessageContents";
 import MessageSetting from "./MessageSetting";
-import { insertImagePreview, setCurrentMessage } from "../../../redux/reducers/friends";
+import {
+  insertImagePreview,
+  setCurrentMessage,
+} from "../../../redux/reducers/friends";
 import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
 const Center = ({
   handleSendButton,
@@ -56,9 +59,9 @@ const Center = ({
     dispatch(insertImagePreview({ imageUrl }));
     dispatch(_toggleMessageImagePrview());
   };
-  const toggleSettingModal    = () => {
-    setSettingsModalVisible(prev => !prev)
-  }
+  const toggleSettingModal = () => {
+    setSettingsModalVisible((prev) => !prev);
+  };
   const toggleReactionModal = () => {
     setReactionVisible((prev) => !prev);
   };
@@ -73,6 +76,7 @@ const Center = ({
   const {
     messages,
     dispatch,
+    messageReactions,
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
@@ -101,51 +105,63 @@ const Center = ({
     // setReactionVisible(false)
     // setSeelectedMessage(null)
   };
-  const handleSelectedMessage =  ( message) => {
+  const handleSelectedMessage = (message) => {
     setSeelectedMessage(message._id);
     toggleReactionModal();
   };
   const handleMessageAction = (message) => {
-    setSeelectedMessage(message._id)
+    setSeelectedMessage(message._id);
     // setSeelectedMessage(message._id);
     // console.log('sss');
     // setSettingsModalVisible(true);
-    toggleSettingModal()
-  }
+    toggleSettingModal();
+  };
   const handleSelectedReaction = (emoji, message) => {
-// setTimeout(() => {
-  
-// dispatch(setCurrentMessage(message))
-
-// }, 1000);
-
-    dispatch(
-      _reactToMessage({
-        messageId: message._id,
-        reactedBy: _id,
-        reaction: emoji,
-      })
+    const data = {
+      messageId: message._id,
+      reactedBy: _id,
+      reaction: emoji,
+    };
+    // find current message reaction
+    const findMessage = messageReactions.find(
+      (reaction) => reaction._id === message._id
     );
+
+    if (findMessage.reactions.length === 0) {
+      dispatch(_reactToMessage(data));
+    } else {
+      const findEmoji = findMessage.reactions.find((emoji) => emoji.by === _id);
+      if (findEmoji.reaction === emoji) {
+        dispatch(_reactToMessage({ ...data, current: true }));
+      } else {
+        dispatch(
+          _reactToMessage({
+            ...data,
+            current: true,
+            reactionId: findEmoji._id,
+            replace: true,
+          })
+        );
+      }
+    }
 
     toggleReactionModal();
   };
 
-const handleSettings = (setting, message) => {
-
-  console.log(setting, message._id);
-if(setting === 'Remove'){
-  // Remove the message
-}
-}
+  const handleSettings = (setting, message) => {
+    console.log(setting, message._id);
+    if (setting === "Remove") {
+      // Remove the message
+    }
+  };
   const handleReactionUpdate = (details) => {
     console.log(details);
-  }
- 
+  };
+
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
       <Header selectedConversation={selectedConversation} />
-
 
       <div className="messages-container">
         {
@@ -173,9 +189,11 @@ if(setting === 'Remove'){
                         key={message._id}
                       >
                         <MessageSetting
-                        handleSettings={handleSettings}
-                        settingsModalVisbile={settingsModalVisbile}
-                        handleMessageAction={() => handleMessageAction(message)}
+                          handleSettings={handleSettings}
+                          settingsModalVisbile={settingsModalVisbile}
+                          handleMessageAction={() =>
+                            handleMessageAction(message)
+                          }
                           handleSelectedReaction={handleSelectedReaction}
                           reactionVisible={reactionVisible}
                           settingsModalVisible={settingsModalVisbile}
@@ -189,14 +207,13 @@ if(setting === 'Remove'){
                           handleMouseOver={handleMouseOver}
                         />
                         <MessageContents
-                        handleReactionUpdate={handleReactionUpdate}
+                          handleReactionUpdate={handleReactionUpdate}
                           toggleReactionModal={toggleReactionModal}
                           message={message}
                           direction
                           imageUploading={imageUploading}
                           handleImagePreview={handleImagePreview}
                         />
-                        
                       </div>
                     ) : (
                       <div
@@ -219,8 +236,8 @@ if(setting === 'Remove'){
                         />
 
                         <MessageSetting
-                        handleSettings={handleSettings}
-                        handleMessageAction={handleMessageAction}
+                          handleSettings={handleSettings}
+                          handleMessageAction={handleMessageAction}
                           handleSelectedReaction={handleSelectedReaction}
                           reactionVisible={reactionVisible}
                           settingsModalVisible={settingsModalVisbile}

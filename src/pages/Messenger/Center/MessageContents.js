@@ -16,6 +16,7 @@ const MessageContents = ({
     latestReaction,
   } = useRedux();
 
+  
   const findReaction = messageReactions.find(
     (reaction) => reaction._id === message._id
   );
@@ -41,6 +42,7 @@ const MessageContents = ({
           className="message-image"
           onClick={() => handleImagePreview(message)}
         >
+          
           <img src={message.imageUrl} />
         </div>
       )}
