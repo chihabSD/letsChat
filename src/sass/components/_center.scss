@@ -132,14 +132,25 @@
           width: fit-content;
           display: flex;
           align-items: center;
+          cursor: pointer;
           justify-content: space-between;
           position: absolute;
+          .item:hover {
+            background-color: lightgray;
+            cursor: pointer;
+          }
+          .item.h:hover {
+            background-color: lightgray;
+
+          }
           .item.selected {
             background-color: lightgray;
             margin: 10px;
           }
-          .item {
+          .item , item.h {
             width: 30px;
+            cursor: pointer;
+            // background-color: blue;
             height: 30px;
             border-radius: 50%;
             justify-content: center;

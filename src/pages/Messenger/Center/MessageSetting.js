@@ -31,7 +31,10 @@ const MessageSetting = ({
 
 
  
-  // const currentReaction = findReaction.reactions.map(r => r)
+  
+  const currentReaction = findReaction.reactions.map(r => r.reaction)
+  const finalReaction = currentReaction.map(r => r.reaction)
+  // console.log(currentReaction);
   // console.log('current currentReaction', currentReaction);
   // const getUserReaction = messageReactions.find(
   //   (reaction) => reaction._id === message._id
@@ -56,7 +59,7 @@ const MessageSetting = ({
               onClick={() => handleSettings(setting, message)}
               key={setting}
               // className={`${getUserReaction.reaction === undefined ? "item" : getUserReaction.reaction === reaction._id ? 'item selected':'item'}`}
-              // className="item"
+              className="item"
             >
               {setting}
             </div>
@@ -73,9 +76,9 @@ const MessageSetting = ({
             <div
               onClick={() => handleSelectedReaction(reaction, message)}
               key={reaction}
-              // className={`${currentReaction.reaction === undefined ? "item" : currentReaction.reaction === reaction ? 'item selected':'item'}`}
+              // className={`${finalReaction === undefined ? "item" : finalReaction == reaction ? 'item selected':'item'}`}
               // className={`${findReaction.reactions.map(reaction => reaction.reaction === reaction ? 'item selected':'item')}`}
-              className={`${findReaction.reactions.map(i => i.reaction === undefined  ? 'item': i.reaction === reaction ? 'item selected':'item')}`}
+              className={`${findReaction.reactions.map(i => i.reaction === undefined  ? 'item': i.reaction === reaction ? 'item selected':'item h')}`}
               // className="item"
             >
               {reaction}
