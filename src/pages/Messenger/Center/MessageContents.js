@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
 import { useRedux } from "../../../hooks/useRedux";
+import { setSelectedReaction } from "../../../redux/reducers/friends";
 import { _toggleReactionListModal } from "../../../redux/reducers/toggler";
 import { MessageTime } from "./MessageTime";
 const MessageContents = ({
@@ -28,8 +29,8 @@ const MessageContents = ({
   );
 
   const updateReaction = () => {
-    // console.log('Current reactoin', findReaction);
-    // dispatch(_toggleReactionListModal())
+    dispatch(setSelectedReaction(findReaction))
+    dispatch(_toggleReactionListModal())
   };
 
   return (
@@ -47,7 +48,7 @@ const MessageContents = ({
 
       {findReaction.reactions.length === 0 && null}
       {findReaction.reactions.length == 1 && (
-        <div className="reaction" onClick={()=>dispatch(_toggleReactionListModal())}>
+        <div className="reaction" onClick={updateReaction}>
           <Reaction>
             {findReaction.reactions.map((reaction) => (
               <div key={reaction._id}>{reaction.reaction}</div>
@@ -56,7 +57,7 @@ const MessageContents = ({
         </div>
       )}
       {findReaction.reactions.length > 1 && (
-        <div className="reaction plus" onClick={()=>dispatch(_toggleReactionListModal())}>
+        <div className="reaction plus" onClick={updateReaction}>
           <Reaction>
             {`${findReaction.reactions[0].reaction} ${findReaction.reactions.length} `}
           </Reaction>

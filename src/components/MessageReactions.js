@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GrClose } from 'react-icons/gr'
 import { useRedux } from '../hooks/useRedux'
 import { _toggleReactionListModal } from '../redux/reducers/toggler'
 import { UserImage } from './UserImage'
 const MessageReactions = () => {
-    const {dispatch,  account:{image}} = useRedux()
+    const {dispatch, currentMessageReactions,   account:{image}} = useRedux()
     const [selectedOpton,setSeelectedOpton]= useState('All')
     const options = ['All', 'emojis']
     const handleSelectedOpton = (option) => {
@@ -22,6 +22,9 @@ const MessageReactions = () => {
         {_id:55, name:'Chihabelddine', emoji:1}, 
 
 ]
+// useEffect(() => {
+
+// }, [currentMessageReactions])
   return (
     <div className='message-reactions-modal'>
         <div className='message-reactions-modal-inner'>
@@ -45,19 +48,24 @@ const MessageReactions = () => {
                 )
             })}
                 </div>
-            <div className='data'>{
-                reactions.map(reaction => {
+            <div className='data'>
+                
+                {currentMessageReactions === null ? null : currentMessageReactions.reactions.map(reaction => {
                     return (
                         <div className='reaction'>
                             <div className='left'>
-                                <UserImage image={image} />
-                                <h1>Chihabelddine</h1>
+                                <UserImage image={reaction.by.image} />
+                                <h1>{reaction.by.username}</h1>
                             </div>
-                            <div>right</div>
+                            <div>{reaction.reaction}</div>
                         </div>
                     )
                 })
-            }</div>
+                
+                }
+                
+                
+            </div>
             </div>
         </div>
     </div>

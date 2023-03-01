@@ -13,7 +13,7 @@ const useRedux = () => {
       currentMessage,
       messages,
       conversations,
-      
+      currentMessageReactions,  
       imagePreview,
       selectedConversation,
     },
@@ -32,7 +32,7 @@ const useRedux = () => {
     messageReactions,
     emojiBoxyToggled,
     currentMessage,
-    
+    currentMessageReactions, 
     reactionListModal,
     messages,
     conversations,

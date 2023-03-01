@@ -9,12 +9,17 @@ const initialState = {
 
   imagePreview: [],
   selectedConversation: null,
+  currentMessageReactions: null,
 };
 
 export const friendsReducer = createSlice({
   name: "friends",
   initialState,
   reducers: {
+     // insert conversation
+     setSelectedReaction: (state, action) => {
+      state.currentMessageReactions = action.payload;
+    },
     // get friens
     getFriends: (state, action) => {
       state.friends = action.payload;
@@ -107,6 +112,7 @@ export const {
   insertConversation,
   resetImagePreview,
   insertImagePreview,
+  setSelectedReaction, 
   insertLatestReaction,
   insertReaction,
 } = friendsReducer.actions;

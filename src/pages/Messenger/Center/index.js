@@ -120,14 +120,18 @@ const Center = ({
     );
 
     if (findMessage.reactions.length === 0) {
-      console.log("empty");
+    
       dispatch(_reactToMessage(data));
     } else {
-      const findEmoji = findMessage.reactions.find((emoji) => emoji.by === _id);
+      console.log('not empty but add first ite for this user ');
+      const findEmoji = findMessage.reactions.find((emoji) => emoji.by._id === _id);
       if (findEmoji === undefined) return dispatch(_reactToMessage(data));
       if (findEmoji.reaction === emoji) {
         dispatch(_reactToMessage({ ...data, current: true }));
+       
       } else {
+
+        console.log('Replace current emoji');
         dispatch(
           _reactToMessage({
             ...data,

@@ -81,7 +81,7 @@ const MessageSetting = ({
               className={`${findReaction.reactions.map((i) =>
                 i.reaction === undefined
                   ? "item"
-                  : i.reaction === reaction && i.by === _id
+                  : i.reaction === reaction && i.by._id === _id
                   ? "item selected"
                   : "item h"
               )}`}
