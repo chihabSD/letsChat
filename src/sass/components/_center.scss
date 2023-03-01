@@ -236,13 +236,20 @@ cursor: pointer;
         color: black;
       }
       
-
+.reaction.plus {
+  // background-color: orange;
+  padding: 5px;
+  bottom: 30%;
+}
       .reaction {
 
         // right: -100px;
-        margin-left: 267px;
+        margin-left: 95%;
+        right: 10px;
+
+        // align-self: flex-end;
         // background-color: blue;
-        bottom: 5px;
+        bottom: 15px;
         // left: 70px;
         // transform: translateX(-50%);
         // -webkit-transform: translateX(100%);

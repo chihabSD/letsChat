@@ -45,7 +45,7 @@ const MessageContents = ({
         </div>
       )}
 
-      {/* {findReaction.reactions.length === 0 && null}
+      {findReaction.reactions.length === 0 && null}
       {findReaction.reactions.length == 1 && (
         <div className="reaction" onClick={updateReaction}>
           <Reaction>
@@ -61,7 +61,7 @@ const MessageContents = ({
             {`${findReaction.reactions[0].reaction} ${findReaction.reactions.length} `}
           </Reaction>
         </div>
-      )} */}
+      )}
 
       <MessageTime date={message.createdAt} right={direction} />
     </div>
