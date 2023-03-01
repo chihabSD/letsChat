@@ -6,10 +6,8 @@ const initialState = {
   conversations: [],
   messages: [],
   messageReactions: [],
-  currentMessage: null,
   latestReaction: null,
 
-  msgs: null,
 
   imagePreview: [],
   selectedConversation: null,
@@ -19,20 +17,47 @@ export const friendsReducer = createSlice({
   name: "friends",
   initialState,
   reducers: {
+
+
+
+    // get friens
     getFriends: (state, action) => {
       state.friends = action.payload;
     },
 
-    setCurrentMessage: (state, action) => {
-      state.currentMessage = action.payload;
+     // insert conversation
+     insertConversation: (state, action) => {
+      state.selectedConversation = action.payload[0];
+      state.conversations = [...action.payload];
     },
-    insertSentMessage: (state, action) => {
-      let messageFromPayload = action.payload;
 
+      // insert messages and create reaction for each
+      insertMessages: (state, action) => {
+     
+
+        if (action.payload.length === 0 || action.payload == []) {
+          state.messages = [];
+        } else {
+          state.messages = groupMessages(action.payload);
+          const tempArray = [];
+          action.payload.map((msg) => {
+            const {
+              _id,
+              reactions: { reactions },
+            } = msg;
+    
+            tempArray.push({ _id, reactions });
+          });
+          state.messageReactions = [...tempArray];
+        }
+      },
+
+    // the message sent
+    insertSentMessage: (state, action) => {
       let formatedDate = moment(action.payload.createdAt).format("YYYY-MM-DD");
 
       let currentMessages = current(state.messages);
-      const index = currentMessages.findIndex(
+       currentMessages.findIndex(
         (msg) => msg.timeLine === formatedDate
       );
       let newObj = currentMessages.map((item, index) => {
@@ -46,64 +71,42 @@ export const friendsReducer = createSlice({
       state.messages = newObj;
     },
 
-    insertMessages: (state, action) => {
- 
-      // call group Messages
-      if(action.payload.length === 0 || action.payload == []){
-        state.messages = []
-      }else {
+  
 
-         state.messages = groupMessages(action.payload);
-        //  state.messageReactions.push({_id:action.payload._id, reactions:action.payload.reactions})
-      }
-    },
-    inserReaction : (state, action) => {
-      state.messageReactions.push({_id:action.payload._id, reactions:action.payload.reactions})
+    // insert new reaction 
+    insertReaction: (state, action) => {
+      const {
+        _id,
+        reactions: { reactions },
+      } = action.payload
+      console.log(action.payload);
+      console.log(current(state.messageReactions));
+      state.messageReactions.push({_id, reactions})
     }, 
+    // update current reaction
     insertLatestReaction: (state, action) => {
-      // const {
-      let currentReactions = [...current(state.messageReactions)]
+      let currentReactions = [...current(state.messageReactions)];
 
-      let { _id, reactions:{reactions}}= action.payload;
-
-      const index = currentReactions.findIndex(i => i._id === _id)
-      
-      // state.messageReactions = newObj;
-  //  state.messageReactions =  currentReactions 
-   
-  let newObj = currentReactions.map((item, index) => {
-    if (item._id === _id) {
-      return { ...item, _id ,  reactions };
-    }
-    return {
-     ...item 
-    };
-  });
+      let {
+        _id,
+        reactions: { reactions },
+      } = action.payload;
 
 
-  state.messageReactions = [...newObj]
-    },
-    initiateReactions: (state, action) => {
-      const tempArray = [];
-      action.payload.map((msg) => {
-        const {
-          _id,
-          reactions: { reactions },
-        } = msg;
-
-        tempArray.push({ _id, reactions });
-        // state.messageReactions.push({ _id, reactions });
+      let newObj = currentReactions.map((item, index) => {
+        if (item._id === _id) {
+          return { ...item, _id, reactions };
+        }
+        return {
+          ...item,
+        };
       });
-      state.messageReactions = [...tempArray];
-    },
-    reactToMessage: (state, action) => {
-      console.log(state.messageReactions);
+
+      state.messageReactions = [...newObj];
     },
 
-    insertConversation: (state, action) => {
-      state.selectedConversation = action.payload[0];
-      state.conversations = [...action.payload];
-    },
+  
+   
     insertImagePreview: (state, action) => {
       state.imagePreview = action.payload;
     },
@@ -120,13 +123,8 @@ export const {
   insertConversation,
   resetImagePreview,
   insertImagePreview,
-  initiateReactions,
-  reactToMessage,
   insertLatestReaction,
-  setCurrentMessage,
-   inserReaction
-   
+  insertReaction
 } = friendsReducer.actions;
 export default friendsReducer.reducer;
 
-// Group

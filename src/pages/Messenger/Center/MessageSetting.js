@@ -14,7 +14,7 @@ const MessageSetting = ({
   handleSelectedReaction,
   handleMessageAction,
   settingsModalVisible,
-  handleSettings
+  handleSettings,
 }) => {
   const {
     account: { _id },
@@ -39,10 +39,10 @@ const MessageSetting = ({
       </div>
 
       {settings && (
-        <div className="message-settings-container" >
+        <div className="message-settings-container">
           {settingsActions.map((setting) => (
             <div
-              onClick={() => handleSettings (setting, message)}
+              onClick={() => handleSettings(setting, message)}
               key={setting}
               // className={`${getUserReaction.reaction === undefined ? "item" : getUserReaction.reaction === reaction ? 'item selected':'item'}`}
               className=""
@@ -68,31 +68,6 @@ const MessageSetting = ({
               {reaction}
             </div>
           ))}
-          {/* <div className="item">
-            <TbDotsVertical />
-          </div>
-          <div className="item">
-            <BsReply />
-          </div>
-          <div className="item">
-            <FaSmile onClick={toggleReactionModal} />
-          </div>
-
-          <div className="item">
-            <FaSmile onClick={toggleReactionModal} />
-          </div>
-
-          <div className="item">
-            <FaSmile onClick={toggleReactionModal} />
-          </div>
-
-          <div className="item">
-            <FaSmile onClick={toggleReactionModal} />
-          </div>
-
-          <div className="item">
-            <FaSmile onClick={toggleReactionModal} />
-          </div> */}
         </div>
       ) : null}
     </div>

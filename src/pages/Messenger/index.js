@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { GrClose } from "react-icons/gr";
-import MessageImagePreview from "../../components/MessageImagePreview";
-import { useClickOutside } from "../../hooks/useClickOutside";
+
 import { useMain } from "../../hooks/useMainState";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
@@ -26,7 +24,6 @@ const MessengerUI = () => {
     conversations,
     messages,
     loading,
-    messageMessagePreview,
     account: { username, _id },
   } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
@@ -35,7 +32,6 @@ const MessengerUI = () => {
   const { message, setMessage, toggleEmojiBox } = useMain();
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
   const [imageUploading, setImageUploading] = useState(false);
   const instance = axios.create();
   instance.defaults.headers.common = {};
@@ -48,7 +44,6 @@ const MessengerUI = () => {
     try {
       const data = await instance.post(url, formData);
       setImageUploading(true);
-      setImageUrl(data.data.url);
 
       const receiver = selectedConversation.users.find(
         (user) => user._id !== _id
@@ -84,7 +79,6 @@ const MessengerUI = () => {
     setSelectedUser(user);
   };
   const handleMessageInput = (e) => {
-    // console.log(e.target.value);
     setMessage(e.target.value);
   };
   const handleSendButton = (event) => {
@@ -127,6 +121,7 @@ const MessengerUI = () => {
   const selectedEmoji = (emoji) => {
     setMessage(`${message}` + emoji.emoji);
   };
+
   // USE EFFECT
   // Initialize current conversation
   useEffect(() => {
@@ -135,10 +130,9 @@ const MessengerUI = () => {
     }
   }, [conversations]);
 
-  useEffect(() => {
-    console.log(process.env.REACT_APP_CLOUDINARY_NAME);
-    dispatch(_getChatList());
-  }, []);
+useEffect(() => {
+dispatch(_getChatList())
+}, [])
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
