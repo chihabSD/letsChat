@@ -14,13 +14,14 @@ const MessageContents = ({
   const {
     account: { _id },
     messageReactions,
+    messages, 
     currentMessage,
     latestReaction,
     dispatch
   } = useRedux();
 
   
-  const findReaction = messageReactions.find(
+  const findReaction = messages.find(
     (reaction) => reaction._id === message._id
   );
 
@@ -46,20 +47,20 @@ const MessageContents = ({
         </div>
       )}
 
-      {findReaction.reactions.length === 0 && null}
-      {findReaction.reactions.length == 1 && (
+      {findReaction.reactions.reactions.length === 0 && null}
+      {findReaction.reactions.reactions.length == 1 && (
         <div className="reaction" onClick={updateReaction}>
           <Reaction>
-            {findReaction.reactions.map((reaction) => (
+            {findReaction.reactions.reactions.map((reaction) => (
               <div key={reaction._id}>{reaction.reaction}</div>
             ))}
           </Reaction>
         </div>
       )}
-      {findReaction.reactions.length > 1 && (
+      {findReaction.reactions.reactions.length > 1 && (
         <div className="reaction plus" onClick={updateReaction}>
           <Reaction>
-            {`${findReaction.reactions[0].reaction} ${findReaction.reactions.length} `}
+            {`${findReaction.reactions.reactions[0].reaction} ${findReaction.reactions.reactions.length} `}
           </Reaction>
         </div>
       )}

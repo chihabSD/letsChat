@@ -10,6 +10,7 @@ export const _reactToMessage = (details) => {
         data: { message },
       } = await messageApiHandler(names.REACT_TO_MESSAGE, details);
 
+
       dispatch(insertLatestReaction(message));
     } catch (e) {
       dispatch(setError(e.response.data.error));

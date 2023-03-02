@@ -18,7 +18,7 @@ const MessageSetting = ({
   handleSelectedReply
 }) => {
   const {
-    messageReactions,
+    messages,
     account: { _id },
   } = useRedux();
   const condition = reactionVisible && selectedMessage === message._id;
@@ -26,13 +26,13 @@ const MessageSetting = ({
   const reactions = ["💔", "👍", "👎", "😄", "😕", "	🎉", "🚀", "👀"];
   const settingsActions = ["Remove"];
 
-  const findReaction = messageReactions.find(
+  const findReaction = messages.find(
     (reaction) => reaction._id === message._id
   );
 
-  const currentUser = findReaction.reactions.find((emoji) => emoji.by === _id);
+  const currentUser = findReaction.reactions.reactions.find((emoji) => emoji.by === _id);
 
-  const currentReaction = findReaction.reactions.map((r) => r.reaction);
+  const currentReaction = findReaction.reactions.reactions.map((r) => r.reaction);
   const finalReaction = currentReaction.map((r) => r.reaction);
   // console.log(currentReaction);
   // console.log('current currentReaction', currentReaction);
@@ -58,7 +58,6 @@ const MessageSetting = ({
             <div
               onClick={() => handleSettings(setting, message)}
               key={setting}
-              // className={`${getUserReaction.reaction === undefined ? "item" : getUserReaction.reaction === reaction._id ? 'item selected':'item'}`}
               className="item"
             >
               {setting}
@@ -76,10 +75,8 @@ const MessageSetting = ({
             <div
               onClick={() => handleSelectedReaction(reaction, message)}
               key={reaction}
-              // className={`${finalReaction === undefined ? "item" : finalReaction == reaction ? 'item selected':'item'}`}
-              // className={`${findReaction.reactions.map(reaction => reaction.reaction === reaction ? 'item selected':'item')}`}
-              // className={`${currentUser === reaction.by ? 'item selected' :'item '}`}
-              className={`${findReaction.reactions.map((i) =>
+           
+              className={`${findReaction.reactions.reactions.map((i) =>
                 i.reaction === undefined
                   ? "item"
                   : i.reaction === reaction && i.by._id === _id

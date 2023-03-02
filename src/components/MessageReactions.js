@@ -50,7 +50,7 @@ const MessageReactions = () => {
                 </div>
             <div className='data'>
                 
-                {currentMessageReactions === null ? null : currentMessageReactions.reactions.map(reaction => {
+                {currentMessageReactions === null ? null : currentMessageReactions.reactions.reactions.map(reaction => {
                     return (
                         <div className='reaction'>
                             <div className='left'>

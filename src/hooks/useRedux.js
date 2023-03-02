@@ -7,9 +7,9 @@ const useRedux = () => {
     registerReducer: { registered },
     friendsReducer: {
       friends,
-      messageReactions,
       latestReaction,
       
+      timeLines, 
       currentMessage,
       messages,
       conversations,
@@ -29,7 +29,6 @@ const useRedux = () => {
   return {
     dispatch,
     rightSideToggled,
-    messageReactions,
     emojiBoxyToggled,
     currentMessage,
     currentMessageReactions, 
@@ -46,6 +45,7 @@ const useRedux = () => {
     registered,
     messageMessagePreview,
     imagePreview,
+    timeLines
   };
 };
 

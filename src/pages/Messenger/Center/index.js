@@ -74,8 +74,9 @@ const Center = ({
   });
   const {
     messages,
+    timeLines, 
     dispatch,
-    messageReactions,
+ 
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
@@ -110,6 +111,8 @@ const Center = ({
 
     toggleSettingModal();
   };
+
+  // HANDLE REACTION SELECTION
   const handleSelectedReaction = (emoji, message) => {
     const data = {
       messageId: message._id,
@@ -117,15 +120,15 @@ const Center = ({
       reaction: emoji,
     };
     // find current message reaction
-    const findMessage = messageReactions.find(
+    const findMessage = messages.find(
       (reaction) => reaction._id === message._id
     );
 
-    if (findMessage.reactions.length === 0) {
+    if (findMessage.reactions.reactions.length === 0) {
       dispatch(_reactToMessage(data));
     } else {
       console.log("not empty but add first ite for this user ");
-      const findEmoji = findMessage.reactions.find(
+      const findEmoji = findMessage.reactions.reactions.find(
         (emoji) => emoji.by._id === _id
       );
       if (findEmoji === undefined) return dispatch(_reactToMessage(data));
@@ -160,8 +163,7 @@ const Center = ({
   // handle reply
   const handleSelectedReply = (msg) => {
     setSeelectedMessage(msg);
-    // console.log(selectedMessage);
-    // toggleIsReply()
+ 
     setReply(true);
   };
   return (
@@ -170,7 +172,7 @@ const Center = ({
       <Header selectedConversation={selectedConversation} />
 
       <div className="messages-container">
-        {messages.length === 0 || messages === undefined ? (
+        {timeLines.length === 0 || timeLines === undefined ? (
           <EmptyLayout>
             <TbMessageCircleOff size={100} />
             <h1> No Messages</h1>
@@ -178,7 +180,7 @@ const Center = ({
             <p>you will see them here</p>
           </EmptyLayout>
         ) : (
-          messages.map((timeline) => {
+       timeLines.map((timeline) => {
             const timestampDate = moment(timeline.originalDate).format(
               "dd/MM/yyyy"
             );
