@@ -45,11 +45,11 @@ const Center = ({
   handleImageUpload,
   imageUploading,
 
-  toggleIsReply, 
-  isReply, 
-  handleReplyTo, 
-  replyTo, 
-  handleSelectedReply
+  toggleIsReply,
+  isReply,
+  handleReplyTo,
+  replyTo,
+  handleSelectedReply,
 }) => {
   const currentMessage = React.useRef(null);
   const { ref } = useMain();
@@ -78,9 +78,9 @@ const Center = ({
   });
   const {
     messages,
-    timeLines, 
+    timeLines,
     dispatch,
- 
+
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
@@ -161,15 +161,19 @@ const Center = ({
     }
   };
   const handleReactionUpdate = (details) => {
-    console.log("handle reaction update", details)
+    console.log("handle reaction update", details);
   };
 
   // handle reply
   // const handleSelectedReply = (msg) => {
   //   setSeelectedMessage(msg);
- 
+
   //   setReply(true);
   // };
+  const  handleCurrentMessageReply = msg => {
+    
+    console.log('parent message to reply to ', msg);
+  }
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
@@ -184,21 +188,25 @@ const Center = ({
             <p>you will see them here</p>
           </EmptyLayout>
         ) : (
-       timeLines.map((timeline) => {
+          timeLines.map((timeline) => {
             const timestampDate = moment(timeline.originalDate).format(
               "dd/MM/yyyy"
             );
 
             return (
               <div className="timeline-container" key={timeline.timeLine}>
+  
                 {timeline.messages.map((message) => {
+              
                   return message.senderId._id === _id ||
-                    message.senderId._id === undefined ? (
+                    message.senderId._id === undefined  ? (
+
                     <div
                       className="chat-box-container"
                       ref={scrollRef}
                       key={message._id}
                     >
+                     
                       <MessageSetting
                         handleSelectedReply={() => handleSelectedReply(message)}
                         handleSettings={handleSettings}
@@ -217,6 +225,8 @@ const Center = ({
                         handleMouseOver={handleMouseOver}
                       />
                       <MessageContents
+                      handleCurrentMessageReply={handleCurrentMessageReply}
+                      replyTo={replyTo}
                         handleReactionUpdate={handleReactionUpdate}
                         toggleReactionModal={toggleReactionModal}
                         message={message}
@@ -233,11 +243,13 @@ const Center = ({
                     >
                       <div className="userimage-container">
                         <UserImage
-                          image={message.receiverId.image}
+                          image={message.contentType === 'reply' ? message.messageId.receiverId.image: message.receiverId.image}
                           style={{ width: "40px", height: "40px" }}
                         />
                       </div>
                       <MessageContents
+                       handleCurrentMessageReply={handleCurrentMessageReply}
+                       replyTo={replyTo}
                         toggleReactionModal={toggleReactionModal}
                         message={message}
                         handleReactionUpdate={handleReactionUpdate}
@@ -276,7 +288,12 @@ const Center = ({
         <div className="reply-container">
           <div className="top">
             <p>
-              Reply to <span>{replyTo.senderId._id === _id ? "yourself":`${replyTo.senderId.username}`}</span>{" "}
+              Reply to{" "}
+              <span>
+                {replyTo.senderId._id === _id
+                  ? "yourself"
+                  : `${replyTo.senderId.username}`}
+              </span>{" "}
             </p>
             <p className="close" onClick={toggleIsReply}>
               X
@@ -285,7 +302,9 @@ const Center = ({
           {replyTo ? (
             replyTo.type === "text" ? (
               <p>{replyTo.message}</p>
-            ) : <p>Reply to Image</p>
+            ) : (
+              <p>Reply to Image</p>
+            )
           ) : null}
         </div>
       )}

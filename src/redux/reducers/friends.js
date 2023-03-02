@@ -40,12 +40,12 @@ export const friendsReducer = createSlice({
         state.timeLines = groupMessages(action.payload);
         const tempArray = [];
         action.payload.map((msg) => {
-          const {
-            _id,
-            reactions: { reactions },
-          } = msg;
+          // const {
+          //   _id,
+          //   reactions: { reactions },
+          // } = msg;
 
-          tempArray.push({ _id, reactions });
+          tempArray.push(msg);
         });
         state.messages = [...action.payload];
         

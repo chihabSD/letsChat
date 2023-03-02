@@ -9,65 +9,85 @@ const MessageContents = ({
   imageUploading,
   direction,
   handleReactionUpdate,
+  replyTo,
+  handleCurrentMessageReply, 
   handleImagePreview,
 }) => {
   const {
     account: { _id },
-  
-    messages, 
+
+    messages,
     currentMessage,
     latestReaction,
-    dispatch
+    dispatch,
   } = useRedux();
 
-  
-  const findReaction = messages.find(
-    (reaction) => reaction._id === message._id
-  );
-
-  const isUserReacted = message.reactions.reactions.find(
-    (reaction) => reaction.by === _id
-  );
-
-  const updateReaction = () => {
-    dispatch(setSelectedReaction(findReaction))
-    dispatch(_toggleReactionListModal())
-  };
-
-  return (
-    <div className="message-content">
-      {message.type === "text" && message.message}
-      {message.type === "image" && (
-        <div
-          className="message-image"
-          onClick={() => handleImagePreview(message)}
-        >
-          
-          <img src={message.imageUrl} />
+  if (message.contentType === "reply") {
+    return (
+      <div className="message-content reply" onClick={() => handleCurrentMessageReply(message.messageId)}>
+        <div className="parent-message"> {message.messageId.message}</div>
+        <div className="reply">  {message.message}
+        
+        <MessageTime date={message.createdAt} right={direction} reply /> 
         </div>
-      )}
+     
+       
+      </div>
+    );
+  } else {
+    const findReaction = messages.find(
+      (reaction) => reaction._id === message._id
+    );
 
-      {findReaction.reactions.reactions.length === 0 && null}
-      {findReaction.reactions.reactions.length == 1 && (
-        <div className="reaction" onClick={updateReaction}>
-          <Reaction>
-            {findReaction.reactions.reactions.map((reaction) => (
-              <div key={reaction._id}>{reaction.reaction}</div>
-            ))}
-          </Reaction>
-        </div>
-      )}
-      {findReaction.reactions.reactions.length > 1 && (
-        <div className="reaction plus" onClick={updateReaction}>
-          <Reaction>
-            {`${findReaction.reactions.reactions[0].reaction} ${findReaction.reactions.reactions.length} `}
-          </Reaction>
-        </div>
-      )}
+    const isUserReacted = message.reactions.reactions.find(
+      (reaction) => reaction.by === _id
+    );
 
-      <MessageTime date={message.createdAt} right={direction} />
-    </div>
-  );
+    const updateReaction = () => {
+      dispatch(setSelectedReaction(findReaction));
+      dispatch(_toggleReactionListModal());
+    };
+
+    return (
+      <div
+        className={`${
+          replyTo && replyTo._id === message._id
+            ? "message-content selected"
+            : "message-content"
+        }`}
+      >
+        {message.type === "text" && message.message}
+        {message.type === "image" && (
+          <div
+            className="message-image"
+            onClick={() => handleImagePreview(message)}
+          >
+            <img src={message.imageUrl} />
+          </div>
+        )}
+
+        {findReaction.reactions.reactions.length === 0 && null}
+        {findReaction.reactions.reactions.length == 1 && (
+          <div className="reaction" onClick={updateReaction}>
+            <Reaction>
+              {findReaction.reactions.reactions.map((reaction) => (
+                <div key={reaction._id}>{reaction.reaction}</div>
+              ))}
+            </Reaction>
+          </div>
+        )}
+        {findReaction.reactions.reactions.length > 1 && (
+          <div className="reaction plus" onClick={updateReaction}>
+            <Reaction>
+              {`${findReaction.reactions.reactions[0].reaction} ${findReaction.reactions.reactions.length} `}
+            </Reaction>
+          </div>
+        )}
+
+        <MessageTime date={message.createdAt} right={direction} />
+      </div>
+    );
+  }
 };
 
 const Reaction = ({ reactionLength, message, children }) => {

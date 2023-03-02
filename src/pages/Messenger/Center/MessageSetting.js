@@ -26,9 +26,9 @@ const MessageSetting = ({
   const reactions = ["💔", "👍", "👎", "😄", "😕", "	🎉", "🚀", "👀"];
   const settingsActions = ["Remove"];
 
-  const findReaction = messages.find(
-    (reaction) => reaction._id === message._id
-  );
+  // const findReaction = messages.find(
+  //   (reaction) => reaction._id === message._id
+  // );
 
   return (
     <div className="details hidden">
@@ -65,14 +65,14 @@ const MessageSetting = ({
             return <div
               onClick={() => handleSelectedReaction(reaction, message)}
               key={reaction}
-              className={`${findReaction.reactions.reactions.map((i) =>
-                i.reaction === undefined
-                  ? "item"
-                  : i.reaction === reaction && i.by._id === _id
-                  ? "item selected"
-                  : "item h"
-              )}`}
-              // className="item"
+              // className={`${findReaction.reactions.reactions.map((i) =>
+              //   i.reaction === undefined
+              //     ? "item"
+              //     : i.reaction === reaction && i.by._id === _id
+              //     ? "item selected"
+              //     : "item h"
+              // )}`}
+              className="item"
             >
               {reaction}
             </div>;

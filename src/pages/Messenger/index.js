@@ -8,6 +8,7 @@ import MainLayoutLoading from "../../Layouts/MainLayoutLoading";
 
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
+import { _replyToMessage } from "../../redux/actions/message/replyToMessage";
 import { _sendImage } from "../../redux/actions/message/sendImage";
 import { _sendMessage } from "../../redux/actions/message/sendMessage";
 import { _closeEmojiBox, _toggleEmojiBox } from "../../redux/reducers/toggler";
@@ -92,9 +93,23 @@ const MessengerUI = () => {
   const handleMessageInput = (e) => {
     setMessage(e.target.value);
   };
+
+  // type,
+  // imageUrl,
+  // by: senderId,
+  // message,
+  // messageId
+  const replayData = {
+  messageId: replyTo && replyTo._id, 
+  message
+  }
   const handleSendButton = (event) => {
     if (event.code === "Enter" && isReply) {
-      return console.log("Thi is reply");
+      dispatch(_replyToMessage(replayData))
+      setReply(false)
+      setReplyTo(null)
+      setMessage("")
+      return
     }
 
     if (event.code === "Enter" && !isReply) {
@@ -116,7 +131,11 @@ const MessengerUI = () => {
   };
   const handleSend = () => {
     if (isReply) {
-      return console.log("Thi is reply");
+    dispatch(_replyToMessage(replayData))
+    setReply(false)
+    setReplyTo(null)
+    setMessage("")
+    return
     }
 
     const receiver = selectedConversation.users.find(
@@ -175,6 +194,7 @@ const MessengerUI = () => {
     }
   }, [loading]);
 
+  
   if (
     loading ||
     selectedConversation === null ||

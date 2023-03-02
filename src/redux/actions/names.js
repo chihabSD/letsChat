@@ -12,6 +12,7 @@ export const names = {
     ADD_TO_CHATLIST: 'addToChatList',
     GET_CHATLIST: 'get_chatList',
     REACT_TO_MESSAGE: 'react_to_message',
+    REPLY_TO_MESSAGE: 'reply_to_message',
 
 
   };
