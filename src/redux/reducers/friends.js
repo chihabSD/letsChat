@@ -54,7 +54,6 @@ export const friendsReducer = createSlice({
 
     // the message sent
     insertSentMessage: (state, action) => {
-      console.log(action.payload);
       let formatedDate = moment(action.payload.createdAt).format("YYYY-MM-DD");
 
       // let currentMessages = current(state.messages);

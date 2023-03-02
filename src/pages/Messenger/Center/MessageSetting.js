@@ -15,7 +15,7 @@ const MessageSetting = ({
   handleMessageAction,
   settingsModalVisible,
   handleSettings,
-  handleSelectedReply
+  handleSelectedReply,
 }) => {
   const {
     messages,
@@ -30,16 +30,6 @@ const MessageSetting = ({
     (reaction) => reaction._id === message._id
   );
 
-  const currentUser = findReaction.reactions.reactions.find((emoji) => emoji.by === _id);
-
-  const currentReaction = findReaction.reactions.reactions.map((r) => r.reaction);
-  const finalReaction = currentReaction.map((r) => r.reaction);
-  // console.log(currentReaction);
-  // console.log('current currentReaction', currentReaction);
-  // const getUserReaction = messageReactions.find(
-  //   (reaction) => reaction._id === message._id
-  // );
-  // console.log(getUserReaction);
   return (
     <div className="details hidden">
       <div className="item">
@@ -71,11 +61,10 @@ const MessageSetting = ({
           ref={currentMessage}
           onMouseOver={handleMouseOver}
         >
-          {reactions.map((reaction) => (
-            <div
+          {reactions.map((reaction) => {
+            return <div
               onClick={() => handleSelectedReaction(reaction, message)}
               key={reaction}
-           
               className={`${findReaction.reactions.reactions.map((i) =>
                 i.reaction === undefined
                   ? "item"
@@ -86,8 +75,8 @@ const MessageSetting = ({
               // className="item"
             >
               {reaction}
-            </div>
-          ))}
+            </div>;
+          })}
         </div>
       ) : null}
     </div>

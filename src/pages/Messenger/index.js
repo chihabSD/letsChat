@@ -27,11 +27,24 @@ const MessengerUI = () => {
     account: { username, _id },
   } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
+  const [replyTo, setReplyTo] = useState(null);
+  const [isReply, setReply] = useState(false);
+
   const [selectedUser, setSelectedUser] = useState(null);
   const { message, setMessage, toggleEmojiBox } = useMain();
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
+
+  const toggleIsReply = () => {
+    setReply((p) => !p);
+    setReplyTo(null);
+  };
+
+  const handleSelectedReply = (msg) => {
+    setReplyTo(msg);
+    setReply(true);
+  };
   const instance = axios.create();
   instance.defaults.headers.common = {};
   const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
@@ -58,9 +71,8 @@ const MessengerUI = () => {
         })
       );
       setTimeout(() => {
-
-        setImageUploading(false)
-      }, 1000)
+        setImageUploading(false);
+      }, 1000);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -81,7 +93,11 @@ const MessengerUI = () => {
     setMessage(e.target.value);
   };
   const handleSendButton = (event) => {
-    if (event.code === "Enter") {
+    if (event.code === "Enter" && isReply) {
+      return console.log("Thi is reply");
+    }
+
+    if (event.code === "Enter" && !isReply) {
       const receiver = selectedConversation.users.find(
         (user) => user._id !== _id
       );
@@ -99,6 +115,10 @@ const MessengerUI = () => {
     }
   };
   const handleSend = () => {
+    if (isReply) {
+      return console.log("Thi is reply");
+    }
+
     const receiver = selectedConversation.users.find(
       (user) => user._id !== _id
     );
@@ -128,9 +148,9 @@ const MessengerUI = () => {
     }
   }, [conversations]);
 
-useEffect(() => {
-dispatch(_getChatList())
-}, [])
+  useEffect(() => {
+    dispatch(_getChatList());
+  }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -189,7 +209,11 @@ dispatch(_getChatList())
         />
 
         <Center
-        imageUploading={imageUploading}
+          handleSelectedReply={handleSelectedReply}
+          toggleIsReply={toggleIsReply}
+          isReply={isReply}
+          replyTo={replyTo}
+          imageUploading={imageUploading}
           handleImageUpload={handleImageUpload}
           handleSend={handleSend}
           selectedEmoji={selectedEmoji}

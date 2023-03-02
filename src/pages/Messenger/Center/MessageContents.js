@@ -13,7 +13,7 @@ const MessageContents = ({
 }) => {
   const {
     account: { _id },
-    messageReactions,
+  
     messages, 
     currentMessage,
     latestReaction,

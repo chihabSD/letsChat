@@ -44,15 +44,19 @@ const Center = ({
   selectedEmoji,
   handleImageUpload,
   imageUploading,
+
+  toggleIsReply, 
+  isReply, 
+  handleReplyTo, 
+  replyTo, 
+  handleSelectedReply
 }) => {
   const currentMessage = React.useRef(null);
   const { ref } = useMain();
   const [reactionVisible, setReactionVisible] = useState(false);
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
-  const [isReply, setReply] = useState(false);
 
-  const toggleIsReply = () => setReply((p) => !p);
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
     dispatch(insertImagePreview({ imageUrl }));
@@ -157,15 +161,15 @@ const Center = ({
     }
   };
   const handleReactionUpdate = (details) => {
-    console.log(details);
+    console.log("handle reaction update", details)
   };
 
   // handle reply
-  const handleSelectedReply = (msg) => {
-    setSeelectedMessage(msg);
+  // const handleSelectedReply = (msg) => {
+  //   setSeelectedMessage(msg);
  
-    setReply(true);
-  };
+  //   setReply(true);
+  // };
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
@@ -272,16 +276,15 @@ const Center = ({
         <div className="reply-container">
           <div className="top">
             <p>
-              Reply to <span>{selectedMessage.senderId._id === _id ? "yourself":`${selectedMessage.senderId.username}`}</span>{" "}
+              Reply to <span>{replyTo.senderId._id === _id ? "yourself":`${replyTo.senderId.username}`}</span>{" "}
             </p>
             <p className="close" onClick={toggleIsReply}>
               X
             </p>
           </div>
-          {/* <p> {selectedMessage && isReply ? `${selectedMessage.message}`:null}</p> */}
-          {selectedMessage ? (
-            selectedMessage.type === "text" ? (
-              <p>{selectedMessage.message}</p>
+          {replyTo ? (
+            replyTo.type === "text" ? (
+              <p>{replyTo.message}</p>
             ) : <p>Reply to Image</p>
           ) : null}
         </div>
