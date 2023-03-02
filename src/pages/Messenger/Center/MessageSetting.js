@@ -15,6 +15,7 @@ const MessageSetting = ({
   handleMessageAction,
   settingsModalVisible,
   handleSettings,
+  handleSelectedReply
 }) => {
   const {
     messageReactions,
@@ -44,7 +45,7 @@ const MessageSetting = ({
       <div className="item">
         <TbDotsVertical onClick={handleMessageAction} />
       </div>
-      <div className="item">
+      <div className="item" onClick={handleSelectedReply}>
         <BsReply />
       </div>
       <div className="item">

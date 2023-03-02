@@ -98,9 +98,9 @@
           position: absolute;
           cursor: pointer;
           // height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           width: fit-content;
           bottom: 120px;
           right: 60px;
@@ -111,7 +111,6 @@
           background-color: white;
           z-index: 999;
           padding: 0px 10px;
-
         }
         .reactions-container.current {
           background-color: blue;
@@ -120,7 +119,7 @@
           // background-color: blue;
           height: 50px;
           border-radius: 20px;
-          min-width: 60%;
+          min-width: 30%;
           box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
             rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
             rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -141,13 +140,16 @@
           }
           .item.h:hover {
             background-color: lightgray;
-
+            cursor: pointer;
           }
           .item.selected {
             background-color: lightgray;
             margin: 10px;
           }
-          .item , item.h {
+          ite.h {
+            cursor: pointer;
+          }
+          .item {
             width: 30px;
             cursor: pointer;
             // background-color: blue;
@@ -157,7 +159,6 @@
             align-items: center;
             display: flex;
             margin: 10px;
-       
           }
         }
       }
@@ -183,8 +184,8 @@
           }
         }
 
-        .reaction.plus{
-          background:white ;
+        .reaction.plus {
+          background: white;
           width: 50px;
           height: 25px;
           border-radius: 10%;
@@ -193,9 +194,9 @@
         .reaction {
           background: white;
           // width: 55px;
-         width: 25px;
-         cursor: pointer;
-         height: 25px;
+          width: 25px;
+          cursor: pointer;
+          height: 25px;
           box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
           left: -10px;
           bottom: -5px;
@@ -210,15 +211,15 @@
           text-align: center;
         }
       }
-    .message-image {
-    // max-width: 60%;
-    width: 250px;
-cursor: pointer;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-    }
+      .message-image {
+        // max-width: 60%;
+        width: 250px;
+        cursor: pointer;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
 
     // LEFT
@@ -248,21 +249,18 @@ cursor: pointer;
         padding: 3px 10px;
         color: black;
       }
-      
-.reaction.plus {
-  // background-color: orange;
-  padding: 5px;
-  bottom: 30%;
-}
-      .reaction {
 
+      .reaction.plus {
+        // background-color: orange;
+        padding: 5px;
+        bottom: 30%;
+      }
+      .reaction {
         // right: -100px;
         margin-left: 95%;
         right: 10px;
 
- 
         bottom: 15px;
-  
       }
 
       .userimage-container {
@@ -514,8 +512,41 @@ cursor: pointer;
       }
     }
   }
+  .reply-container {
+  padding: 4px 20px;
+  // padding-top: 4px;
+  border-top: 0.5px solid lightgrey ;
+  font-size: 0.9rem;
+  .top {
+    // background-color: blue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
+      font-size: 0.8rem;
+    margin-bottom: 5px;
+    p {
+      color: gray;
+    span {
+      color: black;
+    }
+    }
+    .close:hover {
+      background-color: lightgray;
+    }
+    .close {
+      cursor: pointer;
+      height: 25px;
+       width: 25px;
+       align-items: center;
+       display: flex;
+       justify-content: center;
+       border-radius: 50%;
+    }
+  }
+  p {
+    color: grey;
+  }
+  }
 
-
-  
 }
