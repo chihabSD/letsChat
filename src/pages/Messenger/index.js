@@ -233,6 +233,7 @@ const MessengerUI = () => {
           toggleIsReply={toggleIsReply}
           isReply={isReply}
           replyTo={replyTo}
+          setReplyTo={setReplyTo}
           imageUploading={imageUploading}
           handleImageUpload={handleImageUpload}
           handleSend={handleSend}

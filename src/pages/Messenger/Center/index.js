@@ -1,15 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineClose, AiOutlineExpand } from "react-icons/ai";
-import { GrExpand } from "react-icons/gr";
-import { BsArrowLeft } from "react-icons/bs";
-import { TbMessageCircle, TbMessageCircleOff } from "react-icons/tb";
-import { Oval } from "react-loader-spinner";
-import { emojis } from "../../../data";
-import { Header } from "./Header";
+import { TbMessageCircleOff } from "react-icons/tb";
 
-import { BsReply } from "react-icons/bs";
-import { FaSmile } from "react-icons/fa";
-import { TbDotsVertical } from "react-icons/tb";
+import { Header } from "./Header";
 
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useMain } from "../../../hooks/useMainState";
@@ -26,13 +18,9 @@ import EmptyLayout from "../../../Layouts/EmptyLayout";
 import moment from "moment";
 import { TimeDivider } from "./TimeDivider";
 import { UserImage } from "../../../components/UserImage";
-import { MessageTime } from "./MessageTime";
 import MessageContents from "./MessageContents";
 import MessageSetting from "./MessageSetting";
-import {
-  insertImagePreview,
-  setCurrentMessage,
-} from "../../../redux/reducers/friends";
+import { insertImagePreview } from "../../../redux/reducers/friends";
 import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
 const Center = ({
   handleSendButton,
@@ -44,11 +32,12 @@ const Center = ({
   selectedEmoji,
   handleImageUpload,
   imageUploading,
-
+  setReplyTo, 
   toggleIsReply,
   isReply,
   handleReplyTo,
   replyTo,
+  
   handleSelectedReply,
 }) => {
   const currentMessage = React.useRef(null);
@@ -56,6 +45,7 @@ const Center = ({
   const [reactionVisible, setReactionVisible] = useState(false);
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
+  // const [parentMessage, setParentMessage] = useState(null);
 
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
@@ -170,10 +160,30 @@ const Center = ({
 
   //   setReply(true);
   // };
-  const  handleCurrentMessageReply = msg => {
-    
-    console.log('parent message to reply to ', msg);
-  }
+  const itemsEls = useRef(new Array());
+  const handleCurrentMessageReply = (msg) => {
+    // setParentMessage(msg);
+    setReplyTo(msg)
+    const element = document.getElementById(msg._id);
+    if (element) {
+      // 👇 Will scroll smoothly to the top of the next section
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleClickScroll = () => {
+    const element = document.getElementById("section-1");
+    if (element) {
+      // 👇 Will scroll smoothly to the top of the next section
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    console.log(scrollRef.current);
+    //
+  }, []);
+
   return (
     <div className="center">
       {/* {showEmojiBox  && <EmojiBox />} */}
@@ -195,18 +205,16 @@ const Center = ({
 
             return (
               <div className="timeline-container" key={timeline.timeLine}>
-  
                 {timeline.messages.map((message) => {
-              
                   return message.senderId._id === _id ||
-                    message.senderId._id === undefined  ? (
-
+                    message.senderId._id === undefined ? (
                     <div
+                      id={message._id}
                       className="chat-box-container"
-                      ref={scrollRef}
+                      // ref={scrollRef}
+                      ref={(element) => itemsEls.current.push(element)}
                       key={message._id}
                     >
-                     
                       <MessageSetting
                         handleSelectedReply={() => handleSelectedReply(message)}
                         handleSettings={handleSettings}
@@ -225,8 +233,8 @@ const Center = ({
                         handleMouseOver={handleMouseOver}
                       />
                       <MessageContents
-                      handleCurrentMessageReply={handleCurrentMessageReply}
-                      replyTo={replyTo}
+                        handleCurrentMessageReply={handleCurrentMessageReply}
+                        replyTo={replyTo}
                         handleReactionUpdate={handleReactionUpdate}
                         toggleReactionModal={toggleReactionModal}
                         message={message}
@@ -243,13 +251,17 @@ const Center = ({
                     >
                       <div className="userimage-container">
                         <UserImage
-                          image={message.contentType === 'reply' ? message.messageId.receiverId.image: message.receiverId.image}
+                          image={
+                            message.contentType === "reply"
+                              ? message.messageId.receiverId.image
+                              : message.receiverId.image
+                          }
                           style={{ width: "40px", height: "40px" }}
                         />
                       </div>
                       <MessageContents
-                       handleCurrentMessageReply={handleCurrentMessageReply}
-                       replyTo={replyTo}
+                        handleCurrentMessageReply={handleCurrentMessageReply}
+                        replyTo={replyTo}
                         toggleReactionModal={toggleReactionModal}
                         message={message}
                         handleReactionUpdate={handleReactionUpdate}

@@ -251,7 +251,8 @@
       }
       .message-content.selected {
         border: 3px dotted white;
-        animation: shake 0.3s;
+        animation: shake 0.1s;
+        background-color: gray;
 
         /* When the animation is finished, start again */
         animation-iteration-count: 1;
