@@ -191,6 +191,7 @@
   .message-deleted {
     align-items: center;
     display: flex;
+    flex-direction: column;
   }
   .restore:hover {
     color: var(--main-color-light);

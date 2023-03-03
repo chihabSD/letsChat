@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineStop } from "react-icons/ai";
-import { FaReply } from "react-icons/fa";
+import { FaBicycle, FaReply, FaTrash, FaTrashRestore } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
 // import Reply from "../../../../../backend/src/models/reply";
 import { useRedux } from "../../../hooks/useRedux";
@@ -17,18 +17,18 @@ const MessageContents = ({
   replyTo,
   handleCurrentMessageReply,
   handleImagePreview,
-  handleRestore
+  handleRestore,
+  deleteForEver,
 }) => {
-  const [updated, setUpdated]= useState(false)
+  const [updated, setUpdated] = useState(false);
   const {
     account: { _id },
-updatingMessage, 
+    updatingMessage,
     messages,
 
     dispatch,
   } = useRedux();
 
-  
   // useEffect(() =>{
   //   if(updatingMessage){
   //     console.log('updating');
@@ -50,7 +50,6 @@ updatingMessage,
     );
   }
 
- 
   // DELETED MESSAGE
   if (message.contentType === "message" && message.deletedBy.length > 0) {
     // check who deleted this
@@ -59,24 +58,37 @@ updatingMessage,
     if (findUser) {
       return (
         <div className="deletedBy-current-user">
-          <div className="message-deleted"> <AiOutlineStop /> You deleted this message </div>
-          <div className="restore" onClick={() => handleRestore(message)}>Restore</div>
+          <div className="message-deleted">
+            {" "}
+            <AiOutlineStop />
+            <p>You deleted message temperorly,</p>
+            <p>receiver can still seet it</p>
+          </div>
+          <div>
+            <div className="restore" onClick={() => handleRestore(message)}>
+              <FaTrashRestore /> Restore
+            </div>
+            <div className="restore" onClick={() => deleteForEver(message)}>
+              {" "}
+              <FaTrash color="red" /> Delete permanently
+            </div>
+          </div>
         </div>
       );
     } else {
       const findReaction = messages.find(
         (reaction) => reaction._id === message._id
       );
-  
+
       const isUserReacted = message.reactions.reactions.find(
         (reaction) => reaction.by === _id
       );
-  
+
       const updateReaction = () => {
         dispatch(setSelectedReaction(findReaction));
         dispatch(_toggleReactionListModal());
       };
-  
+
       return (
         <div
           className={`${
@@ -85,9 +97,8 @@ updatingMessage,
               : "message-content"
           }`}
         >
-         
           {message.type === "text" && message.message}
-          
+
           {message.type === "image" && (
             <div
               className="message-image"
@@ -96,7 +107,7 @@ updatingMessage,
               <img src={message.imageUrl} />
             </div>
           )}
-  
+
           {findReaction.reactions.reactions.length === 0 && null}
           {findReaction.reactions.reactions.length == 1 && (
             <div className="reaction" onClick={updateReaction}>
@@ -114,11 +125,11 @@ updatingMessage,
               </Reaction>
             </div>
           )}
-  
+
           <MessageTime date={message.createdAt} right={direction} />
         </div>
-  
-    )}
+      );
+    }
     // return  <DeletedMessage />
   }
 
