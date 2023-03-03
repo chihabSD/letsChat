@@ -19,13 +19,24 @@ const MessageContents = ({
   handleImagePreview,
   handleRestore
 }) => {
+  const [updated, setUpdated]= useState(false)
   const {
     account: { _id },
-
+updatingMessage, 
     messages,
 
     dispatch,
   } = useRedux();
+
+  
+  // useEffect(() =>{
+  //   if(updatingMessage){
+  //     console.log('updating');
+  //     setUpdated(true)
+  //   }else {
+  //     setUpdated(FALSE)
+  //   }
+  //   }, [updatingMessage])
 
   // REPLY
   if (message.contentType === "reply") {
@@ -39,6 +50,7 @@ const MessageContents = ({
     );
   }
 
+ 
   // DELETED MESSAGE
   if (message.contentType === "message" && message.deletedBy.length > 0) {
     // check who deleted this

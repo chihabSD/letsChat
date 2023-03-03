@@ -47,6 +47,7 @@ const Center = ({
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
 
+  const [updatingMesage, setUpdatingMessge]= useState(false)
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
     dispatch(insertImagePreview({ imageUrl }));
@@ -70,7 +71,7 @@ const Center = ({
     messages,
     timeLines,
     dispatch,
-
+updatingMessage, 
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
@@ -165,6 +166,12 @@ const Center = ({
   const handleRestore = (msg) => {
     dispatch(_deleteMessage({ messageId: msg._id, restore: true }));
   };
+
+useEffect(() => {
+if(updatingMesage){
+  console.log('updating');
+}
+}, [updatingMessage])
   return (
     <div className="center">
       <Header selectedConversation={selectedConversation} />

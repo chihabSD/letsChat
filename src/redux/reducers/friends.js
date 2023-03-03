@@ -7,9 +7,11 @@ const initialState = {
   messages: [],
   timeLines: [],
   imagePreview: [],
+  updatedMessages: [],
+  updatingMessage: false,
   selectedConversation: null,
   currentMessageReactions: null,
-  newMessageAdd:false
+  newMessageAdd: false,
 };
 
 export const friendsReducer = createSlice({
@@ -41,18 +43,34 @@ export const friendsReducer = createSlice({
         state.timeLines = groupMessages(action.payload);
         const tempArray = [];
         action.payload.map((msg) => {
-          // const {
-          //   _id,
-          //   reactions: { reactions },
-          // } = msg;
-
           tempArray.push(msg);
         });
         state.messages = [...action.payload];
-        
       }
     },
 
+    insertUpdatedMessage: (state, action) => {
+    
+      let newArr = [];
+      current(state.timeLines).map((item) => {
+        item.messages.map((r) => {
+          newArr.push(r);
+        });
+      });
+
+      // get index
+      let getIndex = newArr.findIndex((msg) => msg._id === action.payload._id);
+
+      // filter the old item
+      let filteredItem = newArr.filter(
+        (item) => item._id != action.payload._id
+      );
+
+      filteredItem.splice(getIndex, 0, action.payload);
+
+      state.timeLines = groupMessages([...filteredItem]);
+
+    },
     // the message sent
     insertSentMessage: (state, action) => {
       let formatedDate = moment(action.payload.createdAt).format("YYYY-MM-DD");
@@ -70,11 +88,8 @@ export const friendsReducer = createSlice({
       });
       state.messages.push(action.payload);
       state.timeLines = newObj;
-  
-    
     },
 
-   
     // update current reaction
     insertLatestReaction: (state, action) => {
       let currentReactions = [...current(state.messages)];
@@ -96,12 +111,12 @@ export const friendsReducer = createSlice({
     resetImagePreview: (state, action) => {
       state.imagePreview = [];
     },
-    setNewMessageAdded : (state, action) => {
-      state.newMessageAdd = true
+    setNewMessageAdded: (state, action) => {
+      state.newMessageAdd = true;
     },
     clearNewMessageAdded: (state, action) => {
-      state.newMessageAdd = false
-    }
+      state.newMessageAdd = false;
+    },
   },
 });
 
@@ -110,11 +125,12 @@ export const {
   insertSentMessage,
   insertMessages,
   insertConversation,
+  insertUpdatedMessage,
   resetImagePreview,
   insertImagePreview,
   setSelectedReaction,
   insertLatestReaction,
-  setNewMessageAdded, clearNewMessageAdded
-
+  setNewMessageAdded,
+  clearNewMessageAdded,
 } = friendsReducer.actions;
 export default friendsReducer.reducer;

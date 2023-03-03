@@ -1,6 +1,6 @@
 import { messageApiHandler } from '../../../api/message';
 import { setError } from '../../reducers/error';
-import {} from '../../reducers/friends';
+import { insertUpdatedMessage } from '../../reducers/friends';
 import { names } from '../names';
 
 export const _deleteMessage = (details) => {
@@ -10,7 +10,7 @@ export const _deleteMessage = (details) => {
       const {data:{message}} = await messageApiHandler (names.DELETE_MESSAGE, details);
      
       // handle restore pic
-      console.log(message);
+      dispatch(insertUpdatedMessage(message))
     
     } catch (e) {
       dispatch(setError(e.response.data.error));
