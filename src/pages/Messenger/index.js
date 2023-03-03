@@ -74,6 +74,8 @@ const MessengerUI = () => {
       setTimeout(() => {
         setImageUploading(false);
       }, 1000);
+      setReply(false)
+      setReplyTo(null)
     } catch (error) {
       console.log(error.response.data);
     }
@@ -109,6 +111,7 @@ const MessengerUI = () => {
       setReply(false)
       setReplyTo(null)
       setMessage("")
+
       return
     }
 
@@ -125,6 +128,8 @@ const MessengerUI = () => {
         })
       );
       setMessage("");
+      setReply(false)
+      setReplyTo(null)
       if (toggleEmojiBox) dispatch(_closeEmojiBox());
       // dispatch(_closeEmojiBox())
     }
@@ -170,12 +175,18 @@ const MessengerUI = () => {
   useEffect(() => {
     dispatch(_getChatList());
   }, []);
-
+  const scrollDown = () => {
+    scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    setReplyTo(null)
   }, [messages]);
+ 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    setTimeout(() => {
+scrollDown()
+},2000)
   }, []);
 
   useEffect(() => {

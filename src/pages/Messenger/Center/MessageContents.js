@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaReply } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
 import { useRedux } from "../../../hooks/useRedux";
 import { setSelectedReaction } from "../../../redux/reducers/friends";
@@ -10,28 +11,33 @@ const MessageContents = ({
   direction,
   handleReactionUpdate,
   replyTo,
-  handleCurrentMessageReply, 
+  handleCurrentMessageReply,
   handleImagePreview,
 }) => {
   const {
     account: { _id },
 
     messages,
-    currentMessage,
-    latestReaction,
+
     dispatch,
   } = useRedux();
 
   if (message.contentType === "reply") {
     return (
-      <div className="message-content reply" onClick={() => handleCurrentMessageReply(message.messageId)}>
-        <div className="parent-message"> {message.messageId.message}</div>
-        <div className="reply">  {message.message}
-        
-        <MessageTime date={message.createdAt} right={direction} reply /> 
+      <div
+        className="message-content reply"
+        onClick={() => handleCurrentMessageReply(message.messageId)}
+      >
+        <div className="replyInfo">
+          
+          <FaReply /> {message.senderId._id && message. messageId.senderId === _id ? "Replied to yourself": `You replied to message` }
         </div>
-     
-       
+        <div className="parent-message"> {message.messageId.message}</div>
+        <div className="reply">
+          {" "}
+          {message.message}
+          <MessageTime date={message.createdAt} right={direction} reply />
+        </div>
       </div>
     );
   } else {

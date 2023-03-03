@@ -171,6 +171,13 @@
         background-color: grey;
       }
       .message-content.reply {
+        .replyInfo {
+          // background-color: grey;
+          display: flex;
+          font-size: 0.8rem;
+          align-items: center;
+          justify-content: space-around;
+        }
         .details {
           display: none;
         }
@@ -252,7 +259,8 @@
       .message-content.selected {
         border: 3px dotted white;
         animation: shake 0.1s;
-        background-color: gray;
+        background-color: green;
+        
 
         /* When the animation is finished, start again */
         animation-iteration-count: 1;
@@ -337,9 +345,12 @@
         }
       }
 
+      
       .message-content.reply {
         .reply {
           left: 1px;
+          // background-color: grey;
+          // color: white;
         }
       }
 

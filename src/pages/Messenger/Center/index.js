@@ -32,12 +32,12 @@ const Center = ({
   selectedEmoji,
   handleImageUpload,
   imageUploading,
-  setReplyTo, 
+  setReplyTo,
   toggleIsReply,
   isReply,
   handleReplyTo,
   replyTo,
-  
+
   handleSelectedReply,
 }) => {
   const currentMessage = React.useRef(null);
@@ -45,7 +45,6 @@ const Center = ({
   const [reactionVisible, setReactionVisible] = useState(false);
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
-  // const [parentMessage, setParentMessage] = useState(null);
 
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
@@ -154,39 +153,20 @@ const Center = ({
     console.log("handle reaction update", details);
   };
 
-  // handle reply
-  // const handleSelectedReply = (msg) => {
-  //   setSeelectedMessage(msg);
+ 
 
-  //   setReply(true);
-  // };
-  const itemsEls = useRef(new Array());
   const handleCurrentMessageReply = (msg) => {
-    // setParentMessage(msg);
-    setReplyTo(msg)
+ 
+    setReplyTo(msg);
     const element = document.getElementById(msg._id);
     if (element) {
-      // 👇 Will scroll smoothly to the top of the next section
+     
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-
-  const handleClickScroll = () => {
-    const element = document.getElementById("section-1");
-    if (element) {
-      // 👇 Will scroll smoothly to the top of the next section
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  useEffect(() => {
-    console.log(scrollRef.current);
-    //
-  }, []);
 
   return (
     <div className="center">
-      {/* {showEmojiBox  && <EmojiBox />} */}
       <Header selectedConversation={selectedConversation} />
 
       <div className="messages-container">
@@ -211,8 +191,8 @@ const Center = ({
                     <div
                       id={message._id}
                       className="chat-box-container"
-                      // ref={scrollRef}
-                      ref={(element) => itemsEls.current.push(element)}
+                      ref={scrollRef}
+                      // ref={(element) => itemsEls.current.push(element)}
                       key={message._id}
                     >
                       <MessageSetting
