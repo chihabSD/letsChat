@@ -59,6 +59,21 @@
       }
     }
 
+    .chat-box-container.undefined {
+      background-color: orange;
+    }
+    .chat-box-container.hidesettings {
+      // background-color: blue;
+      height: 150px;
+      display: flex;
+      .details {
+        display: none;
+    right: 100px;
+      }
+      .message-settings-container {
+        background-color: blue;
+      }
+    }
     .chat-box-container {
       margin: 1px;
 
@@ -99,13 +114,14 @@
         .message-settings-container {
           position: absolute;
           cursor: pointer;
-          // height: 100px;
+          height: 100px;
           display: flex;
           justify-content: center;
           align-items: center;
-          width: fit-content;
-          bottom: 120px;
-          right: 60px;
+          // width: fit-content;
+          width: 100px;
+          bottom: 50px;
+          right: 100px;
           border-radius: 2px;
           box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
             rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
@@ -165,7 +181,27 @@
         }
       }
       // MESSAGE CONTAINER
-
+.deletedBy-current-user {
+  background-color: white;
+  border: 0.4px solid rgb(236, 236, 236);
+  padding: 10px;
+  color: gray;
+  // height: 100px;
+  height: fit-content;
+  .message-deleted {
+    align-items: center;
+    display: flex;
+  }
+  .restore:hover {
+    color: var(--main-color-light);
+  }
+  .restore {
+    // background-color: blue;
+    margin-top: 5px;
+    cursor: pointer;
+    color: var(--main-color);
+  }
+}
       .message-content.reply:hover {
         cursor: pointer;
         background-color: grey;
@@ -260,7 +296,6 @@
         border: 3px dotted white;
         animation: shake 0.1s;
         background-color: green;
-        
 
         /* When the animation is finished, start again */
         animation-iteration-count: 1;
@@ -345,7 +380,6 @@
         }
       }
 
-      
       .message-content.reply {
         .reply {
           left: 1px;

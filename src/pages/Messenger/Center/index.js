@@ -22,6 +22,7 @@ import MessageContents from "./MessageContents";
 import MessageSetting from "./MessageSetting";
 import { insertImagePreview } from "../../../redux/reducers/friends";
 import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
+import { _deleteMessage } from "../../../redux/actions/message/deleteMessage";
 const Center = ({
   handleSendButton,
   selectedConversation,
@@ -144,27 +145,26 @@ const Center = ({
   };
 
   const handleSettings = (setting, message) => {
-    console.log(setting, message._id);
     if (setting === "Remove") {
-      // Remove the message
+      dispatch(_deleteMessage({ messageId: message._id }));
     }
   };
   const handleReactionUpdate = (details) => {
     console.log("handle reaction update", details);
   };
 
- 
-
   const handleCurrentMessageReply = (msg) => {
- 
     setReplyTo(msg);
     const element = document.getElementById(msg._id);
     if (element) {
-     
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  // Restore message
+  const handleRestore = (msg) => {
+    dispatch(_deleteMessage({ messageId: msg._id, restore: true }));
+  };
   return (
     <div className="center">
       <Header selectedConversation={selectedConversation} />
@@ -186,11 +186,24 @@ const Center = ({
             return (
               <div className="timeline-container" key={timeline.timeLine}>
                 {timeline.messages.map((message) => {
+                  const { contentType } = message;
+                  let condition =
+                    message.deletedBy !== undefined &&
+                    message.deletedBy.length > 0 &&
+                    message.deletedBy.find((user) => user.by == _id);
+
+                  const className = "chat-box-container";
                   return message.senderId._id === _id ||
                     message.senderId._id === undefined ? (
                     <div
                       id={message._id}
-                      className="chat-box-container"
+                      className={
+                        contentType === "reply"
+                          ? "chat-box-container hidesettings"
+                          : condition
+                          ? "chat-box-container hidesettings"
+                          : className
+                      }
                       ref={scrollRef}
                       // ref={(element) => itemsEls.current.push(element)}
                       key={message._id}
@@ -213,6 +226,7 @@ const Center = ({
                         handleMouseOver={handleMouseOver}
                       />
                       <MessageContents
+                        handleRestore={handleRestore}
                         handleCurrentMessageReply={handleCurrentMessageReply}
                         replyTo={replyTo}
                         handleReactionUpdate={handleReactionUpdate}
@@ -247,6 +261,7 @@ const Center = ({
                         handleReactionUpdate={handleReactionUpdate}
                         imageUploading={imageUploading}
                         handleImagePreview={handleImagePreview}
+                        handleRestore={handleRestore}
                       />
 
                       <MessageSetting

@@ -9,6 +9,7 @@ const initialState = {
   imagePreview: [],
   selectedConversation: null,
   currentMessageReactions: null,
+  newMessageAdd:false
 };
 
 export const friendsReducer = createSlice({
@@ -69,6 +70,8 @@ export const friendsReducer = createSlice({
       });
       state.messages.push(action.payload);
       state.timeLines = newObj;
+  
+    
     },
 
    
@@ -93,6 +96,12 @@ export const friendsReducer = createSlice({
     resetImagePreview: (state, action) => {
       state.imagePreview = [];
     },
+    setNewMessageAdded : (state, action) => {
+      state.newMessageAdd = true
+    },
+    clearNewMessageAdded: (state, action) => {
+      state.newMessageAdd = false
+    }
   },
 });
 
@@ -105,6 +114,7 @@ export const {
   insertImagePreview,
   setSelectedReaction,
   insertLatestReaction,
+  setNewMessageAdded, clearNewMessageAdded
 
 } = friendsReducer.actions;
 export default friendsReducer.reducer;

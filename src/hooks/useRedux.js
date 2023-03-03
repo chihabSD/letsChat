@@ -8,7 +8,7 @@ const useRedux = () => {
     friendsReducer: {
       friends,
       latestReaction,
-      
+      newMessageAdd , 
       timeLines, 
       currentMessage,
       messages,
@@ -45,7 +45,7 @@ const useRedux = () => {
     registered,
     messageMessagePreview,
     imagePreview,
-    timeLines
+    timeLines,  newMessageAdd
   };
 };
 

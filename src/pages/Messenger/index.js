@@ -9,7 +9,6 @@ import MainLayoutLoading from "../../Layouts/MainLayoutLoading";
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
 import { _replyToMessage } from "../../redux/actions/message/replyToMessage";
-import { _sendImage } from "../../redux/actions/message/sendImage";
 import { _sendMessage } from "../../redux/actions/message/sendMessage";
 import { _closeEmojiBox, _toggleEmojiBox } from "../../redux/reducers/toggler";
 import Center from "./Center";
@@ -25,6 +24,7 @@ const MessengerUI = () => {
     conversations,
     messages,
     loading,
+    newMessageAdd,
     account: { username, _id },
   } = useRedux();
   const [selectedConversation, setSelectedConversation] = useState(null);
@@ -74,8 +74,8 @@ const MessengerUI = () => {
       setTimeout(() => {
         setImageUploading(false);
       }, 1000);
-      setReply(false)
-      setReplyTo(null)
+      setReply(false);
+      setReplyTo(null);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -102,17 +102,17 @@ const MessengerUI = () => {
   // message,
   // messageId
   const replayData = {
-  messageId: replyTo && replyTo._id, 
-  message
-  }
+    messageId: replyTo && replyTo._id,
+    message,
+  };
   const handleSendButton = (event) => {
     if (event.code === "Enter" && isReply) {
-      dispatch(_replyToMessage(replayData))
-      setReply(false)
-      setReplyTo(null)
-      setMessage("")
+      dispatch(_replyToMessage(replayData));
+      setReply(false);
+      setReplyTo(null);
+      setMessage("");
 
-      return
+      return;
     }
 
     if (event.code === "Enter" && !isReply) {
@@ -128,19 +128,19 @@ const MessengerUI = () => {
         })
       );
       setMessage("");
-      setReply(false)
-      setReplyTo(null)
+      setReply(false);
+      setReplyTo(null);
       if (toggleEmojiBox) dispatch(_closeEmojiBox());
       // dispatch(_closeEmojiBox())
     }
   };
   const handleSend = () => {
     if (isReply) {
-    dispatch(_replyToMessage(replayData))
-    setReply(false)
-    setReplyTo(null)
-    setMessage("")
-    return
+      dispatch(_replyToMessage(replayData));
+      setReply(false);
+      setReplyTo(null);
+      setMessage("");
+      return;
     }
 
     const receiver = selectedConversation.users.find(
@@ -176,17 +176,13 @@ const MessengerUI = () => {
     dispatch(_getChatList());
   }, []);
   const scrollDown = () => {
-    scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-  }
-  useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-    setReplyTo(null)
-  }, [messages]);
- 
+  };
+
   useEffect(() => {
     setTimeout(() => {
-scrollDown()
-},2000)
+      scrollDown();
+    }, 1500);
   }, []);
 
   useEffect(() => {
@@ -205,7 +201,13 @@ scrollDown()
     }
   }, [loading]);
 
-  
+  // When new message is added, we scroll
+  useEffect(() => {
+    if (newMessageAdd) {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      setReplyTo(null);
+    }
+  }, [newMessageAdd]);
   if (
     loading ||
     selectedConversation === null ||
