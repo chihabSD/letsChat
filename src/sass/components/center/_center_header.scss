@@ -1,0 +1,25 @@
+.chat-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 0.6px solid lightgray;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    height: 70px;
+    align-items: center;
+
+    justify-content: space-between;
+    .chat-header-right {
+      display: flex;
+      div > .expand-toggle {
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      div > .expand-toggle:hover {
+        background-color: #f8f8f8;
+      }
+    }
+  } // end of chat header

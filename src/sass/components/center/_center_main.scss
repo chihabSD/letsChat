@@ -1,3 +1,7 @@
+@import './center_header';
+@import './center_emoji_modal';
+@import './center_bottom_reply';
+@import './center_message_box';
 .center {
   background-color: #fff;
   position: relative;
@@ -12,36 +16,13 @@
     width: 0;
     height: 0;
   }
-  .chat-header {
-    display: flex;
-    align-items: center;
-    border-bottom: 0.6px solid lightgray;
-    background-color: white;
-    // border-bottom: 1px solid grey;
-    padding: 10px;
-    display: flex;
-    height: 70px;
-    align-items: center;
-
-    justify-content: space-between;
-    .chat-header-right {
-      display: flex;
-      div > .expand-toggle {
-        cursor: pointer;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      div > .expand-toggle:hover {
-        background-color: #f8f8f8;
-      }
-    }
-  } // end of chat header
+ //
   .timeline-container {
     display: flex;
     flex-direction: column;
 
+    
+   
     width: 100%;
 
     flex: 1;
@@ -59,12 +40,12 @@
       }
     }
 
-    .chat-box-container.undefined {
-      background-color: orange;
-    }
+  
     .chat-box-container.hidesettings {
       // background-color: blue;
-      height: 150px;
+      // margin: 10px;
+      margin-top: 100px;
+      height: 100px;
       display: flex;
       .details {
         display: none;
@@ -208,6 +189,7 @@
         background-color: grey;
       }
       .message-content.reply {
+        
         .replyInfo {
           // background-color: grey;
           display: flex;
@@ -447,251 +429,6 @@
     }
   } // end of messages container
 
-  .message-box-container {
-    // height: 100%;
-    position: relative;
-    background-color: white;
 
-    box-shadow: rgba(139, 139, 143, 0.2) 0px 7px 29px 0px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px 0px;
-    width: 100%;
-    height: 60px;
-    border-top: 0.2px solid lightgray;
-
-    .image-select {
-      cursor: pointer;
-      margin-right: 10px;
-      width: 35px;
-      height: 35px;
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      label:hover {
-        background-color: red;
-      }
-      label {
-        cursor: pointer;
-        background-color: grey;
-        width: 35px;
-        height: 35px;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        border-radius: 50%;
-      }
-    }
-    .image-select > input {
-      display: none;
-    }
-  }
-  .messages-send-box {
-    padding: 10px;
-    // background-color: white;
-    // background-color: blue;
-    // border: 0.2px solid lightgray;
-    background-color: #f8f8f8;
-    flex: 1;
-    display: flex;
-    align-items: center;
-
-    height: 80%;
-    // height: inherit;
-    margin: 15px 10px 15px;
-    // margin: 10px;
-
-    border-radius: 10px;
-    padding: 10px;
-    *:focus {
-      outline: none;
-    }
-    input {
-      width: 100%;
-      background-color: #f8f8f8;
-
-      // background-color: blue;
-      border-style: none;
-      border-radius: 10px;
-      margin-right: 10px;
-      font-size: 0.9rem;
-      // height:100%;
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      // text-align: center;
-    }
-    .emoji {
-      cursor: pointer;
-      width: 30px;
-      height: 30px;
-      align-items: center;
-      justify-content: center;
-      display: flex;
-
-      border-radius: 50%;
-    }
-    .emoji:hover {
-      background-color: lightgray;
-    }
-  }
-
-  // End of middle
-  .image-upload > input {
-    display: none;
-  }
-
-  .send:hover {
-    background-color: rgba(89, 89, 246, 0.761);
-  }
-  .send {
-    background-color: var(--main-color);
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    align-items: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-
-    cursor: pointer;
-  }
-  .message-box-container-left {
-    display: flex;
-    .item:hover {
-      background-color: lightgray;
-    }
-    .item {
-      margin-right: 10px;
-      cursor: pointer;
-      width: 30px;
-      height: 30px;
-      align-items: center;
-      justify-content: center;
-      display: flex;
-
-      border-radius: 50%;
-    }
-  }
-  .emoji-box-container::-webkit-scrollbar {
-    /* WebKit */
-    width: 0;
-    height: 0;
-  }
-  .emoji-box-container {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    background-color: white;
-    border-radius: 10px;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    right: 0;
-    margin-right: 30px;
-    top: -100;
-
-    margin-bottom: 300px;
-    // margin-bottom: 35%;
-
-    width: 50%;
-    height: 250px;
-    .emoji-contents {
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 10px;
-      display: grid;
-      height: 100%;
-      width: 100%;
-      grid-auto-rows: auto;
-      grid-template: repeat(3, 1fr) / repeat(15, 1fr);
-      column-gap: 8px;
-      row-gap: 8px;
-      margin-top: 15px;
-      .emojiIcon:hover {
-        background-color: lightgray;
-      }
-      .emojiIcon {
-        cursor: pointer;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-    .emojiheader-container {
-      padding: 10px;
-      .emojiheader-container-search {
-        height: 100%;
-        padding: 7px;
-        background-color: #f8f8f8;
-        display: flex;
-        align-items: center;
-        border-radius: 10px;
-        input {
-          flex: 1;
-          height: inherit;
-          padding: 5px;
-          margin-left: 10px;
-          border-style: none;
-          background-color: inherit;
-          font-size: 1rem;
-        }
-      }
-    }
-
-    .emojibottom {
-      border-top: 0.6px solid lightgray;
-      margin-top: 10px;
-      display: grid;
-      padding: 10px;
-      width: 100%;
-      height: 60px;
-      align-items: center;
-      grid-auto-rows: auto;
-      grid-template: repeat(3, 1fr) / repeat(8, 1fr);
-      column-gap: 8px;
-      //    row-gap: 8px;
-      .item {
-        // background-color: green;
-      }
-    }
-  }
-  .reply-container {
-    padding: 4px 20px;
-    // padding-top: 4px;
-    border-top: 0.5px solid lightgrey;
-    font-size: 0.9rem;
-    .top {
-      // background-color: blue;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      font-size: 0.8rem;
-      margin-bottom: 5px;
-      p {
-        color: gray;
-        span {
-          color: black;
-        }
-      }
-      .close:hover {
-        background-color: lightgray;
-      }
-      .close {
-        cursor: pointer;
-        height: 25px;
-        width: 25px;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        border-radius: 50%;
-      }
-    }
-    p {
-      color: grey;
-    }
-  }
+ 
 }
