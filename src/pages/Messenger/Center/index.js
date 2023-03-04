@@ -379,7 +379,7 @@ const Center = ({
       </div>
 
       {isReply && (
-        <div className="reply-container">
+        <div className="bottom-reply-container">
           <div className="top">
             <p>
               Reply to{" "}
