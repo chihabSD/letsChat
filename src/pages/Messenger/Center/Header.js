@@ -9,11 +9,10 @@ export const Header = ({ selectedConversation }) => {
     rightSideToggled,
     account: { _id },
   } = useRedux();
+  const returnUser = selectedConversation.users.find((user) => user._id != _id);
   return (
     <div className="chat-header">
-      {selectedConversation.users.map((user) => {
-        if (user._id !== _id) return user.username;
-      })}
+      {returnUser.username}
 
       <div className="chat-header-right">
         <div onClick={() => dispatch(_toggleRightSide())}>

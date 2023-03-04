@@ -31,7 +31,7 @@ const MessageSetting = ({
   );
 
   return (
-    <div className="details hidden">
+    <div className="message-settings hidden">
       <div className="item">
         <TbDotsVertical onClick={handleMessageAction} />
       </div>

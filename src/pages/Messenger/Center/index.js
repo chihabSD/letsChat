@@ -23,6 +23,8 @@ import MessageSetting from "./MessageSetting";
 import { insertImagePreview } from "../../../redux/reducers/friends";
 import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
 import { _deleteMessage } from "../../../redux/actions/message/deleteMessage";
+import Reply from "./Reply";
+import DeletedMessage from "./DeletedMessage";
 const Center = ({
   handleSendButton,
   selectedConversation,
@@ -47,7 +49,7 @@ const Center = ({
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
 
-  const [updatingMesage, setUpdatingMessge]= useState(false)
+  const [updatingMesage, setUpdatingMessge] = useState(false);
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
     dispatch(insertImagePreview({ imageUrl }));
@@ -71,7 +73,7 @@ const Center = ({
     messages,
     timeLines,
     dispatch,
-updatingMessage, 
+    updatingMessage,
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
@@ -167,11 +169,11 @@ updatingMessage,
     dispatch(_deleteMessage({ messageId: msg._id, restore: true }));
   };
 
-useEffect(() => {
-if(updatingMesage){
-  console.log('updating');
-}
-}, [updatingMessage])
+  useEffect(() => {
+    if (updatingMesage) {
+      console.log("updating");
+    }
+  }, [updatingMessage]);
   return (
     <div className="center">
       <Header selectedConversation={selectedConversation} />
@@ -204,45 +206,78 @@ if(updatingMesage){
                     message.senderId._id === undefined ? (
                     <div
                       id={message._id}
-                      className={
-                        contentType === "reply"
-                          ? "chat-box-container hidesettings"
-                          : condition
-                          ? "chat-box-container hidesettings"
-                          : className
-                      }
+                      className={className}
+                      // className={
+                      //   contentType === "reply"
+                      //     ? "chat-box-container hidesettings"
+                      //     : condition
+                      //     ? "chat-box-container hidesettings"
+                      //     : className
+                      // }
                       ref={scrollRef}
                       // ref={(element) => itemsEls.current.push(element)}
                       key={message._id}
                     >
-                      <MessageSetting
-                        handleSelectedReply={() => handleSelectedReply(message)}
-                        handleSettings={handleSettings}
-                        settingsModalVisbile={settingsModalVisbile}
-                        handleMessageAction={() => handleMessageAction(message)}
-                        handleSelectedReaction={handleSelectedReaction}
-                        reactionVisible={reactionVisible}
-                        settingsModalVisible={settingsModalVisbile}
-                        toggleReactionModal={toggleReactionModal}
-                        message={message}
-                        selectedMessage={selectedMessage}
-                        handleSelectedMessage={() =>
-                          handleSelectedMessage(message)
-                        }
-                        currentMessage={currentMessage}
-                        handleMouseOver={handleMouseOver}
-                      />
-                      <MessageContents
-                        handleRestore={handleRestore}
-                        handleCurrentMessageReply={handleCurrentMessageReply}
-                        replyTo={replyTo}
-                        handleReactionUpdate={handleReactionUpdate}
-                        toggleReactionModal={toggleReactionModal}
-                        message={message}
-                        direction
-                        imageUploading={imageUploading}
-                        handleImagePreview={handleImagePreview}
-                      />
+                      {condition ? (
+                        <div className="message-container">
+                          <DeletedMessage
+                            message={message}
+                            _id={_id}
+                            handleRestore={handleRestore}
+                          />
+                        </div>
+                      ) : (
+                        contentType === "message" && (
+                          <div className="message-container">
+                            <MessageSetting
+                              handleSelectedReply={() =>
+                                handleSelectedReply(message)
+                              }
+                              handleSettings={handleSettings}
+                              settingsModalVisbile={settingsModalVisbile}
+                              handleMessageAction={() =>
+                                handleMessageAction(message)
+                              }
+                              handleSelectedReaction={handleSelectedReaction}
+                              reactionVisible={reactionVisible}
+                              settingsModalVisible={settingsModalVisbile}
+                              toggleReactionModal={toggleReactionModal}
+                              message={message}
+                              selectedMessage={selectedMessage}
+                              handleSelectedMessage={() =>
+                                handleSelectedMessage(message)
+                              }
+                              currentMessage={currentMessage}
+                              handleMouseOver={handleMouseOver}
+                            />
+                            <MessageContents
+                              handleRestore={handleRestore}
+                              handleCurrentMessageReply={
+                                handleCurrentMessageReply
+                              }
+                              replyTo={replyTo}
+                              handleReactionUpdate={handleReactionUpdate}
+                              toggleReactionModal={toggleReactionModal}
+                              message={message}
+                              direction
+                              imageUploading={imageUploading}
+                              handleImagePreview={handleImagePreview}
+                            />
+                          </div>
+                        )
+                      )}
+                      {contentType == "reply" && (
+                        <div className="reply-container">
+                          <Reply
+                            _id={_id}
+                            message={message}
+                            handleCurrentMessageReply={
+                              handleCurrentMessageReply
+                            }
+                            direction
+                          />
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div
@@ -250,44 +285,89 @@ if(updatingMesage){
                       ref={scrollRef}
                       key={message._id}
                     >
-                      <div className="userimage-container">
-                        <UserImage
-                          image={
-                            message.contentType === "reply"
-                              ? message.messageId.receiverId.image
-                              : message.receiverId.image
-                          }
-                          style={{ width: "40px", height: "40px" }}
+                      
+                      {contentType == "reply" && (
+                        <div className="reply-container left">
+                         <div className="left">
+                            <UserImage
+                              image={
+                                message.contentType === "reply"
+                                  ? message.messageId.receiverId.image
+                                  : message.receiverId.image
+                              }
+                              style={{ width: "40px", height: "40px" }}
+                            />
+                          </div>
+                          <Reply
+                            _id={_id}
+                            message={message}
+                            handleCurrentMessageReply={
+                              handleCurrentMessageReply
+                            }
+                            direction
+                          />
+                        </div>
+                      )}
+                      
+                      {condition ? (
+                        <div className="message-container">
+                        <DeletedMessage
+                          message={message}
+                          _id={_id}
+                          handleRestore={handleRestore}
                         />
                       </div>
-                      <MessageContents
-                        handleCurrentMessageReply={handleCurrentMessageReply}
-                        replyTo={replyTo}
-                        toggleReactionModal={toggleReactionModal}
-                        message={message}
-                        handleReactionUpdate={handleReactionUpdate}
-                        imageUploading={imageUploading}
-                        handleImagePreview={handleImagePreview}
-                        handleRestore={handleRestore}
-                      />
+                      ) :
+                      contentType === "message" && (
+                        <div className="message-container">
+                          <div className="left">
+                            <UserImage
+                              image={
+                                message.contentType === "reply"
+                                  ? message.messageId.receiverId.image
+                                  : message.receiverId.image
+                              }
+                              style={{ width: "40px", height: "40px" }}
+                            />
+                          </div>
+                          <MessageContents
+                            handleCurrentMessageReply={
+                              handleCurrentMessageReply
+                            }
+                            replyTo={replyTo}
+                            toggleReactionModal={toggleReactionModal}
+                            message={message}
+                            handleReactionUpdate={handleReactionUpdate}
+                            imageUploading={imageUploading}
+                            handleImagePreview={handleImagePreview}
+                            handleRestore={handleRestore}
+                          />
 
-                      <MessageSetting
-                        handleSelectedReply={() => handleSelectedReply(message)}
-                        handleSettings={handleSettings}
-                        handleMessageAction={handleMessageAction}
-                        handleSelectedReaction={handleSelectedReaction}
-                        reactionVisible={reactionVisible}
-                        settingsModalVisible={settingsModalVisbile}
-                        setReactionVisible={setReactionVisible}
-                        toggleReactionModal={toggleReactionModal}
-                        message={message}
-                        selectedMessage={selectedMessage}
-                        handleSelectedMessage={() =>
-                          handleSelectedMessage(message)
-                        }
-                        currentMessage={currentMessage}
-                        handleMouseOver={handleMouseOver}
-                      />
+                          <MessageSetting
+                            handleSelectedReply={() =>
+                              handleSelectedReply(message)
+                            }
+                            handleSettings={handleSettings}
+                            handleMessageAction={handleMessageAction}
+                            handleSelectedReaction={handleSelectedReaction}
+                            reactionVisible={reactionVisible}
+                            settingsModalVisible={settingsModalVisbile}
+                            setReactionVisible={setReactionVisible}
+                            toggleReactionModal={toggleReactionModal}
+                            message={message}
+                            selectedMessage={selectedMessage}
+                            handleSelectedMessage={() =>
+                              handleSelectedMessage(message)
+                            }
+                            currentMessage={currentMessage}
+                            handleMouseOver={handleMouseOver}
+                          />
+                        </div>
+                      )
+                      
+                      }
+
+                      
                     </div>
                   );
                 })}
