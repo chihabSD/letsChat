@@ -382,7 +382,7 @@ const Center = ({
         <div className="bottom-reply-container">
           <div className="top">
             <p>
-              Reply to{" "}
+              Reply to
               <span>
                 {replyTo.senderId._id === _id
                   ? "yourself"
@@ -395,7 +395,7 @@ const Center = ({
           </div>
           {replyTo ? (
             replyTo.type === "text" ? (
-              <p>{replyTo.message}</p>
+              <p>{replyTo.message.length > 40 ? `${replyTo.message.slice(0, 40)}...`: replyTo.message}</p>
             ) : (
               <p>Reply to Image</p>
             )

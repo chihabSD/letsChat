@@ -13,12 +13,8 @@ const MessageContents = ({
   message,
   imageUploading,
   direction,
-  handleReactionUpdate,
   replyTo,
-  handleCurrentMessageReply,
   handleImagePreview,
-  handleRestore,
-  deleteForEver,
 }) => {
   const [updated, setUpdated] = useState(false);
   const {
@@ -29,120 +25,15 @@ const MessageContents = ({
     dispatch,
   } = useRedux();
 
-  // useEffect(() =>{
-  //   if(updatingMessage){
-  //     console.log('updating');
-  //     setUpdated(true)
-  //   }else {
-  //     setUpdated(FALSE)
-  //   }
-  //   }, [updatingMessage])
-
-  // REPLY
-  if (message.contentType === "reply") {
-    return (
-      <Reply
-        handleCurrentMessageReply={handleCurrentMessageReply}
-        message={message}
-        direction={direction}
-        _id={_id}
-      />
-    );
-  }
-
-  // DELETED MESSAGE
-  if (message.contentType === "message" && message.deletedBy.length > 0) {
-    // check who deleted this
-
-    const findUser = message.deletedBy.find((user) => user.by === _id);
-    if (findUser) {
-      return (
-        <div className="deletedBy-current-user">
-          <div className="message-deleted">
-            {" "}
-            <AiOutlineStop />
-            <p>You deleted message temperorly,</p>
-            <p>receiver can still seet it</p>
-          </div>
-          <div>
-            <div className="restore" onClick={() => handleRestore(message)}>
-              <FaTrashRestore /> Restore
-            </div>
-            <div className="restore" onClick={() => deleteForEver(message)}>
-              {" "}
-              <FaTrash color="red" /> Delete permanently
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      const findReaction = messages.find(
-        (reaction) => reaction._id === message._id
-      );
-
-      const isUserReacted = message.reactions.reactions.find(
-        (reaction) => reaction.by === _id
-      );
-
-      const updateReaction = () => {
-        dispatch(setSelectedReaction(findReaction));
-        dispatch(_toggleReactionListModal());
-      };
-
-      return (
-        <div
-          className={`${
-            replyTo && replyTo._id === message._id
-              ? "message-content selected"
-              : "message-content"
-          }`}
-        >
-          {message.type === "text" && message.message}
-
-          {message.type === "image" && (
-            <div
-              className="message-image"
-              onClick={() => handleImagePreview(message)}
-            >
-              <img src={message.imageUrl} />
-            </div>
-          )}
-
-          {findReaction.reactions.reactions.length === 0 && null}
-          {findReaction.reactions.reactions.length == 1 && (
-            <div className="reaction" onClick={updateReaction}>
-              <Reaction>
-                {findReaction.reactions.reactions.map((reaction) => (
-                  <div key={reaction._id}>{reaction.reaction}</div>
-                ))}
-              </Reaction>
-            </div>
-          )}
-          {findReaction.reactions.reactions.length > 1 && (
-            <div className="reaction plus" onClick={updateReaction}>
-              <Reaction>
-                {`${findReaction.reactions.reactions[0].reaction} ${findReaction.reactions.reactions.length} `}
-              </Reaction>
-            </div>
-          )}
-
-          <MessageTime date={message.createdAt} right={direction} />
-        </div>
-      );
-    }
-    // return  <DeletedMessage />
-  }
-
-  // NORMAL MESSAGE
   if (message.contentType === "message") {
     const findReaction = messages.find(
       (reaction) => reaction._id === message._id
     );
 
-    const isUserReacted = message.reactions.reactions.find(
-      (reaction) => reaction.by === _id
+    const isUserReacted = findReaction.reactions.reactions.find(
+      (i) => i.by._id == _id
     );
-
+    let reactionLength = findReaction.reactions.reactions.length;
     const updateReaction = () => {
       dispatch(setSelectedReaction(findReaction));
       dispatch(_toggleReactionListModal());
@@ -166,8 +57,8 @@ const MessageContents = ({
           </div>
         )}
 
-        {findReaction.reactions.reactions.length === 0 && null}
-        {findReaction.reactions.reactions.length == 1 && (
+        {reactionLength === 0 && null}
+        {reactionLength == 1 && (
           <div className="reaction" onClick={updateReaction}>
             <Reaction>
               {findReaction.reactions.reactions.map((reaction) => (
@@ -176,10 +67,14 @@ const MessageContents = ({
             </Reaction>
           </div>
         )}
-        {findReaction.reactions.reactions.length > 1 && (
+        {reactionLength > 1 && (
           <div className="reaction plus" onClick={updateReaction}>
             <Reaction>
-              {`${findReaction.reactions.reactions[0].reaction} ${findReaction.reactions.reactions.length} `}
+              {`${
+                isUserReacted
+                  ? isUserReacted.reaction
+                  : findReaction.reactions.reactions[0].reaction
+              } ${findReaction.reactions.reactions.length}`}
             </Reaction>
           </div>
         )}

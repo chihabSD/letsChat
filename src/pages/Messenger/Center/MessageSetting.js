@@ -62,20 +62,26 @@ const MessageSetting = ({
           onMouseOver={handleMouseOver}
         >
           {reactions.map((reaction) => {
-            return <div
-              onClick={() => handleSelectedReaction(reaction, message)}
-              key={reaction}
-              className={`${findReaction.reactions.reactions.map((i) =>
-                i.reaction === undefined
-                  ? "item"
-                  : i.reaction === reaction && i.by._id === _id
+            let isReactedByexistedUser = findReaction.reactions.reactions.find(
+              (r) => r.by._id === _id
+            );
+            const condition =
+              findReaction.reactions.reactions.length > 0
+                ? isReactedByexistedUser &&
+                  isReactedByexistedUser.reaction === reaction
                   ? "item selected"
-                  : "item h"
-              )}`}
-              // className="item"
-            >
-              {reaction}
-            </div>;
+                  : "item"
+                : "item";
+            console.log(findReaction.reactions);
+            return (
+              <div
+                onClick={() => handleSelectedReaction(reaction, message)}
+                key={reaction}
+                className={condition}
+              >
+                {reaction}
+              </div>
+            );
           })}
         </div>
       ) : null}
