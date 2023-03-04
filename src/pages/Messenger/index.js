@@ -43,7 +43,6 @@ const MessengerUI = () => {
   };
 
   const handleSelectedReply = (msg) => {
-    console.log(msg);
     setReplyTo(msg);
     setReply(true);
   };

@@ -124,7 +124,6 @@ const Center = ({
     if (findMessage.reactions.reactions.length === 0) {
       dispatch(_reactToMessage(data));
     } else {
-      console.log("not empty but add first ite for this user ");
       const findEmoji = findMessage.reactions.reactions.find(
         (emoji) => emoji.by._id === _id
       );
@@ -132,7 +131,6 @@ const Center = ({
       if (findEmoji.reaction === emoji) {
         dispatch(_reactToMessage({ ...data, current: true }));
       } else {
-        console.log("Replace current emoji");
         dispatch(
           _reactToMessage({
             ...data,
@@ -147,13 +145,13 @@ const Center = ({
     toggleReactionModal();
   };
 
-  const handleSettings = (setting, message) => {
-    if (setting === "Remove") {
+  const handleSettings = (message) => {
+    // if (setting === "Remove") {
       dispatch(_deleteMessage({ messageId: message._id }));
-    }
+    // }
   };
   const handleReactionUpdate = (details) => {
-    console.log("handle reaction update", details);
+    // console.log("handle reaction update", details);
   };
 
   const handleCurrentMessageReply = (msg) => {
@@ -169,11 +167,6 @@ const Center = ({
     dispatch(_deleteMessage({ messageId: msg._id, restore: true }));
   };
 
-  useEffect(() => {
-    if (updatingMesage) {
-      console.log("updating");
-    }
-  }, [updatingMessage]);
   return (
     <div className="center">
       <Header selectedConversation={selectedConversation} />

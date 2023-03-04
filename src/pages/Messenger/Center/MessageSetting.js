@@ -1,7 +1,7 @@
 import React from "react";
 import { BsReply } from "react-icons/bs";
 import { FaSmile } from "react-icons/fa";
-import { TbDotsVertical } from "react-icons/tb";
+import { TbDotsVertical, TbTrash } from "react-icons/tb";
 import { useRedux } from "../../../hooks/useRedux";
 const MessageSetting = ({
   reactionVisible,
@@ -33,7 +33,8 @@ const MessageSetting = ({
   return (
     <div className="message-settings hidden">
       <div className="item">
-        <TbDotsVertical onClick={handleMessageAction} />
+        <TbTrash color="red" onClick={() => handleSettings(message)} />
+        {/* <TbDotsVertical onClick={handleMessageAction} /> */}
       </div>
       <div className="item" onClick={handleSelectedReply}>
         <BsReply />
@@ -42,7 +43,7 @@ const MessageSetting = ({
         <FaSmile className="icon" onClick={handleSelectedMessage} />
       </div>
 
-      {settings && (
+      {/* {settings && (
         <div className="message-settings-container">
           {settingsActions.map((setting) => (
             <div
@@ -54,7 +55,7 @@ const MessageSetting = ({
             </div>
           ))}
         </div>
-      )}
+      )} */}
       {condition ? (
         <div
           className="reactions-container"
@@ -72,7 +73,6 @@ const MessageSetting = ({
                   ? "item selected"
                   : "item"
                 : "item";
-            console.log(findReaction.reactions);
             return (
               <div
                 onClick={() => handleSelectedReaction(reaction, message)}
