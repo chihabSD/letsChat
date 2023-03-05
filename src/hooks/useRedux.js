@@ -24,6 +24,7 @@ const useRedux = () => {
       emojiBoxyToggled,
       messageMessagePreview,
       reactionListModal,
+      newGroup
     },
     errorReducer: { error },
   } = state;
@@ -40,6 +41,7 @@ const useRedux = () => {
     account,
     friends,
     loading,
+    newGroup, 
     latestReaction,
     error,
     selectedConversation,

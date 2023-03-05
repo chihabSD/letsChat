@@ -1,0 +1,49 @@
+.message-reactions-modal.newGroup{
+    
+   
+.content {
+    padding: 10px;
+    h1 {
+        font-weight: 400;
+
+        font-size: 1rem;
+    }
+    .users-container {
+        // background-color: blue;
+        margin-top: 15px;
+
+    .user:hover {
+        background-color: blue;
+    }
+    .user-added {
+        display: flex;
+        .user {
+            background-color: lightgray;
+            margin: 5px;
+            border-radius: 5px ;
+            padding: 0px 5px;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            .cross:hover {
+                background-color: white;
+            }
+            .cross {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                padding: 5px;
+            }
+            p {
+                // margin: 5px;
+            }
+        }
+    }
+    .user {
+        cursor: pointer;
+
+    }
+    }
+}
+}

@@ -1,10 +1,11 @@
 import React from "react";
 import MessageImagePreview from "../components/MessageImagePreview";
 import MessageReactions from "../components/MessageReactions";
+import NewGroupModal from "../components/newGroupModal";
 import { useRedux } from "../hooks/useRedux";
 
 const MainLayOut = ({children }) => {
- const {rightSideToggled, messageMessagePreview, reactionListModal} = useRedux()
+ const {rightSideToggled,newGroup,  messageMessagePreview, reactionListModal} = useRedux()
   return <div className={`${rightSideToggled ? "messenger-container toggleRight":'messenger-container'}`} >
     
     {messageMessagePreview &&
@@ -15,6 +16,10 @@ const MainLayOut = ({children }) => {
          {reactionListModal &&
          
          <MessageReactions />
+         }
+         {newGroup &&
+         
+         <NewGroupModal />
          }
     {children}
     

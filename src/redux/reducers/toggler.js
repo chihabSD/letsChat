@@ -3,7 +3,8 @@ const initialState = {
     rightSideToggled :false, 
     emojiBoxyToggled: false, 
     messageMessagePreview: false, 
-    reactionListModal : false
+    reactionListModal : false, 
+    newGroup : false
 };
 export const toggleSlicer = createSlice({
   name: "toggler",
@@ -27,7 +28,11 @@ export const toggleSlicer = createSlice({
       state.rightSideToggled = !state.rightSideToggled;
       
     },
+    _toggleNewGroup: (state, action) => {
+      state.newGroup = !state.newGroup;
+      
+    },
   },
 });
-export const {_toggleMessageImagePrview ,_toggleReactionListModal,  _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
+export const {_toggleMessageImagePrview, _toggleNewGroup  ,_toggleReactionListModal,  _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
 export default toggleSlicer.reducer;
