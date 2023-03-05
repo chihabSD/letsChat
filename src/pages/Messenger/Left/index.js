@@ -2,6 +2,7 @@ import React from "react";
 import NoChat from "../../../components/NoChat";
 import ActiveUsers from "./ActiveUsers";
 import ChatList from "./ChatList";
+import LeftHeader from "./LeftHeader";
 import { LeftTop } from "./LeftTop";
 import SearchFriendBox from "./SearchFriendBox";
 
@@ -15,7 +16,8 @@ const Left = ({
 }) => {
   return (
     <div className="leftside">
-      <LeftTop />
+      {/* <LeftTop /> */}
+      <LeftHeader />
       <SearchFriendBox />
       {/* <ActiveUsers /> */}
       <ChatList conversations={conversations} handleConversation={handleConversation} selectedConversation={selectedConversation}/>
