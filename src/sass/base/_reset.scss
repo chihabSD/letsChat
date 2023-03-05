@@ -5,26 +5,26 @@
     box-sizing: border-box;
 }
 :root {
-    --text-white: #fff;
-    --main-color:#0e76e3;
+    --primary : #f1f1f1;
+    --secondary : #E5E5E5;
     --main-color-light:#91c3f9;
-    // --bg-color : #f1f1f1;
-    --bg-color : #f1f1f1;
-    // --bg-color : #EBF6FF;
+    --main-color:#0e76e3;
+    --hover-color : #eeeeee;
     --text-color : #050505;
+    --text-white: #fff;
+  
+
     --icon-bg-color : #F5F5F5;
     --icon-color : #414141;
     --search-bg : #868e991a;
     --active-color : #0000000a;
     --border-color : #E5E5E5;
     --message-icon-color : #0099FF;
-    --fd-message-bg : #E5E5E5;
     --my-message-bg : #0084FF;
     --my-message-color : #fff;
     --fd-message-color : #050505;
     --image-border-color : rgb(155, 153, 153);
     --active-icon-color : #5AD539;
-    --hover-color : #bcbcc091;
 }
 body{
     background-color: var(--bg-color);

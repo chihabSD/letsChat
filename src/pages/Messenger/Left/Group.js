@@ -2,7 +2,7 @@ import React from "react";
 import { IMAGE_URL } from "../../../api/endpoint";
 import { useRedux } from "../../../hooks/useRedux";
 
-const Chat = ({
+const Group = ({
   conversation,
   users,
   handleConversation,
@@ -34,15 +34,13 @@ const Chat = ({
         </div>
         <div className="chat-right">
           <div className="chat-right-top">
-            <h4> {userFound.username} </h4>
+            <h4> {conversation.groupName ? conversation.groupName:'No group name yet'} </h4>
             <div>99</div>
           </div>
           <div className="chat-right-bottom">
             <p>
               {condition}
-              {/* ss */}
-              {/* { messages.find(result => result.conversationId._id === conversation._id ? result. ) } */}
-              {/* {messages[0].message} */}
+   
             </p>
             <p>99</p>
           </div>
@@ -52,4 +50,4 @@ const Chat = ({
   );
 };
 
-export default Chat;
+export default Group;

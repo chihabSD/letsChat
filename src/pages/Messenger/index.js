@@ -103,7 +103,7 @@ const MessengerUI = () => {
   // messageId
   const replayData = {
     messageId: replyTo && replyTo._id,
-    message,
+    message,  conversationId: selectedConversation && selectedConversation._id,
   };
   const handleSendButton = (event) => {
     if (event.code === "Enter" && isReply) {

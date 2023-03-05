@@ -1,0 +1,134 @@
+.right {
+    background-color: white;
+    border-left: 0.6px solid lightgray;
+    height: 100%;
+    flex: 1;
+    header {
+      border-bottom: 0.6px solid  var(--border-color);
+      background-color: var(--primary);
+  
+      flex-direction: row;
+      padding: 10px;
+      display: flex;
+      height: 70px;
+      align-items: center;
+  
+      h1 {
+        margin-left: 15px;
+        font-size: 1.2rem;
+      }
+      .icon-close:hover {
+        background-color: var(--hover-color);
+      }
+  
+      .icon-close {
+        cursor: pointer;
+        margin-right: 10px;
+        width: 30px;
+        font-size: 0.8rem;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+  
+        border-radius: 50%;
+      }
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+  
+      // height: 100%;
+      .info-top {
+        border-bottom: 1px solid lightgray;
+        padding-bottom: 10px;
+        background-color: white;
+        padding-top: 20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        .info-pic {
+          background-color: blue;
+          height: 80px;
+          width: 80px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .details {
+          margin-top: 10px;
+          h1 {
+            color: grey;
+            font-size: 0.9rem;
+            font-weight: 200;
+          }
+        }
+      }
+      .info-bottom {
+        flex: 1;
+        margin-top: 20px;
+        padding: 10px;
+        //   display: flex;
+        //   flex-direction: column;
+  
+        .users {
+          p {
+            font-size: 0.8rem;
+          }
+          .user {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            .left {
+              display: flex;
+              align-items: center;
+              .left-left {
+                margin-right: 5px;
+                .pic-container {
+                  width: 30px;
+                  height: 30px;
+                  background-color: black;
+                  align-items: center;
+                  justify-content: center;
+                  display: flex;
+                }
+              }
+              .left-right {
+                h1 {
+                  font-weight: 200;
+                  font-size: 0.9rem;
+                }
+              }
+            }
+          }
+          .right {
+              border: none;
+              align-items: center;
+              display: flex;
+          justify-content: flex-end;
+          p:hover {
+              background-color: var(--hover-color);
+          }
+          p{
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              justify-content: center;
+          }
+          }
+        }
+      }
+    }
+  }
+  
+  .hideright {
+    display: none;
+  }
+  

@@ -35,11 +35,13 @@ export const friendsReducer = createSlice({
 
     // insert messages and create times
     insertMessages: (state, action) => {
+
+      // if there are no messages
       if (action.payload.length === 0 || action.payload == []) {
         state.timeLines = [];
         // state.messages = [];
       } else {
-        // state.messages = groupMessages(action.payload);
+
         state.timeLines = groupMessages(action.payload);
         const tempArray = [];
         action.payload.map((msg) => {
@@ -50,7 +52,6 @@ export const friendsReducer = createSlice({
     },
 
     insertUpdatedMessage: (state, action) => {
-    
       let newArr = [];
       current(state.timeLines).map((item) => {
         item.messages.map((r) => {
@@ -58,7 +59,7 @@ export const friendsReducer = createSlice({
         });
       });
 
-      // get index
+      // get the index of the item you want to remove
       let getIndex = newArr.findIndex((msg) => msg._id === action.payload._id);
 
       // filter the old item
@@ -67,15 +68,14 @@ export const friendsReducer = createSlice({
       );
 
       filteredItem.splice(getIndex, 0, action.payload);
-
       state.timeLines = groupMessages([...filteredItem]);
-
     },
+
+
     // the message sent
     insertSentMessage: (state, action) => {
+      console.log(action.payload);
       let formatedDate = moment(action.payload.createdAt).format("YYYY-MM-DD");
-
-      // let currentMessages = current(state.messages);
       let currentMessages = current(state.timeLines);
       currentMessages.findIndex((msg) => msg.timeLine === formatedDate);
       let newObj = currentMessages.map((item, index) => {
@@ -86,6 +86,20 @@ export const friendsReducer = createSlice({
           ...item,
         };
       });
+
+    
+
+      // Latest conversation
+      let newConversation = current(state.conversations).map((item, index) => {
+        if (item._id === action.payload.conversationId) {
+          return { ...item, latestMessage: action.payload };
+        }
+        return {
+          ...item,
+        };
+      });
+
+      state.conversations = [...newConversation];
       state.messages.push(action.payload);
       state.timeLines = newObj;
     },
