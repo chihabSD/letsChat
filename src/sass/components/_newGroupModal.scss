@@ -1,49 +1,138 @@
-.message-reactions-modal.newGroup{
-    
-   
-.content {
+.message-reactions-modal.newGroup {
+  .content {
     padding: 10px;
-    h1 {
-        font-weight: 400;
+    .group-control {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      .group-control-left {
+border: 1px solid;
+
+      position: relative;
+        width: 80px;
+        height: 80px;
+        .plus-icon {
+            position: absolute;
+            bottom: 0;
+            right: -15px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background-color: blue;
+            
+        }
+      }
+      *:focus {
+        outline: none;
+    }
+    
+    input {
+        // background-color: yellow;
+        border: none;
+        margin-top: 40px;
+        margin-left: 50px;
+        font-size: 1rem;
+        border-bottom: 1px solid var(--secondary);
+        padding: 10px;
+        flex: 1;
+    }
+    input  ::placeholder {
 
         font-size: 1rem;
     }
-    .users-container {
-        // background-color: blue;
-        margin-top: 15px;
-
-    .user:hover {
-        background-color: blue;
     }
-    .user-added {
+    .search-container {
         display: flex;
-        .user {
-            background-color: lightgray;
-            margin: 5px;
-            border-radius: 5px ;
-            padding: 0px 5px;
-            display: flex;
-            align-content: center;
-            align-items: center;
-            .cross:hover {
-                background-color: white;
-            }
-            .cross {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                padding: 5px;
-            }
-            p {
-                // margin: 5px;
-            }
+        background-color: var(--secondary);
+        align-items: center;
+        padding: 10px 5px;
+        .search-icon {
+        font-size: 25px;
+        margin-right: 10px;
+        }
+        *:focus {
+            outline: none;
+        }
+        input {
+            flex: 1;
+            padding: 7px;
+            border: none;
         }
     }
-    .user {
-        cursor: pointer;
+    h1 {
+      font-weight: 400;
 
+      font-size: 1rem;
     }
+    .users-container {
+      // background-color: blue;
+      margin-top: 15px;
+
+      .user:hover {
+        background-color: blue;
+      }
+      .user-added {
+        margin-bottom: 15px;
+        display: flex;
+        .user {
+          background-color: var(--main-color);
+          margin: 5px;
+          border-radius: 5px;
+          padding: 0px 5px;
+          color: white;
+          display: flex;
+          align-content: center;
+          align-items: center;
+          .cross:hover {
+            background-color: white;
+          }
+          .cross {
+            display: flex;
+            align-items: center;
+            color: white;
+            justify-content: center;
+            border-radius: 50%;
+            padding: 5px;
+          
+            .remove {
+                color: white;
+            }
+          }
+          p {
+            // margin: 5px;
+          }
+        }
+      }
+      .users-list {
+        display: flex;
+        
+        width: 100%;
+        justify-content: space-between;
+      align-items: center;
+      .user-list-left {
+        flex: 1;
+      }
+      .user-list-right:hover {
+        background-color: var(--hover-color);
+      }
+      .user-list-right {
+        display: flex;
+        padding: 5px;
+        color: green;
+        cursor: pointer;
+        align-items: center;
+        .icon {
+            margin-right: 5px;
+        }
+      }
+      }
+      .user {
+        cursor: pointer;
+      }
     }
-}
+  }
 }
