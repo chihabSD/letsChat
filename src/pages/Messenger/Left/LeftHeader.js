@@ -1,12 +1,15 @@
 import React, { useRef, useState } from "react";
 import { FaChevronDown, FaEllipsisH, FaEllipsisV } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { IMAGE_URL } from "../../../api/endpoint";
 import { UserImage } from "../../../components/UserImage";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useRedux } from "../../../hooks/useRedux";
+import { _logout } from "../../../redux/actions/auth/logout";
 import { _toggleNewGroup } from "../../../redux/reducers/toggler";
 
 const LeftHeader = () => {
+    const navigate = useNavigate();
   const options = ["New Group", "Settings", "Log out"];
   const [optionVisible, setOptionVisible] = useState(false);
   const {
@@ -32,7 +35,8 @@ const LeftHeader = () => {
     return console.log('settings');
   }
   if(option === 'Log out'){
-    return console.log('Logout ');
+        dispatch(_logout());
+        navigate("/login");
   }
   };
   return (

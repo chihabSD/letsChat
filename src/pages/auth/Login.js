@@ -5,51 +5,101 @@ import { ToastContainer, toast } from "react-toastify";
 import { _login } from "../../redux/actions/auth/login";
 import { clearError } from "../../redux/reducers/error";
 import { Oval } from "react-loader-spinner";
+import { GrMail } from "react-icons/gr";
+import { FaLock } from "react-icons/fa";
 const Login = () => {
-const { loading, dispatch, error, authenticated } = useRedux();
-const notify = () => toast.success("Registeration completed successfully");
-const toastId = React.useRef(null);
-const navigate = useNavigate();
-const errorNotify = () =>toastId.current = toast.error(error, {closeOnClick:dispatch(clearError())});
-const dismiss = () =>  toast.dismiss(toastId.current);
-const [state, setState] = useState({
-  email: "",
-  password: "",
-  
-});
-const {  password, email} = state;
+  const { loading, dispatch, error, authenticated } = useRedux();
+  const notify = () => toast.success("Registeration completed successfully");
+  const toastId = React.useRef(null);
+  const navigate = useNavigate();
+  const errorNotify = () =>
+    (toastId.current = toast.error(error, {
+      closeOnClick: dispatch(clearError()),
+    }));
+  const dismiss = () => toast.dismiss(toastId.current);
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+  const { password, email } = state;
 
- const inputHandle = (e) => {
-  setState({ ...state, [e.target.name]: e.target.value });
-};
+  const inputHandle = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
- // handle submit
- const handleSubmit = (e) => {
-  e.preventDefault();
-  dispatch(_login({email, password}))
- }
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // dispatch(_login({ email, password }));
+    alert('submt')
+  };
 
- useEffect(() => {
-  if (authenticated) {
-    setTimeout(() => {
-      navigate("/");
-      // dispatch(clearRegistered());
-    }, 1000);
-  }
-}, [authenticated]);
+  useEffect(() => {
+    if (authenticated) {
+      setTimeout(() => {
+        navigate("/");
+        // dispatch(clearRegistered());
+      }, 1000);
+    }
+  }, [authenticated]);
 
- useEffect(() => {
-  if(error){
-    errorNotify()
-    
-    
-  }
-}, [error])
+  useEffect(() => {
+    if (error) {
+      errorNotify();
+    }
+  }, [error]);
 
   return (
-    <>
-     
-      <div className="register">
+    <div className="auth-container">
+      <div className="inner-container">
+        <header>
+          <h1>Login</h1>
+        </header>
+        <form onSubmit={handleSubmit} className="auth-form-container">
+          <div className="form-group">
+            <GrMail className="icon" />
+            <input type="text" placeholder="E-mail" />
+          </div>
+          <div className="form-group">
+            <FaLock className="icon" />
+            <input type="password" placeholder="Passsword" />
+          </div>
+
+          <div className="form-group submit">
+            <input type="submit" value="login" className="btn" />
+          </div>
+
+          <div className= {loading ? "form-group loading" : "form-group loading hidden"}>
+            {loading && (
+              <>
+                <div className="circle">
+                  <Oval
+                    height={20}
+                    width={80}
+                    color="#fff"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel="oval-loading"
+                    secondaryColor="#4fa94d"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2}
+                  />
+                </div>
+                <span>Authenticating...</span>
+              </>
+            )}
+          </div>
+
+          <div className="form-group link">
+            <span>
+              <Link to="/register"> Don't have any Account ? </Link>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      {/* <div className="register">
         <div className="card">
           <div className="card-header">
             <h3>Login</h3>
@@ -120,8 +170,8 @@ const {  password, email} = state;
             <ToastContainer />
           </div>
         </div>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 };
 

@@ -1,0 +1,31 @@
+@import './auth_form_group';
+.auth-container {
+  background-color: var(--hover-color);
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  .inner-container {
+    border-radius: 10px;
+    background-color: white;
+    height: fit-content;
+    width: 20vw;
+    padding: 10px;
+    header {
+      width: 100%;
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    .auth-form-container {
+      background-color: white;
+    //   height: 300px;
+      margin-top: 25px;
+    }
+  }
+}

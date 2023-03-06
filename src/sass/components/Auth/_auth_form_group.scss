@@ -1,0 +1,67 @@
+.form-group {
+  background-color: var(--hover-color);
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.3rem;
+  align-items: center;
+  *:focus {
+    outline: none;
+}
+  input {
+    flex: 1;
+    background-color: var(--hover-color);
+    border: none;
+    margin-left: 5px;
+    padding: 10px;
+    color: grey;
+  }
+  // align-items: center;
+.icon {
+    color: grey;
+}
+}
+.form-group.link{
+    background-color: white;
+justify-content: center;
+
+    text-align: center;
+    span:hover {
+        color: red;
+    }
+    span {
+        font-size: 1rem;
+        p {
+        color: var(--main-color);
+        }
+    }
+}
+.form-group.submit:hover {
+
+    background-color: var(--main-color-light);
+}
+.form-group.submit {
+    background-color: var(--main-color);
+    input {
+        background-color: inherit;
+        color: white;
+    }
+}
+.form-group.loading {
+    // background-color: blue;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: grey;
+    span {
+        margin-left: 0px;
+    }
+    .circle {
+        margin-right: 0px;
+        padding: 0px;
+        width: 30px;
+
+    }
+}
+.form-group.loading.hidden {
+    display: none;
+}

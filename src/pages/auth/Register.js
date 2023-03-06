@@ -8,6 +8,8 @@ import { Circles, Oval } from "react-loader-spinner";
 
 import "react-toastify/dist/ReactToastify.css";
 import { clearError } from "../../redux/reducers/error";
+import { GrMail } from "react-icons/gr";
+import { FaLock, FaUser } from "react-icons/fa";
 const Register = () => {
   const { loading, dispatch, error, registered } = useRedux();
   const notify = () => toast.success("Registeration completed successfully");
@@ -81,96 +83,60 @@ const Register = () => {
     }
   }, [error])
   return (
-    <div className="register">
-      <div className="card">
-        <div className="card-header">
-          <h3>Register</h3>
-        </div>
+    <div className="auth-container">
+     <div className="inner-container">
+        <header>
+          <h1>Create an account !</h1>
+        </header>
 
-        <div className="card-body">
-          <form onSubmit={handleSubmit} id="form">
-            <div className="form-group">
-              <label htmlFor="username">User Name</label>
-              <input
+        <form onSubmit={handleSubmit} className="auth-form-container">
+          <div className="form-group">
+            <FaUser className="icon" />
+            <input
                 type="text"
-                className="form-control"
+                // className="form-control"
                 placeholder="User Name"
                 id="username"
                 onChange={inputHandle}
                 name="username"
                 value={username}
               />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                id="email"
-                onChange={inputHandle}
-                name="email"
-                value={email}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
+          </div>
+          <div className="form-group">
+            <GrMail className="icon" />
+            <input type="text" placeholder="E-mail" />
+          </div>
+          <div className="form-group">
+            <FaLock className="icon" />
+            <input
                 type="password"
-                className="form-control"
+                // className="form-control"
                 placeholder="Password"
                 id="password"
                 onChange={inputHandle}
                 name="password"
                 value={password}
               />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <input
+          </div>
+          <div className="form-group">
+            <FaLock className="icon" />
+            <input
                 type="password"
-                className="form-control"
                 placeholder="Confirm Password"
                 id="confirmPassword"
                 onChange={inputHandle}
                 name="confirmPassword"
                 value={confirmPassword}
               />
-            </div>
+          </div>
 
-            <div className="form-group">
-              <div className="file-image">
-                <div className="image">
-                  {loadImage ? <img src={loadImage} /> : ""}
-                </div>
-                <div className="file">
-                  <label htmlFor="image">Select Image</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="image"
-                    onChange={handleImage}
-                    name="image"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="form-group submit">
+            <input type="submit" value="Register" className="btn" />
+          </div>
 
-            <div className="form-group">
-              <input type="submit" value="register" className="btn" />
-            </div>
 
-            <div className="form-group">
-              <span>
-                <Link to="/login"> Login Your Account </Link>
-              </span>
-            </div>
-            <div className="form-group">
-              <div className="loading">
-                {loading && (
+          <div className= {loading ? "form-group loading" : "form-group loading hidden"}>
+                {!loading && (
                   <>
                     <div className="circle">
                       <Oval
@@ -186,16 +152,134 @@ const Register = () => {
                         strokeWidthSecondary={2}
                       />
                     </div>
-                    <span>One sec....</span>
+                    <span>Creating your account...</span>
                   </>
                 )}
               </div>
-            </div>
+
+          <div className="form-group link">
+            <span>
+            <Link to="/login"> Login Your Account </Link>
+            </span>
+          </div>
           </form>
-          <ToastContainer />
         </div>
-      </div>
     </div>
+    // <div className="register">
+    //   <div className="card">
+    //     <div className="card-header">
+    //       <h3>Register</h3>
+    //     </div>
+
+    //     <div className="card-body">
+    //       <form onSubmit={handleSubmit} id="form">
+    //         <div className="form-group">
+    //           <label htmlFor="username">User Name</label>
+    //           <input
+    //             type="text"
+    //             className="form-control"
+    //             placeholder="User Name"
+    //             id="username"
+    //             onChange={inputHandle}
+    //             name="username"
+    //             value={username}
+    //           />
+    //         </div>
+
+    //         <div className="form-group">
+    //           <label htmlFor="email">Email</label>
+    //           <input
+    //             type="email"
+    //             className="form-control"
+    //             placeholder="Email"
+    //             id="email"
+    //             onChange={inputHandle}
+    //             name="email"
+    //             value={email}
+    //           />
+    //         </div>
+
+    //         <div className="form-group">
+    //           <label htmlFor="password">Password</label>
+    //           <input
+    //             type="password"
+    //             className="form-control"
+    //             placeholder="Password"
+    //             id="password"
+    //             onChange={inputHandle}
+    //             name="password"
+    //             value={password}
+    //           />
+    //         </div>
+
+    //         <div className="form-group">
+    //           <label htmlFor="confirmPassword">Confirm Password</label>
+    //           <input
+    //             type="password"
+    //             className="form-control"
+    //             placeholder="Confirm Password"
+    //             id="confirmPassword"
+    //             onChange={inputHandle}
+    //             name="confirmPassword"
+    //             value={confirmPassword}
+    //           />
+    //         </div>
+
+    //         <div className="form-group">
+    //           <div className="file-image">
+    //             <div className="image">
+    //               {loadImage ? <img src={loadImage} /> : ""}
+    //             </div>
+    //             <div className="file">
+    //               <label htmlFor="image">Select Image</label>
+    //               <input
+    //                 type="file"
+    //                 className="form-control"
+    //                 id="image"
+    //                 onChange={handleImage}
+    //                 name="image"
+    //               />
+    //             </div>
+    //           </div>
+    //         </div>
+
+    //         <div className="form-group">
+    //           <input type="submit" value="register" className="btn" />
+    //         </div>
+
+    //         <div className="form-group">
+    //           <span>
+    //             <Link to="/login"> Login Your Account </Link>
+    //           </span>
+    //         </div>
+    //         <div className="form-group">
+    //           <div className="loading">
+    //             {loading && (
+    //               <>
+    //                 <div className="circle">
+    //                   <Oval
+    //                     height={20}
+    //                     width={80}
+    //                     color="#fff"
+    //                     wrapperStyle={{}}
+    //                     wrapperClass=""
+    //                     visible={true}
+    //                     ariaLabel="oval-loading"
+    //                     secondaryColor="#4fa94d"
+    //                     strokeWidth={2}
+    //                     strokeWidthSecondary={2}
+    //                   />
+    //                 </div>
+    //                 <span>One sec....</span>
+    //               </>
+    //             )}
+    //           </div>
+    //         </div>
+    //       </form>
+    //       <ToastContainer />
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

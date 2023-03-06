@@ -6,31 +6,30 @@
       align-items: center;
       margin-bottom: 15px;
       .group-control-left {
-border: 1px solid;
+        border: 1px solid;
 
-      position: relative;
+        position: relative;
         width: 80px;
         height: 80px;
         .plus-icon {
-            position: absolute;
-            bottom: 0;
-            right: -15px;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          position: absolute;
+          bottom: 0;
+          right: -15px;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-            border-radius: 50%;
-            background-color: blue;
-            
+          border-radius: 50%;
+          background-color: blue;
         }
       }
       *:focus {
         outline: none;
-    }
-    
-    input {
+      }
+
+      input {
         // background-color: yellow;
         border: none;
         margin-top: 40px;
@@ -39,29 +38,29 @@ border: 1px solid;
         border-bottom: 1px solid var(--secondary);
         padding: 10px;
         flex: 1;
-    }
-    input  ::placeholder {
-
+      }
+      input ::placeholder {
         font-size: 1rem;
-    }
+      }
     }
     .search-container {
-        display: flex;
-        background-color: var(--secondary);
-        align-items: center;
-        padding: 10px 5px;
-        .search-icon {
+      display: flex;
+      background-color: var(--secondary);
+      align-items: center;
+      padding: 10px 5px;
+      .search-icon {
         font-size: 25px;
+        color: lightgray;
         margin-right: 10px;
-        }
-        *:focus {
-            outline: none;
-        }
-        input {
-            flex: 1;
-            padding: 7px;
-            border: none;
-        }
+      }
+      *:focus {
+        outline: none;
+      }
+      input {
+        flex: 1;
+        padding: 7px;
+        border: none;
+      }
     }
     h1 {
       font-weight: 400;
@@ -97,9 +96,9 @@ border: 1px solid;
             justify-content: center;
             border-radius: 50%;
             padding: 5px;
-          
+
             .remove {
-                color: white;
+              color: white;
             }
           }
           p {
@@ -107,32 +106,63 @@ border: 1px solid;
           }
         }
       }
+    //   .users-list:hover {
+    //     background-color: var(--hover-color);
+    //   }
       .users-list {
+        // cursor: pointer;
         display: flex;
-        
+
+        margin-top: 10px;
         width: 100%;
         justify-content: space-between;
-      align-items: center;
-      .user-list-left {
-        flex: 1;
-      }
-      .user-list-right:hover {
-        background-color: var(--hover-color);
-      }
-      .user-list-right {
-        display: flex;
-        padding: 5px;
-        color: green;
-        cursor: pointer;
         align-items: center;
-        .icon {
-            margin-right: 5px;
+        .user-list-left {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          .user-pic {
+            background-color: blue;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+          }
         }
-      }
+        .user-list-right:hover {
+          background-color: var(--hover-color);
+        }
+        .user-list-right {
+          display: flex;
+          padding: 5px;
+          color: var(--main-color);
+          font-weight: 700;
+          cursor: pointer;
+          align-items: center;
+          .icon {
+            margin-right: 5px;
+          }
+        }
       }
       .user {
         cursor: pointer;
       }
     }
+    .bottom {
+        margin: 10px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+
+        .btn:hover {
+            background-color: var(--main-color-light);
+        }
+        .btn {
+            background-color: var(--main-color);
+            font-size: 0.9rem;
+        }
+      }
   }
 }
