@@ -30,8 +30,7 @@ const Login = () => {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(_login({ email, password }));
-    alert('submt')
+    dispatch(_login({ email, password }));
   };
 
   useEffect(() => {
@@ -58,11 +57,28 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="auth-form-container">
           <div className="form-group">
             <GrMail className="icon" />
-            <input type="text" placeholder="E-mail" />
+            <input
+                type="email"
+                className="form-control"
+                placeholder="Email"
+                id="email"
+                onChange={inputHandle}
+                name="email"
+                value={email}
+              />
           </div>
           <div className="form-group">
             <FaLock className="icon" />
-            <input type="password" placeholder="Passsword" />
+            
+            <input
+                type="password"
+                className="form-control"
+                placeholder="Password"
+                id="password"
+                onChange={inputHandle}
+                name="password"
+                value={password}
+              />
           </div>
 
           <div className="form-group submit">
@@ -171,6 +187,8 @@ const Login = () => {
           </div>
         </div>
       </div> */}
+
+<ToastContainer />
     </div>
   );
 };

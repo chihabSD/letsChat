@@ -12,6 +12,7 @@ const useRedux = () => {
       timeLines, 
       currentMessage,
       messages,
+      searchUsers, 
       conversations,
       currentMessageReactions,  
       imagePreview,
@@ -24,7 +25,7 @@ const useRedux = () => {
       emojiBoxyToggled,
       messageMessagePreview,
       reactionListModal,
-      newGroup
+      newGroup, newConversation
     },
     errorReducer: { error },
   } = state;
@@ -44,11 +45,12 @@ const useRedux = () => {
     newGroup, 
     latestReaction,
     error,
+    searchUsers, 
     selectedConversation,
     registered,
     messageMessagePreview,
     imagePreview,
-    timeLines,  newMessageAdd, updatingMessage
+    timeLines,  newMessageAdd, updatingMessage, newConversation
   };
 };
 

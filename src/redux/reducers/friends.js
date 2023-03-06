@@ -3,6 +3,7 @@ import { groupMessages } from "../../helpers/groupMessages";
 var moment = require("moment"); // require
 const initialState = {
   friends: {},
+  searchUsers:[], 
   conversations: [],
   messages: [],
   timeLines: [],
@@ -18,6 +19,9 @@ export const friendsReducer = createSlice({
   name: "friends",
   initialState,
   reducers: {
+
+    insertSearchUsers: (state, action) => {
+      state.searchUsers = [...action.payload]},
     // insert conversation
     setSelectedReaction: (state, action) => {
       state.currentMessageReactions = action.payload;
@@ -146,5 +150,6 @@ export const {
   insertLatestReaction,
   setNewMessageAdded,
   clearNewMessageAdded,
+  insertSearchUsers
 } = friendsReducer.actions;
 export default friendsReducer.reducer;

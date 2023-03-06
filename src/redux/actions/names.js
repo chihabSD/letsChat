@@ -14,4 +14,5 @@ export const names = {
   REACT_TO_MESSAGE: "react_to_message",
   REPLY_TO_MESSAGE: "reply_to_message",
   DELETE_MESSAGE: "delete_message",
+  SEARCH_USER:'search_user'
 };

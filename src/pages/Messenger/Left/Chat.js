@@ -1,5 +1,6 @@
 import React from "react";
 import { IMAGE_URL } from "../../../api/endpoint";
+import { UserImage } from "../../../components/UserImage";
 import { useRedux } from "../../../hooks/useRedux";
 
 const Chat = ({
@@ -30,7 +31,8 @@ const Chat = ({
         onClick={() => handleConversation(conversation)}
       >
         <div className="chat-left">
-          <img src={`${IMAGE_URL}/11829passport.jpg`} />
+          {/* <img src={`${IMAGE_URL}/11829passport.jpg`} /> */}
+          <UserImage image={userFound.image}/>
         </div>
         <div className="chat-right">
           <div className="chat-right-top">

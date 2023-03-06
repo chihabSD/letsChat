@@ -5,6 +5,40 @@
 @import "./center_time_line";
 @import "./center_chat_box_left";
 @import "./center_chat_box";
+.center.empty {
+  background-color: white;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    color: black;
+  }
+  .plus-container:hover {
+    background-color: var(--main-color-light)
+  }
+  .plus-container {
+    // background-color: blue;
+    // width: 50px;
+    // height: 50px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+   background-color: var(--main-color);
+    cursor: pointer;
+    margin-top: 15px;
+    border-radius: 10px;
+    padding:  10px;
+
+    h1 {
+      color: white;
+      font-size: 0.9rem;
+    }
+
+  }
+}
 .center {
   background-color: #fff;
   position: relative;

@@ -1,3 +1,60 @@
+// import React, { useEffect, useRef, useState } from "react";
+// import { useRedux } from "../../hooks/useRedux";
+// import { useMain } from "../../hooks/useMainState";
+// import MainLayOut from "../../Layouts/MainLayOut";
+// import Left from "./Left";
+// import NoConversations from "./Left/NoConversations";
+// import CenterNoCoversation from "./Center/CenterNoCoversation";
+// import { _getChatList } from "../../redux/actions/friends/getChatlist";
+
+// const MessengerUI = () => {
+//   const scrollRef = useRef();
+
+//   // const emojiboxRef = useRef(null)
+//   const {
+//     dispatch,
+//     conversations,
+//     messages,
+//     loading,
+//     newMessageAdd,
+//     account: { username, _id },
+//   } = useRedux();
+//   const [selectedConversation, setSelectedConversation] = useState(null);
+//   const [replyTo, setReplyTo] = useState(null);
+//   const [isReply, setReply] = useState(false);
+
+//   const [selectedUser, setSelectedUser] = useState(null);
+//   const { message, setMessage, toggleEmojiBox } = useMain();
+//   const [filled, setFilled] = useState(0);
+//   const [isRunning, setIsRunning] = useState(false);
+//   const [imageUploading, setImageUploading] = useState(false);
+  
+
+//   // GET CHAT LIST
+//   useEffect(() => {
+//     dispatch(_getChatList());
+//     // console.log('get chat list');
+//   }, []);
+//   return (
+//     <MainLayOut>
+//       {conversations.length === 0 ? <>
+//       <NoConversations />
+//       <CenterNoCoversation />
+//       </>:<div>The rest of the stuff </div>}
+//       {/* <Left
+//         handleSelectedUser={handleSelectedUser}
+//         handleConversation={handleConversation}
+//         conversations={conversations}
+//         selectedConversation={selectedConversation}
+//         selectedUser={selectedUser}
+//       /> */}
+//     </MainLayOut>
+//   );
+// };
+
+// export default MessengerUI;
+
+
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -174,6 +231,7 @@ const MessengerUI = () => {
 
   useEffect(() => {
     dispatch(_getChatList());
+    // console.log('get chat list');
   }, []);
   const scrollDown = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -227,19 +285,19 @@ const MessengerUI = () => {
           ></div>
         </div>
         <div className="progressPercent">{filled}%</div>
-        {/* <button onClick={()=>setIsRunning(true)}>Run </button> */}
+
       </MainLayoutLoading>
     );
   } else {
     return (
       <MainLayOut>
-        <Left
-          handleSelectedUser={handleSelectedUser}
-          handleConversation={handleConversation}
-          conversations={conversations}
-          selectedConversation={selectedConversation}
-          selectedUser={selectedUser}
-        />
+<Left
+  handleSelectedUser={handleSelectedUser}
+  handleConversation={handleConversation}
+  conversations={conversations}
+  selectedConversation={selectedConversation}
+  selectedUser={selectedUser}
+/>
 
         <Center
           handleSelectedReply={handleSelectedReply}

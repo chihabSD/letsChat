@@ -4,7 +4,7 @@ import { ENDPOINT } from "./endpoint";
 import { getHeader } from "./header";
 const messanger = `${ENDPOINT}/messanger`;
 
-const {SEND_MESSAGE, GET_MESSAGE, SEND_IMAGE, REPLY_TO_MESSAGE, DELETE_MESSAGE,   REACT_TO_MESSAGE} = names;
+const {SEND_MESSAGE, GET_MESSAGE, SEND_IMAGE, REPLY_TO_MESSAGE, DELETE_MESSAGE, SEARCH_USER,   REACT_TO_MESSAGE} = names;
 
 // handle auth
 export const messageApiHandler = async (name, details) => {
@@ -27,6 +27,9 @@ export const messageApiHandler = async (name, details) => {
 
           case DELETE_MESSAGE:
             return axios.put(`${messanger}/delete-message/${details.messageId}`, details);
+
+          case SEARCH_USER:
+            return axios.get(`${messanger}/search-user/${details}` );
     default:
       break;
   }

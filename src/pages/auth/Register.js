@@ -28,10 +28,10 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    image: "",
+    // image: "",
   });
   const [file, setFile] = useState(null);
-  const { username, password, email, confirmPassword, image } = state;
+  const { username, password, email, confirmPassword} = state;
 
   // handle inputs
   const inputHandle = (e) => {
@@ -53,14 +53,7 @@ const Register = () => {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData();
-
-    data.append("username", username);
-    data.append("email", email);
-    data.append("password", password);
-    data.append("confirmPassword", confirmPassword);
-    data.append("image", image);
-    dispatch(_register(data));
+    dispatch(_register({...state}));
   };
 
   useEffect(() => {
@@ -104,7 +97,14 @@ const Register = () => {
           </div>
           <div className="form-group">
             <GrMail className="icon" />
-            <input type="text" placeholder="E-mail" />
+            <input
+                type="email"
+              
+                placeholder="E-mail"
+                id="email"
+                onChange={inputHandle}
+                name="email"
+                value={email} />
           </div>
           <div className="form-group">
             <FaLock className="icon" />

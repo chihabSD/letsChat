@@ -3,7 +3,6 @@ import NoChat from "../../../components/NoChat";
 import ActiveUsers from "./ActiveUsers";
 import ChatList from "./ChatList";
 import LeftHeader from "./LeftHeader";
-import { LeftTop } from "./LeftTop";
 import SearchFriendBox from "./SearchFriendBox";
 
 const Left = ({

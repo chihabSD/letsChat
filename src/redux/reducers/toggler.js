@@ -4,7 +4,8 @@ const initialState = {
     emojiBoxyToggled: false, 
     messageMessagePreview: false, 
     reactionListModal : false, 
-    newGroup : false
+    newGroup : false, 
+    newConversation : false
 };
 export const toggleSlicer = createSlice({
   name: "toggler",
@@ -30,9 +31,11 @@ export const toggleSlicer = createSlice({
     },
     _toggleNewGroup: (state, action) => {
       state.newGroup = !state.newGroup;
-      
+    },
+    _toggleNewConversation: (state, action) => {
+      state.newConversation = !state.newConversation;
     },
   },
 });
-export const {_toggleMessageImagePrview, _toggleNewGroup  ,_toggleReactionListModal,  _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
+export const {_toggleMessageImagePrview, _toggleNewConversation,  _toggleNewGroup  ,_toggleReactionListModal,  _toggleRightSide, _toggleEmojiBox , _closeEmojiBox} = toggleSlicer.actions;
 export default toggleSlicer.reducer;
