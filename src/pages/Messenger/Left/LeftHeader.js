@@ -49,17 +49,17 @@ const LeftHeader = () => {
   };
   return (
     <div className="left-header">
-      <left>
+      <div className="left-header-left">
         <UserImage image={image} style={{ width: "40px", height: "40px" }} />
-      </left>
-      <right>
+      </div>
+      <div className="left-header-right">
         <div className="left">
           <h1>{username}</h1>
         </div>
         <div className="item" onClick={toggleOptions}>
           <FaEllipsisV />
         </div>
-      </right>
+      </div>
       {optionVisible && (
         <div className="left-header-menu-container" ref={ref}>
           {options.map((option) => (

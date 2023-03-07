@@ -31,9 +31,19 @@ export const friendsReducer = createSlice({
       state.friends = action.payload;
     },
 
+    deleteConversation :(state, action) => {
+      
+      const filtered = current(state.conversations).filter(conversation => conversation._id != action.payload)
+      state.conversations = [...filtered]
+
+
+      // console.log(filtered.length);
+      state.selectedConversation = filtered[0]
+    }, 
     insertNewConversation : (state, action) => {
       
       state.conversations.unshift(action.payload)
+      
     }, 
     // insert conversation
     insertConversation: (state, action) => {
@@ -154,6 +164,6 @@ export const {
   insertLatestReaction,
   setNewMessageAdded,
   clearNewMessageAdded,
-  insertSearchUsers, insertNewConversation
+  insertSearchUsers, insertNewConversation,  deleteConversation
 } = friendsReducer.actions;
 export default friendsReducer.reducer;

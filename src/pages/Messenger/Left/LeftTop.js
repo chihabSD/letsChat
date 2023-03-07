@@ -4,7 +4,7 @@ import { IMAGE_URL } from "../../../api/endpoint";
 // BiDotsVertical
 import { FaEllipsisV } from "react-icons/fa";
 import { useRedux } from "../../../hooks/useRedux";
-export const LeftTop = () => {
+export const LeftHeader = () => {
   const {
     account: { username, _id, image },
   } = useRedux();

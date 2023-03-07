@@ -2,10 +2,14 @@ import React from "react";
 import { BsChevronRight } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
 import { useRedux } from "../../../hooks/useRedux";
+import { _deleteConversation } from "../../../redux/actions/friends/deleteConversation";
 import { _toggleRightSide } from "../../../redux/reducers/toggler";
 
 const IsGroup = ({ selectedConversation }) => {
-  const { groupName, users } = selectedConversation;
+  const { groupName, users, admins } = selectedConversation;
+
+ 
+
   const { rightSideToggled, dispatch } = useRedux();
   return (
     <div className={`${rightSideToggled ? "hideright" : "right"}`}>
@@ -30,16 +34,20 @@ const IsGroup = ({ selectedConversation }) => {
         <div className="info-bottom">
           <div className="users">
             <p>{users.length} participants</p>
+
+     
+
             {users.map((user) => {
+              const matchAdmins = admins.find(admin => admin._id == user._id )
               return (
-                <div className="user" key={user._id}>
+                <div className="user" key={user._id} >
                   <div className="left">
                     <div className="left-left">
                       <div className="pic-container">Pic</div>
                     </div>
                     <div className="left-right">
                       <h1>user</h1>
-                      <h1>Group admin</h1>
+                      <h1>{matchAdmins ? "Current admin":null}</h1>
                     </div>
                   </div>
                   <div className="right">
@@ -52,6 +60,8 @@ const IsGroup = ({ selectedConversation }) => {
               );
             })}
           </div>
+          <br />
+          <h3 onClick={() => dispatch(_deleteConversation(selectedConversation._id))}>Delete Group</h3>
         </div>
       </div>
       {/* <div className="leftTop-container right">

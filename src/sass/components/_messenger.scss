@@ -3,7 +3,7 @@
   flex: 1;
   display: grid;
   height: calc(100vh - 40px);
-  grid-template-columns: 300px 1fr 290px;
+  grid-template-columns: 20% 1fr 290px;
 
   grid-template-areas: "leftside center center rightside";
   height: 100vh;
@@ -176,7 +176,7 @@
   }
 }
 .messenger-container.toggleRight {
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 22% 1fr;
   grid-template-areas: "leftside center";
 }
 .mainLoading-container {
