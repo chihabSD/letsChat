@@ -2,36 +2,49 @@ import React, { useEffect, useState } from "react";
 import { FaImage, FaPlus, FaSearch } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { useRedux } from "../hooks/useRedux";
+import { _addToChatList } from "../redux/actions/friends/addToChatList";
+import { _searchUser } from "../redux/actions/friends/searchUser";
 import { _toggleNewGroup } from "../redux/reducers/toggler";
 import { UserImage } from "./UserImage";
 const NewGroupModal = () => {
   const {
     dispatch,
     friends,
+    searchUsers,
     currentMessageReactions,
     account: { image },
   } = useRedux();
 
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [gropName, setGroupName] = useState("");
+//   const [keyword, setKeyword] = useState("");
+//   const [groupName, setGroupName] = useState("");
+  const [inputs, setInputs] = useState({keyword:'', groupName:""})
+  const { keyword, groupName} = inputs
   const handleSelectedUser = (user) => {
     const userExists = selectedUsers.find((i) => i._id === user._id);
     if (userExists) return null;
     setSelectedUsers([...selectedUsers, user]);
-    console.log(user);
   };
   const removeUser = (user) => {
     const newList = selectedUsers.filter((item) => item._id !== user._id);
     setSelectedUsers(newList);
   };
-  const handleGroupNameInput = (e) => {
-
-    setGroupName(e.target.value)
-  }
+  const handleInput = (e) => {
+    setInputs( {...inputs, [e.target.name]: e.target.value});
+  };
 
   const handleGroupCreation = () => {
-    console.log('create group');
-  }
+    // console.log("create group", inputs, selectedUsers);
+    // users, groupName,   isGroup
+    dispatch(_addToChatList({users:selectedUsers, groupName, isGroup:true}))
+    dispatch(_toggleNewGroup())
+  };
+
+  useEffect(() => {
+    if (keyword) {
+      dispatch(_searchUser(keyword));
+    }
+  }, [keyword]);
   return (
     <div className="message-reactions-modal newGroup">
       <div className="message-reactions-modal-inner">
@@ -52,21 +65,33 @@ const NewGroupModal = () => {
               </div>
             </div>
 
-            <input placeholder="Group name" />
+            <input placeholder="Group name" 
+              value={groupName}
+              name="groupName"
+              onChange={(e) => handleInput(e)}
+            />
           </div>
           <div className="search-container">
             <FaSearch className="search-icon" />
-            <input placeholder="Search for a user to add to group " value={gropName} onChange={(e) =>handleGroupNameInput(e)}/>
+            <input
+              placeholder="Search for a user to add to group "
+              value={keyword}
+              
+              name="keyword"
+              onChange={(e) => handleInput(e)}
+            />
           </div>
           {/* <h1> You will be added to this group by default as Admin </h1> */}
 
           <div className="users-container">
             <div className="user-added">
               {selectedUsers.length === 0 ? (
-                <p>Please add a user from the list below or search for him above </p>
+                <p>
+                  Please add a user from the list below or search for him above{" "}
+                </p>
               ) : (
                 selectedUsers.map((user) => (
-                  <div className="user">
+                  <div className="user" key={user._id}>
                     <p>{user.username}</p>{" "}
                     <p className="cross">
                       <GrClose
@@ -79,28 +104,34 @@ const NewGroupModal = () => {
                 ))
               )}
             </div>
-            {friends.map((friend) => (
-              <div className="users-list" key={friend}>
-                <div className="user-list-left">
-                  <div className="user-pic"></div>
-                  <h1>{friend.username}</h1>
+            {searchUsers.map((friend) => {
+              return (
+                <div className="users-list" key={friend._id}>
+                  <div className="user-list-left">
+                    <UserImage
+                      style={{ width: "50px", height: "50px" }}
+                      image={friend.image}
+                    />
+                    {/* </div> */}
+                    <h1>{friend.username}</h1>
+                  </div>
+                  <div
+                    className="user-list-right"
+                    onClick={() => handleSelectedUser(friend)}
+                  >
+                    Add
+                  </div>
                 </div>
-                <div
-                  className="user-list-right"
-                  onClick={() => handleSelectedUser(friend)}
-                >
-                  {" "}
-                  <FaPlus className="icon" /> Add
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="bottom">
-            <div className="btn" onClick={handleGroupCreation}>Create group </div>
+            <div className="btn" onClick={handleGroupCreation}>
+              Create group{" "}
+            </div>
+          </div>
         </div>
-        </div>
-    
       </div>
     </div>
   );

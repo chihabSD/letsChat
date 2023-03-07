@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
 import { IMAGE_URL } from "../../../api/endpoint";
 import { UserImage } from "../../../components/UserImage";
 import { useRedux } from "../../../hooks/useRedux";
@@ -16,12 +17,19 @@ const Chat = ({
     account: { _id },
   } = useRedux();
 
+  const [optionsVisible, setOptionsVisible] = useState()
+  const options = ['Delete', 'Edit']
   const userFound = conversation.users.find((user) => user._id !== _id);
   let condition = conversation.latestMessage
     ? conversation.latestMessage.message
     : "Conversation not started yet ";
+  
+
+    const toggleOptions = () => {
+      setOptionsVisible(!optionsVisible)
+    }
   return (
-    <div>
+
       <div
         className={`${
           selectedConversation._id === conversation._id
@@ -31,7 +39,6 @@ const Chat = ({
         onClick={() => handleConversation(conversation)}
       >
         <div className="chat-left">
-          {/* <img src={`${IMAGE_URL}/11829passport.jpg`} /> */}
           <UserImage image={userFound.image}/>
         </div>
         <div className="chat-right">
@@ -46,11 +53,10 @@ const Chat = ({
               {/* { messages.find(result => result.conversationId._id === conversation._id ? result. ) } */}
               {/* {messages[0].message} */}
             </p>
-            <p>99</p>
+          <BsChevronDown  />
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

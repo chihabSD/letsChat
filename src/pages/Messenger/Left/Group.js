@@ -29,8 +29,8 @@ const Group = ({
         }`}
         onClick={() => handleConversation(conversation)}
       >
-        <div className="chat-left">
-          <img src={`${IMAGE_URL}/11829passport.jpg`} />
+        <div className="chat-left group">
+          <img src="./social-network.png" />
         </div>
         <div className="chat-right">
           <div className="chat-right-top">

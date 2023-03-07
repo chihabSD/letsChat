@@ -5,25 +5,25 @@ import { useRedux } from "../hooks/useRedux";
 import { _addToChatList } from "../redux/actions/friends/addToChatList";
 import { _searchUser } from "../redux/actions/friends/searchUser";
 import { insertSearchUsers } from "../redux/reducers/friends";
-import { _toggleNewConversation  } from "../redux/reducers/toggler";
+import { _toggleNewConversation } from "../redux/reducers/toggler";
 import { UserImage } from "./UserImage";
 const NewConversation = () => {
   const {
     dispatch,
     friends,
-    searchUsers, 
-    currentMessageReactions,
-    account: { image },
+    searchUsers,
+    conversations,
+    account: { image, _id },
   } = useRedux();
 
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const handleSelectedUser = (user) => {
     dispatch(_addToChatList({ receiverId: user._id }));
-    dispatch(_toggleNewConversation())
-    dispatch(insertSearchUsers([]))
-
+    dispatch(_toggleNewConversation());
+    dispatch(insertSearchUsers([]));
   };
+
   const removeUser = (user) => {
     const newList = selectedUsers.filter((item) => item._id !== user._id);
     setSelectedUsers(newList);
@@ -37,10 +37,10 @@ const NewConversation = () => {
   };
 
   useEffect(() => {
-if(keyword){
-    dispatch(_searchUser(keyword))
-}
-}, [keyword])
+    if (keyword) {
+      dispatch(_searchUser(keyword));
+    }
+  }, [keyword]);
   return (
     <div className="message-reactions-modal newGroup">
       <div className="message-reactions-modal-inner">
@@ -48,7 +48,10 @@ if(keyword){
           <div className="title">
             <h1>Find or create a conversation</h1>
           </div>
-          <div className="closeBtn" onClick={() => dispatch((_toggleNewConversation()))}>
+          <div
+            className="closeBtn"
+            onClick={() => dispatch(_toggleNewConversation())}
+          >
             <GrClose color="white" />
           </div>
         </header>
@@ -63,29 +66,39 @@ if(keyword){
           </div>
           {/* <h1> You will be added to this group by default as Admin </h1> */}
 
-          
           <div className="users-container">
-           
-            {searchUsers.map((friend) => (
-              <div className="users-list" key={friend}>
-                <div className="user-list-left">
-                  {/* <div className="user-pic"> */}
-                    <UserImage style={{width:'50px', height:'50px'}} image={friend.image} />
-                  {/* </div> */}
-                  <h1>{friend.username}</h1>
+            {searchUsers.map((friend) => {
+              let userList = [];
+              conversations.map((conversation) => {
+                conversation.users.map((user) => {
+                  userList.push(user);
+                });
+              });
+              const filterUser = userList.filter((user) => user._id != _id);
+            
+              const checkUser = filterUser.find(user => user._id === friend._id)
+              return (
+                <div className="users-list" key={friend}>
+                  <div className="user-list-left">
+                   
+                    <UserImage
+                      style={{ width: "50px", height: "50px" }}
+                      image={friend.image}
+                    />
+                    {/* </div> */}
+                    <h1>{friend.username}</h1>
+                  </div>
+                  <div
+                    className="user-list-right"
+                    onClick={checkUser ? null:  () => handleSelectedUser(friend)}
+                  >
+                    {/* Select */}
+                    {checkUser ? "Already in converstion":'Add'}
+                  </div>
                 </div>
-                <div
-                  className="user-list-right"
-                  onClick={() => handleSelectedUser(friend)}
-                >
-                 Select
-                  {/* <FaPlus className="icon" /> Add */}
-                  
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-
 
           {/* <div className="bottom">
             <div className="btn" onClick={searchUser}>

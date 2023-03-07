@@ -6,14 +6,17 @@ import { UserImage } from "../../../components/UserImage";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useRedux } from "../../../hooks/useRedux";
 import { _logout } from "../../../redux/actions/auth/logout";
-import { _toggleNewGroup } from "../../../redux/reducers/toggler";
+import {
+  _toggleNewConversation,
+  _toggleNewGroup,
+} from "../../../redux/reducers/toggler";
 
 const LeftHeader = () => {
-    const navigate = useNavigate();
-  const options = ["New Group", "Settings", "Log out"];
+  const navigate = useNavigate();
+  const options = ["Private conversation", "New Group", "Settings", "Log out"];
   const [optionVisible, setOptionVisible] = useState(false);
   const {
-    dispatch, 
+    dispatch,
     account: { username, _id, image },
   } = useRedux();
 
@@ -22,22 +25,27 @@ const LeftHeader = () => {
     setOptionVisible(!optionVisible);
   };
   useClickOutside(ref, () => {
-    toggleOptions();
+    setOptionVisible(false)
   });
 
   const handleOption = (option) => {
-  if(option === 'New Group'){
-  dispatch(_toggleNewGroup())
-  toggleOptions()
-  return
-  }
-  if(option === 'Settings'){
-    return console.log('settings');
-  }
-  if(option === 'Log out'){
-        dispatch(_logout());
-        navigate("/login");
-  }
+    if (option === "Private conversation") {
+      dispatch(_toggleNewConversation());
+      toggleOptions();
+      return;
+    }
+    if (option === "New Group") {
+      dispatch(_toggleNewGroup());
+      toggleOptions();
+      return;
+    }
+    if (option === "Settings") {
+      return console.log("settings");
+    }
+    if (option === "Log out") {
+      dispatch(_logout());
+      navigate("/login");
+    }
   };
   return (
     <div className="left-header">
