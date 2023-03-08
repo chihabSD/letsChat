@@ -88,6 +88,7 @@ const MessengerUI = () => {
     conversationId: selectedConversation && selectedConversation._id,
   };
 
+  // handle message submission
   const handleMessageSubmission = () => {
     const receivers = selectedConversation.members.filter(
       ({ user }) => user._id !== _id
@@ -107,6 +108,8 @@ const MessengerUI = () => {
     setReplyTo(null);
     if (toggleEmojiBox) dispatch(_closeEmojiBox());
   };
+
+  // handle reply submission
   const handleReplySumission = () => {
     dispatch(_replyToMessage(replayData));
     setReply(false);
@@ -138,7 +141,7 @@ const MessengerUI = () => {
   var ranonce = false;
   useEffect(() => {
     if (!ranonce) {
-      //Run you code
+  
       dispatch(_getChatList());
       ranonce = true;
     }

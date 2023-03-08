@@ -5,6 +5,7 @@ import { Header } from "./Header";
 
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useMain } from "../../../hooks/useMainState";
+import { useCenter } from "../../../hooks/useCenterState";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getFriends } from "../../../redux/actions/friends/getFriends";
 import {
@@ -29,33 +30,6 @@ import UserProfilePicLeft from "./UserProfilePicLeft";
 import { ConversationContext } from "../../../contexts";
 
 const Center = () => {
-  const { handleSelectedReply, scrollRef,  replyTo,  isReply, setReplyTo } =
-    useContext(ConversationContext);
-  const currentMessage = React.useRef(null);
-  const { ref } = useMain();
-  const [reactionVisible, setReactionVisible] = useState(false);
-  const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
-  const [selectedMessage, setSeelectedMessage] = useState(null);
-
-  const handleImagePreview = (msg) => {
-    const { imageUrl } = msg;
-    dispatch(insertImagePreview({ imageUrl }));
-    dispatch(_toggleMessageImagePrview());
-  };
-  const toggleSettingModal = () => {
-    setSettingsModalVisible((prev) => !prev);
-  };
-  const toggleReactionModal = () => {
-    setReactionVisible((prev) => !prev);
-  };
-
-  useClickOutside(ref, () => {
-    dispatch(_toggleEmojiBox());
-  });
-  useClickOutside(currentMessage, () => {
-    // toggleReactionModal()
-    setReactionVisible(false);
-  });
   const {
     messages,
     timeLines,
@@ -65,6 +39,34 @@ const Center = () => {
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
+
+  const { handleSelectedReply, scrollRef, replyTo, isReply, setReplyTo } =
+    useContext(ConversationContext);
+  const { ref } = useMain();
+  const {
+    currentMessage,
+    toggleReactionModal,
+    reactionVisible,
+    toggleSettingModal,
+    setReactionVisible,
+    settingsModalVisbile,
+  } = useCenter();
+  const [selectedMessage, setSeelectedMessage] = useState(null);
+
+  const handleImagePreview = (msg) => {
+    const { imageUrl } = msg;
+    dispatch(insertImagePreview({ imageUrl }));
+    dispatch(_toggleMessageImagePrview());
+  };
+
+  // click outside
+  useClickOutside(ref, () => {
+    dispatch(_toggleEmojiBox());
+  });
+  useClickOutside(currentMessage, () => {
+    // toggleReactionModal()
+    setReactionVisible(false);
+  });
 
   const selectedItem = (item) => {
     console.log(item);
@@ -341,7 +343,7 @@ const Center = () => {
       </div>
 
       {/* BOTTOM REPLY BOX  */}
-      {isReply && <ReplyBottom _id={_id}  replyTo={replyTo}/>}
+      {isReply && <ReplyBottom _id={_id} replyTo={replyTo} />}
 
       {/* MESSAGE BOX TO SEND MESSAGE  */}
       <MessageBox>{emojiBoxyToggled && <EmojiBox el={ref} />}</MessageBox>
