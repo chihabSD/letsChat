@@ -9,9 +9,7 @@ import { _checkToken } from "./redux/actions/auth/checkToken";
 store.dispatch(_checkToken())
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
 );

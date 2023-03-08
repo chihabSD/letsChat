@@ -10,14 +10,14 @@ export const Header = ({ selectedConversation }) => {
     rightSideToggled,
     account: { _id },
   } = useRedux();
-  const {type} = selectedConversation
-  const returnUser = selectedConversation.users.find((user) => user._id != _id);
+  const { type, members } = selectedConversation;
+  const returnUser = members.find(({user}) => user._id != _id);
   if(type === 'group'){
     return <GroupHeader selectedConversation={selectedConversation} />
   }
   return (
     <div className="chat-header">
-      {returnUser.username}
+      {returnUser.user.username}
 
       <div className="chat-header-right">
         <div onClick={() => dispatch(_toggleRightSide())}>

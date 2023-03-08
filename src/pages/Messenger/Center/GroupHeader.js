@@ -4,17 +4,13 @@ import { useRedux } from "../../../hooks/useRedux";
 import { _toggleRightSide } from "../../../redux/reducers/toggler";
 
 const GroupHeader = ({ selectedConversation }) => {
-  const { groupName, users } = selectedConversation;
+  const { groupName, members } = selectedConversation;
 
   const formattedUsers =
-    users.length > 40
-      ? users.map((user) => <p>{user.username}</p>).slice(0, 40)
-      : users.map((user, index) => (
-          <p>
-            {index === 0
-              ? user.username
-              :`,${user.username}`}
-          </p>
+    members.length > 40
+      ? members.map(({ user }) => <p>{user.username}</p>).slice(0, 40)
+      : members.map(({ user }, index) => (
+          <p>{index === 0 ? user.username : `,${user.username}`}</p>
         ));
   const { dispatch, rightSideToggled } = useRedux();
   return (
@@ -31,9 +27,8 @@ const GroupHeader = ({ selectedConversation }) => {
 
       <div className="center-right">
         <div className="item">
-            <BsChevronDown />
+          <BsChevronDown />
         </div>
-       
       </div>
 
       {/* {users.length > 40

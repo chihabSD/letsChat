@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FaGifts,
   FaImage,
@@ -17,14 +17,10 @@ import { _toggleEmojiBox } from "../../../redux/reducers/toggler";
 import { useRedux } from "../../../hooks/useRedux";
 import { TbSend } from "react-icons/tb";
 import { CiMicrophoneOn } from "react-icons/ci";
-const MessageBox = ({
-  children,
-  message,
-  handleSend,
-  handleSendButton,
-  handleImageUpload,
-  handleMessageInput,
-}) => {
+import { ConversationContext } from "../../../contexts";
+const MessageBox = ({ children }) => {
+  const { message, handleMessageInput, handleSend, handleSendButton, handleImageUpload } =
+    useContext(ConversationContext);
   const { dispatch } = useRedux();
   const iconsSize = 25;
   const color = "white";
@@ -65,11 +61,9 @@ const MessageBox = ({
         <div className="item send" onClick={handleSend}>
           <TbSend size={20} color="white" />
         </div>
-      
       </div>
     </div>
   );
 };
-
 
 export default MessageBox;

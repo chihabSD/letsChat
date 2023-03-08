@@ -1,16 +1,16 @@
 import React from "react";
 import { BsChevronRight } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
+import { UserImage } from "../../../components/UserImage";
 import { useRedux } from "../../../hooks/useRedux";
 import { _deleteConversation } from "../../../redux/actions/friends/deleteConversation";
+import { _updateConversationUser } from "../../../redux/actions/friends/updateConversationUser";
 import { _toggleRightSide } from "../../../redux/reducers/toggler";
 
-const IsGroup = ({ selectedConversation }) => {
-  const { groupName, users, admins } = selectedConversation;
+const IsGroup = () => {
+  const { rightSideToggled, dispatch, selectedConversation } = useRedux();
 
- 
-
-  const { rightSideToggled, dispatch } = useRedux();
+  const { groupName,  members } = selectedConversation;
   return (
     <div className={`${rightSideToggled ? "hideright" : "right"}`}>
       <header>
@@ -27,41 +27,93 @@ const IsGroup = ({ selectedConversation }) => {
           <div className="info-pic">Info pic</div>
           <div className="details">
             <h1>{groupName ? groupName : "No group name yet!"}</h1>
-            <h1> Group : {users.length} </h1>
+            <h1> Group : {members.length} </h1>
           </div>
         </div>
 
         <div className="info-bottom">
           <div className="users">
-            <p>{users.length} participants</p>
-
-     
-
-            {users.map((user) => {
-              const matchAdmins = admins.find(admin => admin._id == user._id )
+            <p>{members.length} participants</p>
+            {members.map(({user, role}) => {
+          
+              // const matchAdmins = admins.find((admin) => admin._id == user._id);
               return (
-                <div className="user" key={user._id} >
+                <div className="user" key={user._id}>
                   <div className="left">
                     <div className="left-left">
-                      <div className="pic-container">Pic</div>
+                    <UserImage image={user.image}/>
                     </div>
                     <div className="left-right">
-                      <h1>user</h1>
-                      <h1>{matchAdmins ? "Current admin":null}</h1>
+                      <h1>{user.username}</h1>
+                      <h1>{role == 'admin' && "Admin"}</h1>
                     </div>
                   </div>
                   <div className="right">
-                    <p>
-
-                  <BsChevronRight />
+                    <p
+                      onClick={() =>
+                        dispatch(
+                          _updateConversationUser({
+                            makeAdmin: true,
+                            user: user.user._id,
+                            conversationId: selectedConversation._id,
+                          })
+                        )
+                      }
+                    >
+                      <BsChevronRight />
                     </p>
                   </div>
                 </div>
               );
             })}
+            {/* {users.map((user) => {
+               const matchAdmins = admins.find((admin) => admin._id == user._id);
+              if(matchAdmins) return
+              <div className="user" key={user._id}>
+                <div className="left">
+                  <div className="left-left">
+                    <div className="pic-container">Pic</div>
+                  </div>
+                  <div className="left-right">
+                    
+
+                    <h1>{user.username}</h1>
+                    Normal
+                  </div>
+                </div>
+                <div className="right">
+                  <p
+                    onClick={() =>
+                      dispatch(
+                        _updateConversationUser({
+                          makeAdmin: true,
+                          user: user._id,
+                          conversationId: selectedConversation._id,
+                        })
+                      )
+                    }
+                  >
+                    <BsChevronRight />
+                  </p>
+                </div>
+              </div>;
+            })} */}
+            {/* {users.map((user) => {
+              const matchAdmins = admins.find((admin) => admin._id == user._id);
+              if (matchAdmins) return;
+              return (
+               
+              );
+            })} */}
           </div>
           <br />
-          <h3 onClick={() => dispatch(_deleteConversation(selectedConversation._id))}>Delete Group</h3>
+          <h3
+            onClick={() =>
+              dispatch(_deleteConversation(selectedConversation._id))
+            }
+          >
+            Delete Group
+          </h3>
         </div>
       </div>
       {/* <div className="leftTop-container right">

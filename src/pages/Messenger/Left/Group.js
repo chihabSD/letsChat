@@ -1,21 +1,30 @@
 import React from "react";
-import { IMAGE_URL } from "../../../api/endpoint";
 import { useRedux } from "../../../hooks/useRedux";
+import { _getMessage } from "../../../redux/actions/message/getMessage";
+import { handleCurrentConversation } from "../../../redux/reducers/friends";
 
-const Group = ({
-  conversation,
-  users,
-  handleConversation,
-  selectedConversation,
-}) => {
+const Group = ({ conversation, users }) => {
   const {
     loading,
     conversations,
+    selectedConversation,
+    dispatch,
     messages,
     account: { _id },
   } = useRedux();
 
-  const userFound = conversation.users.find((user) => user._id !== _id);
+  const handleConversation = () => {
+    if (selectedConversation && selectedConversation._id === conversation._id) {
+      console.log("group chat already exist");
+      return;
+    } else {
+      dispatch(_getMessage(conversation._id));
+      dispatch(handleCurrentConversation(conversation));
+      // console.log( conversation);
+    }
+
+  };
+  const userFound = conversation.members.find((user) => user._id !== _id);
   let condition = conversation.latestMessage
     ? conversation.latestMessage.message
     : "Conversation not started yet ";
@@ -23,25 +32,27 @@ const Group = ({
     <div>
       <div
         className={`${
-          selectedConversation._id === conversation._id
+          selectedConversation && selectedConversation._id === conversation._id
             ? "chat select-chat"
             : "chat"
         }`}
-        onClick={() => handleConversation(conversation)}
+        onClick={() => handleConversation()}
       >
         <div className="chat-left group">
           <img src="./social-network.png" />
         </div>
         <div className="chat-right">
           <div className="chat-right-top">
-            <h4> {conversation.groupName ? conversation.groupName:'No group name yet'} </h4>
+            <h4>
+              {" "}
+              {conversation.groupName
+                ? conversation.groupName
+                : "No group name yet"}{" "}
+            </h4>
             <div>99</div>
           </div>
           <div className="chat-right-bottom">
-            <p>
-              {condition}
-   
-            </p>
+            <p>{condition}</p>
             <p>99</p>
           </div>
         </div>

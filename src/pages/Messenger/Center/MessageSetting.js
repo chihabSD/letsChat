@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsReply } from "react-icons/bs";
 import { FaSmile } from "react-icons/fa";
 import { TbDotsVertical, TbTrash } from "react-icons/tb";
+import { ConversationContext } from "../../../contexts";
 import { useRedux } from "../../../hooks/useRedux";
 const MessageSetting = ({
   reactionVisible,
@@ -21,6 +22,7 @@ const MessageSetting = ({
     messages,
     account: { _id },
   } = useRedux();
+  // const {  } = useContext(ConversationContext)
   const condition = reactionVisible && selectedMessage === message._id;
   const settings = settingsModalVisible && selectedMessage === message._id;
   const reactions = ["💔", "👍", "👎", "😄", "😕", "	🎉", "🚀", "👀"];
@@ -37,6 +39,7 @@ const MessageSetting = ({
         {/* <TbDotsVertical onClick={handleMessageAction} /> */}
       </div>
       <div className="item" onClick={handleSelectedReply}>
+        
         <BsReply />
       </div>
       <div className="item">

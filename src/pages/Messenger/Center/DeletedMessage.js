@@ -4,6 +4,7 @@ import { FaTrash, FaTrashRestore } from "react-icons/fa";
 const DeletedMessage = ({ message, _id, handleRestore, deleteForEver }) => {
   const findUser = message.deletedBy.find((user) => user.by === _id);
   return (
+    <div className="message-container">
     <div className="deleted-message-container">
       {findUser ? (
         <div className="inner-container">
@@ -26,6 +27,7 @@ const DeletedMessage = ({ message, _id, handleRestore, deleteForEver }) => {
       ) : (
         <div>He deleted this </div>
       )}
+    </div>
     </div>
   );
 };

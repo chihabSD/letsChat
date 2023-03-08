@@ -1,12 +1,13 @@
 import { friendsApiHandler } from "../../../api/friends";
 import { setError } from "../../reducers/error";
-import { clearNewMessageAdded, insertConversation, insertMessages, setNewMessageAdded  } from "../../reducers/friends";
+import { clearNewMessageAdded, insertConversation, insertMessages, setLoadingConversation, clearLoadingConversation, setNewMessageAdded  } from "../../reducers/friends";
 import { clearLoading, setLoading } from "../../reducers/loading";
 import { names } from "../names";
 export const _getChatList = (details) => {
   return async (dispatch) => {
 
-    dispatch(setLoading());
+   
+    dispatch( setLoadingConversation())
     try {
       const {
         data: { chats, messages, replies },
@@ -16,7 +17,7 @@ export const _getChatList = (details) => {
       dispatch(insertMessages([...newMessages]));
       dispatch(insertConversation(chats));
       setTimeout(() => {
-        dispatch(clearLoading());
+        dispatch(clearLoadingConversation());
         dispatch(clearNewMessageAdded())
       }, 1000);
     } catch (e) {

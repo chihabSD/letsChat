@@ -17,7 +17,7 @@ const useRedux = () => {
       currentMessageReactions,  
       imagePreview,
       selectedConversation,
-      updatingMessage
+      updatingMessage, loadingConversation
     },
     profileReducer: { authenticated, account },
     toggleReducer: {
@@ -50,6 +50,7 @@ const useRedux = () => {
     registered,
     messageMessagePreview,
     imagePreview,
+    loadingConversation, 
     timeLines,  newMessageAdd, updatingMessage, newConversation
   };
 };

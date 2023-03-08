@@ -1,7 +1,7 @@
 @import './left_header';
 
 .leftside {
-  background-color: var(--primary);
+  // background-color: var(--primary);
   height: 100vh;
   display: flex;
 
@@ -110,6 +110,13 @@
       p {
         margin-top: 15px;
       }
+    }
+    .chat.select-chat {
+
+      // background-color: var(--border-color);
+      background-color: var(--hover-color);
+      // transition: width 2s, height 2s, background-color 2s, transform 2s;
+      transition: transform .3s ease;
     }
     .chat {
       transition: 0.1s ease;

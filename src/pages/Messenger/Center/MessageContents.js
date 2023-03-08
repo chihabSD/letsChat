@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineStop } from "react-icons/ai";
 import { FaBicycle, FaReply, FaTrash, FaTrashRestore } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
+import { ConversationContext } from "../../../contexts";
 // import Reply from "../../../../../backend/src/models/reply";
 import { useRedux } from "../../../hooks/useRedux";
 import { setSelectedReaction } from "../../../redux/reducers/friends";
@@ -13,9 +14,9 @@ const MessageContents = ({
   message,
   imageUploading,
   direction,
-  replyTo,
   handleImagePreview,
 }) => {
+  const {replyTo} = useContext(ConversationContext)
   const [updated, setUpdated] = useState(false);
   const {
     account: { _id },

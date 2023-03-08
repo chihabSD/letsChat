@@ -5,10 +5,11 @@ import { ENDPOINT } from "./endpoint";
 import { getHeader } from "./header";
 const messanger = `${ENDPOINT}/messanger`;
 
-const { GET_FRIENDS, DELETE_CONVERSATION,  SEND_IMAGE, GET_CHATLIST , ADD_TO_CHATLIST} = names;
+const { GET_FRIENDS, DELETE_CONVERSATION,  SEND_IMAGE, UPDATE_USER_IN_CONVERSATION,  GET_CHATLIST , ADD_TO_CHATLIST} = names;
 
 // handle auth
 export const friendsApiHandler = async (name, details) => {
+
     const header = await getHeader();
   switch (name) {
    
@@ -23,6 +24,9 @@ export const friendsApiHandler = async (name, details) => {
   
         case DELETE_CONVERSATION:
           return axios.delete(`${messanger}/delete-conversation/${details}`, header);
+  
+        case UPDATE_USER_IN_CONVERSATION:
+          return axios.put(`${messanger}/conversation/update-user/${details.conversationId}`, details,  header);
   
     default:
       break;

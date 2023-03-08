@@ -15,9 +15,12 @@ const Reply = ({
     <div className="reply-content">
       <div className="replyInfo">
           <FaReply className="icon"/>
+          {/* ssfsdjflsdj  */}
           {message.senderId._id && message.messageId.senderId === _id
             ? "Replied to yourself"
-            : `You replied to message`}
+            : `A replied to message`}
+            {/* {message.senderId.username}
+            {message.messageId.senderId.username} */}
         </div>
       <div
         className="parent-message"

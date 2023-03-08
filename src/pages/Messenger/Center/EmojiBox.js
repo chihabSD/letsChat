@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FaCat,
   FaFlagUsa,
@@ -10,7 +10,9 @@ import { CiBasketball, CiForkAndKnife } from "react-icons/ci";
 import { TbIcons } from "react-icons/tb";
 import { emojis } from "../../../data";
 import { AiFillCar, AiOutlineBulb } from "react-icons/ai";
-const EmojiBox = ({el,selectedEmoji}) => {
+import { ConversationContext } from "../../../contexts";
+const EmojiBox = ({el}) => {
+  const {selectedEmoji} = useContext(ConversationContext)
   const emojiCategory = [
     { id: 0, name: "people", icon: <FaSmile /> },
     { id: 1, name: "animals and nature", icon: <FaCat /> },

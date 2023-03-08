@@ -1,18 +1,37 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRedux } from "./useRedux";
 const useMain = () => {
-    const ref = useRef(null)
+  const { loadingConversation, dispatch, newMessageAdd } = useRedux();
+  const ref = useRef(null);
+  const scrollRef = useRef();
+  const [replyTo, setReplyTo] = useState(null);
+  const [isReply, setReply] = useState(false);
   const [message, setMessage] = useState("");
   const [showEmojiBox, setShowEmojiBox] = useState(false); // control emoji box
-  const [selectedConversation, setSelectedConversation] = useState(null);
   const [toggleRight, setToggleRight] = useState(false);
+  const [filled, setFilled] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
 
-    
+
+  const toggleIsReply = () => {
+    setReply((p) => !p);
+    setReplyTo(null);
+  };
+
+  const handleSelectedReply = (msg) => {
+    setReplyTo(msg);
+    setReply(true);
+    console.log('main replty to',  replyTo, msg );
+  };
   
-
+  const selectedEmoji = (emoji) => {
+    setMessage(`${message}` + emoji.emoji);
+   
+  };
   
   const handleMessageInput = (e) => {
     setMessage(e.target.value);
-    // console.log('message from hook', message);
+
   };
   // toggle emoji box
   const toggleEmojiBox = () => {
@@ -21,23 +40,66 @@ const useMain = () => {
 
   // handle outside click
   const handleOutsideClick = (type) => {
-    if(type === 'emojibox'){
-        setShowEmojiBox(false)
+    if (type === "emojibox") {
+      setShowEmojiBox(false);
     }
   };
-// toggle right
+  // toggle right
   const handleToggleRight = () => {
-    setToggleRight(prev => !prev)
-  } 
+    setToggleRight((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (filled < 100 && isRunning) {
+      setTimeout(() => setFilled((prev) => (prev += 2)), 50);
+    }
+  }, [filled, isRunning]);
+
+  useEffect(() => {
+    if (loadingConversation) {
+      setIsRunning(true);
+    }
+  }, [loadingConversation]);
+
+ 
+
+
+  const scrollDown = () => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+};
+
+useEffect(() => {
+  if (newMessageAdd) {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    setReplyTo(null);
+  }
+}, [newMessageAdd]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollDown();
+    }, 1500);
+  }, []);
+
+
+
+
   return {
+    filled,
+    setIsRunning,
     message,
     setMessage,
     showEmojiBox,
-    handleMessageInput, 
-    setShowEmojiBox, 
+    handleMessageInput,
+    setShowEmojiBox,
     toggleEmojiBox,
     handleOutsideClick,
-    ref, handleToggleRight, toggleRight
+    ref,
+    handleToggleRight,
+    selectedEmoji, 
+    toggleRight,
+    handleSelectedReply, 
+    replyTo, isReply, setReply, setReplyTo, toggleIsReply , scrollRef
   };
 };
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { TbMessageCircleOff } from "react-icons/tb";
-
+import ReplyBottom from "./ReplyBottom";
 import { Header } from "./Header";
 
 import { useClickOutside } from "../../../hooks/useClickOutside";
@@ -25,31 +25,18 @@ import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
 import { _deleteMessage } from "../../../redux/actions/message/deleteMessage";
 import Reply from "./Reply";
 import DeletedMessage from "./DeletedMessage";
-const Center = ({
-  handleSendButton,
-  selectedConversation,
-  scrollRef,
-  handleMessageInput,
-  message,
-  handleSend,
-  selectedEmoji,
-  handleImageUpload,
-  imageUploading,
-  setReplyTo,
-  toggleIsReply,
-  isReply,
-  handleReplyTo,
-  replyTo,
+import UserProfilePicLeft from "./UserProfilePicLeft";
+import { ConversationContext } from "../../../contexts";
 
-  handleSelectedReply,
-}) => {
+const Center = () => {
+  const { handleSelectedReply, scrollRef,  replyTo,  isReply, setReplyTo } =
+    useContext(ConversationContext);
   const currentMessage = React.useRef(null);
   const { ref } = useMain();
   const [reactionVisible, setReactionVisible] = useState(false);
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
 
-  const [updatingMesage, setUpdatingMessge] = useState(false);
   const handleImagePreview = (msg) => {
     const { imageUrl } = msg;
     dispatch(insertImagePreview({ imageUrl }));
@@ -74,6 +61,7 @@ const Center = ({
     timeLines,
     dispatch,
     updatingMessage,
+    selectedConversation,
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
@@ -147,7 +135,7 @@ const Center = ({
 
   const handleSettings = (message) => {
     // if (setting === "Remove") {
-      dispatch(_deleteMessage({ messageId: message._id }));
+    dispatch(_deleteMessage({ messageId: message._id }));
     // }
   };
   const handleReactionUpdate = (details) => {
@@ -178,12 +166,18 @@ const Center = ({
             <h1> No Messages</h1>
             <p>When you have message,</p>
             <p>you will see them here</p>
+            <h1>
+              {selectedConversation.type === "group"
+                ? selectedConversation.groupName
+                : selectedConversation._id}
+            </h1>
           </EmptyLayout>
         ) : (
           timeLines.map((timeline) => {
             const timestampDate = moment(timeline.originalDate).format(
               "dd/MM/yyyy"
             );
+            // {selectedConversation.type === 'group' ? <g}
 
             return (
               <div className="timeline-container" key={timeline.timeLine}>
@@ -200,15 +194,7 @@ const Center = ({
                     <div
                       id={message._id}
                       className={className}
-                      // className={
-                      //   contentType === "reply"
-                      //     ? "chat-box-container hidesettings"
-                      //     : condition
-                      //     ? "chat-box-container hidesettings"
-                      //     : className
-                      // }
                       ref={scrollRef}
-                      // ref={(element) => itemsEls.current.push(element)}
                       key={message._id}
                     >
                       {condition ? (
@@ -248,12 +234,10 @@ const Center = ({
                               handleCurrentMessageReply={
                                 handleCurrentMessageReply
                               }
-                              replyTo={replyTo}
                               handleReactionUpdate={handleReactionUpdate}
                               toggleReactionModal={toggleReactionModal}
                               message={message}
                               direction
-                              imageUploading={imageUploading}
                               handleImagePreview={handleImagePreview}
                             />
                           </div>
@@ -278,15 +262,14 @@ const Center = ({
                       ref={scrollRef}
                       key={message._id}
                     >
-                      
                       {contentType == "reply" && (
                         <div className="reply-container left">
-                         <div className="left">
+                          <div className="left">
                             <UserImage
                               image={
                                 message.contentType === "reply"
-                                  ? message.messageId.receiverId.image
-                                  : message.receiverId.image
+                                  ? message.senderId.image
+                                  : message.senderId.image
                               }
                               style={{ width: "40px", height: "40px" }}
                             />
@@ -301,66 +284,52 @@ const Center = ({
                           />
                         </div>
                       )}
-                      
+
                       {condition ? (
                         <div className="message-container">
-                        <DeletedMessage
-                          message={message}
-                          _id={_id}
-                          handleRestore={handleRestore}
-                        />
-                      </div>
-                      ) :
-                      contentType === "message" && (
-                        <div className="message-container">
-                          <div className="left">
-                            <UserImage
-                              image={
-                                message.contentType === "reply"
-                                  ? message.messageId.receiverId.image
-                                  : message.receiverId.image
-                              }
-                              style={{ width: "40px", height: "40px" }}
-                            />
-                          </div>
-                          <MessageContents
-                            handleCurrentMessageReply={
-                              handleCurrentMessageReply
-                            }
-                            replyTo={replyTo}
-                            toggleReactionModal={toggleReactionModal}
+                          <DeletedMessage
                             message={message}
-                            handleReactionUpdate={handleReactionUpdate}
-                            imageUploading={imageUploading}
-                            handleImagePreview={handleImagePreview}
+                            _id={_id}
                             handleRestore={handleRestore}
                           />
-
-                          <MessageSetting
-                            handleSelectedReply={() =>
-                              handleSelectedReply(message)
-                            }
-                            handleSettings={handleSettings}
-                            handleMessageAction={handleMessageAction}
-                            handleSelectedReaction={handleSelectedReaction}
-                            reactionVisible={reactionVisible}
-                            settingsModalVisible={settingsModalVisbile}
-                            setReactionVisible={setReactionVisible}
-                            toggleReactionModal={toggleReactionModal}
-                            message={message}
-                            selectedMessage={selectedMessage}
-                            handleSelectedMessage={() =>
-                              handleSelectedMessage(message)
-                            }
-                            currentMessage={currentMessage}
-                            handleMouseOver={handleMouseOver}
-                          />
                         </div>
-                      )
-                      
-                      }
+                      ) : (
+                        contentType === "message" && (
+                          <div className="message-container">
+                            <UserProfilePicLeft message={message} />
+                            <MessageContents
+                              handleCurrentMessageReply={
+                                handleCurrentMessageReply
+                              }
+                              toggleReactionModal={toggleReactionModal}
+                              message={message}
+                              handleReactionUpdate={handleReactionUpdate}
+                              handleImagePreview={handleImagePreview}
+                              handleRestore={handleRestore}
+                            />
 
-                      
+                            <MessageSetting
+                              handleSelectedReply={() =>
+                                handleSelectedReply(message)
+                              }
+                              handleSettings={handleSettings}
+                              handleMessageAction={handleMessageAction}
+                              handleSelectedReaction={handleSelectedReaction}
+                              reactionVisible={reactionVisible}
+                              settingsModalVisible={settingsModalVisbile}
+                              setReactionVisible={setReactionVisible}
+                              toggleReactionModal={toggleReactionModal}
+                              message={message}
+                              selectedMessage={selectedMessage}
+                              handleSelectedMessage={() =>
+                                handleSelectedMessage(message)
+                              }
+                              currentMessage={currentMessage}
+                              handleMouseOver={handleMouseOver}
+                            />
+                          </div>
+                        )
+                      )}
                     </div>
                   );
                 })}
@@ -371,41 +340,11 @@ const Center = ({
         )}
       </div>
 
-      {isReply && (
-        <div className="bottom-reply-container">
-          <div className="top">
-            <p>
-              Reply to
-              <span>
-                {replyTo.senderId._id === _id
-                  ? "yourself"
-                  : `${replyTo.senderId.username}`}
-              </span>{" "}
-            </p>
-            <p className="close" onClick={toggleIsReply}>
-              X
-            </p>
-          </div>
-          {replyTo ? (
-            replyTo.type === "text" ? (
-              <p>{replyTo.message.length > 40 ? `${replyTo.message.slice(0, 40)}...`: replyTo.message}</p>
-            ) : (
-              <p>Reply to Image</p>
-            )
-          ) : null}
-        </div>
-      )}
-      <MessageBox
-        handleImageUpload={handleImageUpload}
-        handleSend={handleSend}
-        message={message}
-        handleMessageInput={handleMessageInput}
-        handleSendButton={handleSendButton}
-      >
-        {emojiBoxyToggled && (
-          <EmojiBox el={ref} selectedEmoji={selectedEmoji} />
-        )}
-      </MessageBox>
+      {/* BOTTOM REPLY BOX  */}
+      {isReply && <ReplyBottom _id={_id}  replyTo={replyTo}/>}
+
+      {/* MESSAGE BOX TO SEND MESSAGE  */}
+      <MessageBox>{emojiBoxyToggled && <EmojiBox el={ref} />}</MessageBox>
     </div>
   );
 };
