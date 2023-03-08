@@ -5,7 +5,6 @@ import { ConversationContext } from "../../contexts";
 import { useMain } from "../../hooks/useMainState";
 import { useRedux } from "../../hooks/useRedux";
 import MainLayOut from "../../Layouts/MainLayOut";
-
 import { _getChatList } from "../../redux/actions/friends/getChatlist";
 import { _getMessage } from "../../redux/actions/message/getMessage";
 import { _replyToMessage } from "../../redux/actions/message/replyToMessage";
@@ -13,12 +12,12 @@ import { _sendMessage } from "../../redux/actions/message/sendMessage";
 import { _closeEmojiBox, _toggleEmojiBox } from "../../redux/reducers/toggler";
 import Center from "./Center";
 import Left from "./Left";
-
 import PreLoading from "./PreLoading";
 import Right from "./Right";
 import NoConversation from "./NoConversation";
 import NoSelectedChat from "./NoSelectedChat";
 
+const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
 const MessengerUI = () => {
   const {
     filled,
@@ -51,7 +50,8 @@ const MessengerUI = () => {
 
   const instance = axios.create();
   instance.defaults.headers.common = {};
-  const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
+ 
+  // Handle message upload
   const handleImageUpload = async (event) => {
     const formData = new FormData();
 
@@ -81,56 +81,18 @@ const MessengerUI = () => {
     }
   };
 
+  // The reply data
   const replayData = {
     messageId: replyTo && replyTo._id,
     message,
     conversationId: selectedConversation && selectedConversation._id,
   };
 
-  const handleSendButton = (event) => {
-    if (event.code === "Enter" && isReply) {
-      dispatch(_replyToMessage(replayData));
-      setReply(false);
-      setReplyTo(null);
-      setMessage("");
+  const handleMessageSubmission = () => {
+    const receivers = selectedConversation.members.filter(
+      ({ user }) => user._id !== _id
+    );
 
-      return;
-    }
-
-    if (event.code === "Enter" && !isReply) {
-      const receivers = selectedConversation.members.filter(
-        ({ user }) => user._id !== _id
-      );
-
-      console.log("enter is press", receivers);
-      dispatch(
-        _sendMessage({
-          conversationsType: selectedConversation.type,
-          conversationId: selectedConversation._id,
-          message,
-          receivers,
-        })
-      );
-      setMessage("");
-      setReply(false);
-      setReplyTo(null);
-      if (toggleEmojiBox) dispatch(_closeEmojiBox());
-    }
-  };
-
-  // when the send is pressed
-  const handleSend = () => {
-    console.log("cliedk" );  
-    if (isReply) {
-      dispatch(_replyToMessage(replayData));
-      setReply(false);
-      setReplyTo(null);
-      setMessage("");
-      return;
-    }
-
-    const receivers = selectedConversation.members.filter(({ user }) => user._id !== _id);
-    console.log("clicked", receivers);
     dispatch(
       _sendMessage({
         conversationsType: selectedConversation.type,
@@ -140,7 +102,36 @@ const MessengerUI = () => {
       })
     );
     setMessage("");
+
+    setReply(false);
+    setReplyTo(null);
     if (toggleEmojiBox) dispatch(_closeEmojiBox());
+  };
+  const handleReplySumission = () => {
+    dispatch(_replyToMessage(replayData));
+    setReply(false);
+    setReplyTo(null);
+    setMessage("");
+  };
+
+  // when enter is pressed
+  const handleSendButton = (event) => {
+    if (event.code === "Enter" && isReply) {
+      handleReplySumission();
+      return;
+    }
+    if (event.code === "Enter" && !isReply) {
+      handleMessageSubmission();
+    }
+  };
+
+  // when the send is pressed
+  const handleSend = () => {
+    if (isReply) {
+      handleReplySumission();
+      return;
+    }
+    handleMessageSubmission();
   };
 
   // prevent from calling list twice
