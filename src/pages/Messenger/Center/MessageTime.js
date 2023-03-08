@@ -11,7 +11,6 @@ export const MessageTime = ({ date, right, reply }) => {
         <Moment
   
           className="timedate"
-          // style={ {fontSize:'0.9rem', color:right && reply ? 'grey': right ? 'white':"grey"  }}
           format="ll"
         >
           {date}

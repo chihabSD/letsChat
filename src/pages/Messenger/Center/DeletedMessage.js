@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AiOutlineStop } from "react-icons/ai";
 import { FaTrash, FaTrashRestore } from "react-icons/fa";
-const DeletedMessage = ({ message, _id, handleRestore, deleteForEver }) => {
+import { CenterContext } from "../../../contexts";
+const DeletedMessage = ({ message, _id,  deleteForEver }) => {
   const findUser = message.deletedBy.find((user) => user.by === _id);
+  const { handleRestore} = useContext(CenterContext)
   return (
     <div className="message-container">
     <div className="deleted-message-container">

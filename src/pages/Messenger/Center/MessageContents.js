@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineStop } from "react-icons/ai";
 import { FaBicycle, FaReply, FaTrash, FaTrashRestore } from "react-icons/fa";
 import { Oval } from "react-loader-spinner";
-import { ConversationContext } from "../../../contexts";
+import { CenterContext, ConversationContext } from "../../../contexts";
 // import Reply from "../../../../../backend/src/models/reply";
 import { useRedux } from "../../../hooks/useRedux";
 import { setSelectedReaction } from "../../../redux/reducers/friends";
@@ -12,11 +12,10 @@ import { MessageTime } from "./MessageTime";
 import Reply from "./Reply";
 const MessageContents = ({
   message,
-  imageUploading,
   direction,
-  handleImagePreview,
 }) => {
   const {replyTo} = useContext(ConversationContext)
+  const {  handleImagePreview} = useContext(CenterContext)
   const [updated, setUpdated] = useState(false);
   const {
     account: { _id },

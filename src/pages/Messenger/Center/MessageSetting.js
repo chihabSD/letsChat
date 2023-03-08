@@ -2,29 +2,27 @@ import React, { useContext } from "react";
 import { BsReply } from "react-icons/bs";
 import { FaSmile } from "react-icons/fa";
 import { TbDotsVertical, TbTrash } from "react-icons/tb";
-import { ConversationContext } from "../../../contexts";
+import { CenterContext } from "../../../contexts";
 import { useRedux } from "../../../hooks/useRedux";
 const MessageSetting = ({
-  reactionVisible,
-  toggleReactionModal,
   message,
-  selectedMessage,
-  handleSelectedMessage,
-  currentMessage,
+
   handleMouseOver,
-  handleSelectedReaction,
-  handleMessageAction,
-  settingsModalVisible,
-  handleSettings,
-  handleSelectedReply,
 }) => {
   const {
     messages,
     account: { _id },
   } = useRedux();
-  // const {  } = useContext(ConversationContext)
+  const {
+    handleSelectedReaction,
+    reactionVisible,
+    handleSelectedReply,
+    currentMessage,
+    handleSelectedMessage,
+    selectedMessage,
+    handleSettings,
+  } = useContext(CenterContext);
   const condition = reactionVisible && selectedMessage === message._id;
-  const settings = settingsModalVisible && selectedMessage === message._id;
   const reactions = ["💔", "👍", "👎", "😄", "😕", "	🎉", "🚀", "👀"];
   const settingsActions = ["Remove"];
 
@@ -36,29 +34,17 @@ const MessageSetting = ({
     <div className="message-settings hidden">
       <div className="item">
         <TbTrash color="red" onClick={() => handleSettings(message)} />
-        {/* <TbDotsVertical onClick={handleMessageAction} /> */}
       </div>
-      <div className="item" onClick={handleSelectedReply}>
-        
+      <div className="item" onClick={() => handleSelectedReply(message)}>
         <BsReply />
       </div>
       <div className="item">
-        <FaSmile className="icon" onClick={handleSelectedMessage} />
+        <FaSmile
+          className="icon"
+          onClick={() => handleSelectedMessage(message)}
+        />
       </div>
 
-      {/* {settings && (
-        <div className="message-settings-container">
-          {settingsActions.map((setting) => (
-            <div
-              onClick={() => handleSettings(setting, message)}
-              key={setting}
-              className="item"
-            >
-              {setting}
-            </div>
-          ))}
-        </div>
-      )} */}
       {condition ? (
         <div
           className="reactions-container"

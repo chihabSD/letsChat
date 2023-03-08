@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaReply } from "react-icons/fa";
+import { CenterContext } from "../../../contexts";
 import { MessageTime } from "./MessageTime";
 
 const Reply = ({
   _id,
-  handleCurrentMessageReply,
   message,
   direction,
   left,
 }) => {
   
   
+  const { handleCurrentMessageReply } = useContext(CenterContext)
   return (
     <div className="reply-content">
       <div className="replyInfo">
