@@ -11,6 +11,7 @@ import { _existConversation } from "../../../redux/actions/friends/exitConversat
 import { _updateConversationUser } from "../../../redux/actions/friends/updateConversationUser";
 import { _toggleRightSide } from "../../../redux/reducers/toggler";
 import { useGroup } from "../../../hooks/groupState";
+import AddUsersToGroup from "../../../Modals/AddUsersToGroup";
 
 const IsGroup = () => {
   const {
@@ -22,7 +23,12 @@ const IsGroup = () => {
   } = useRedux();
 
   const { groupName, members } = selectedConversation;
-  const { toggleEditGroupAdmins, editGroupVisible } = useGroup();
+  const {
+    toggleEditGroupAdmins,
+    editGroupVisible,
+    toggleAddUsers,
+    addUsersVisible,
+  } = useGroup();
 
   let filteredArray = [...members];
 
@@ -40,8 +46,11 @@ const IsGroup = () => {
   const findUser = findCurrentUserDetails(selectedConversation, account._id);
 
   return (
-    <GroupContext.Provider value={{ toggleEditGroupAdmins }}>
+    <GroupContext.Provider
+      value={{ toggleEditGroupAdmins, toggleAddUsers, addUsersVisible }}
+    >
       {editGroupVisible && <EditGroupAdmins />}
+      {addUsersVisible && <AddUsersToGroup />}
 
       <div className={`${rightSideToggled ? "hideright" : "right"}`}>
         <header>
@@ -100,13 +109,16 @@ const IsGroup = () => {
                 );
               })}
             </div>
-            <br />
+            <hr />
+            <h3 onClick={toggleAddUsers}>ADD USER TO GROUP</h3>
+            <hr />
             <h3
               onClick={() =>
                 dispatch(_deleteConversation(selectedConversation._id))
               }
             >
-              {findUser.isLeft ? null : "Delete group"}
+              DELETE
+              {findUser.role === "admin" ? "Delete group" : null}
             </h3>
 
             <hr />
@@ -135,7 +147,9 @@ const IsGroup = () => {
               </h3>
             )}
 
-            <h3 onClick={toggleEditGroupAdmins}>Edit group admins</h3>
+            {findUser.role == "admin" ? (
+              <h3 onClick={toggleEditGroupAdmins}>Edit group admins</h3>
+            ) : null}
           </div>
         </div>
         {/* <div className="leftTop-container right">

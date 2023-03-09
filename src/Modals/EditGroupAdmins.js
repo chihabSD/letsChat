@@ -3,6 +3,7 @@ import { FaImage, FaPlus, FaSearch } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { GroupContext } from "../contexts";
 import { useRedux } from "../hooks/useRedux";
+import { _existConversation } from "../redux/actions/friends/exitConversation";
 import { _updateConversationUser } from "../redux/actions/friends/updateConversationUser";
 import { _toggleNewConversation } from "../redux/reducers/toggler";
 const EditGroupAdmins = () => {
@@ -14,7 +15,6 @@ const EditGroupAdmins = () => {
     conversations,
     account: { image, _id },
   } = useRedux();
-
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const handleGroupNameInput = (e) => {
@@ -34,17 +34,25 @@ const EditGroupAdmins = () => {
   );
   const { toggleEditGroupAdmins } = useContext(GroupContext);
 
-  const makeHimAdmin = user => {
+  const makeHimAdmin = (user) => {
     dispatch(
-        _updateConversationUser({
-          updateType: "makeAdmin",
-          user, 
-          conversationType: selectedConversation.type,
-          conversationId: selectedConversation._id,
-        })
-      );
+      _updateConversationUser({
+        updateType: "makeAdmin",
+        user,
+        conversationType: selectedConversation.type,
+        conversationId: selectedConversation._id,
+      })
+    );
     toggleEditGroupAdmins();
-  }
+  };
+
+  const handleUserRemoval = (user) => {
+    if (user === _id) {
+      dispatch(_existConversation(selectedConversation._id));
+      toggleEditGroupAdmins();
+      return;
+    }
+  };
   return (
     <div className="message-reactions-modal newGroup">
       <div className="message-reactions-modal-inner">
@@ -67,25 +75,40 @@ const EditGroupAdmins = () => {
           </div>
 
           <h1> Current admins </h1>
-          {currentAdmins.map((admin) => {
-            return <div>{admin.user.username}</div>;
+          {currentAdmins.map(({ user }) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  padding: "10px",
+                  justifyContent: "space-between",
+                }}
+              >
+                {user.username}
+
+                <h1 onClick={() => handleUserRemoval(user._id)}>
+                  {user._id == _id ? "Remove yourself " : " Remove this admin "}
+                </h1>
+              </div>
+            );
           })}
 
           <h1> Select user from below to make admin </h1>
           <hr />
-          {users.map(({user}) => {
+          {users.map(({ user , role}) => {
             return (
               <div>
-                {user._id}
+                {user.username}
 
                 <h1
-                onClick={()=>makeHimAdmin(user._id)}
-                //   onClick={() => {
-                   
-                //     toggleEditGroupAdmins();
-                //   }}
+                  onClick={() => makeHimAdmin(user._id)}
+                  //   onClick={() => {
+
+                  //     toggleEditGroupAdmins();
+                  //   }}
                 >
-                  MAKE ADMIN
+                    {user._id == _id && role ===  'user' ? "You must make an request admin request":"Make admin"}
+                    
                 </h1>
               </div>
             );

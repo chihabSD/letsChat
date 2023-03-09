@@ -8,13 +8,16 @@ const useGroup = () => {
   const currentMessage = useRef(null);
   const { loadingConversation, dispatch, newMessageAdd } = useRedux();
   const [groupSettingsVisible, setGroupSettingsVisible] = useState(false);
+  const [addUsersVisible, setAddUsersVisible] = useState(false);
   const [editGroupVisible, setEditGroupVisible] = useState(false);
   const toggleEditGroupAdmins = () => setEditGroupVisible((p) => !p);
+  const toggleAddUsers = () => setAddUsersVisible((p) => !p);
   const toggleGroupSettings = () => setGroupSettingsVisible((p) => !p);
 
   return {
     groupSettingsVisible,
     editGroupVisible, 
+    toggleAddUsers, addUsersVisible, 
     toggleEditGroupAdmins,
   };
 };
