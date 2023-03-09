@@ -4,14 +4,15 @@ import { useRedux } from "../../../hooks/useRedux";
 import { _toggleRightSide } from "../../../redux/reducers/toggler";
 import GroupHeader from "./GroupHeader";
 
-export const Header = ({ selectedConversation }) => {
+export const Header = () => {
   const {
     dispatch,
+    selectedConversation, 
     rightSideToggled,
     account: { _id },
   } = useRedux();
   const { type, members } = selectedConversation;
-  const returnUser = members.find(({user}) => user._id != _id);
+  const returnUser = members?.find(({user}) => user._id != _id);
   if(type === 'group'){
     return <GroupHeader selectedConversation={selectedConversation} />
   }
