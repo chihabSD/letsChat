@@ -5,7 +5,7 @@ import { ENDPOINT } from "./endpoint";
 import { getHeader } from "./header";
 const messanger = `${ENDPOINT}/messanger`;
 
-const { GET_FRIENDS, DELETE_CONVERSATION,  SEND_IMAGE, UPDATE_USER_IN_CONVERSATION,  GET_CHATLIST , ADD_TO_CHATLIST} = names;
+const { GET_FRIENDS, DELETE_CONVERSATION,  EXIST_CONVERSATION, UPDATE_USER_IN_CONVERSATION,  GET_CHATLIST , ADD_TO_CHATLIST} = names;
 
 // handle auth
 export const friendsApiHandler = async (name, details) => {
@@ -27,6 +27,9 @@ export const friendsApiHandler = async (name, details) => {
   
         case UPDATE_USER_IN_CONVERSATION:
           return axios.put(`${messanger}/conversation/update-user/${details.conversationId}`, details,  header);
+  
+        case EXIST_CONVERSATION:
+          return axios.put(`${messanger}/conversation/exist-conversation/${details}`,   header);
   
     default:
       break;

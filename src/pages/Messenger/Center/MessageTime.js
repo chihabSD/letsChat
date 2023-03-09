@@ -11,7 +11,7 @@ export const MessageTime = ({ date, right, reply }) => {
         <Moment
   
           className="timedate"
-          format="ll"
+          format="hh:mm"
         >
           {date}
         </Moment>

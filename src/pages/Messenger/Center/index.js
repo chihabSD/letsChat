@@ -28,7 +28,9 @@ import Reply from "./Reply";
 import DeletedMessage from "./DeletedMessage";
 import UserProfilePicLeft from "./UserProfilePicLeft";
 import { CenterContext, ConversationContext } from "../../../contexts";
-
+import NoMessage from "./NoMessage";
+import { findCurrentUserDetails } from "../../../helpers/findMethods";
+import ContentsHidden from "./ContentsHidden";
 const Center = () => {
   const {
     messages,
@@ -39,6 +41,8 @@ const Center = () => {
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
+
+  // const findUser = selectedConversation.members.find(user => user.user._id == _id)
 
   const { handleSelectedReply, scrollRef, replyTo, isReply, setReplyTo } =
     useContext(ConversationContext);
@@ -53,6 +57,7 @@ const Center = () => {
     handleMessageAction,
     handleSelectedMessage,
     selectedMessage,
+    handleSettings,
     handleRestore,
   } = useCenter();
 
@@ -100,12 +105,6 @@ const Center = () => {
     toggleReactionModal();
   };
 
-  const handleSettings = (message) => {
-    // if (setting === "Remove") {
-    dispatch(_deleteMessage({ messageId: message._id }));
-    // }
-  };
-
   const handleCurrentMessageReply = (msg) => {
     setReplyTo(msg);
     const element = document.getElementById(msg._id);
@@ -114,6 +113,9 @@ const Center = () => {
     }
   };
 
+  if (findCurrentUserDetails(selectedConversation, _id).isLeft){
+    return     <ContentsHidden selectedConversation={selectedConversation}/>
+  }
   return (
     <CenterContext.Provider
       value={{
@@ -134,24 +136,17 @@ const Center = () => {
         <Header selectedConversation={selectedConversation} />
 
         <div className="messages-container">
+
+
+          {/* {findCurrentUserDetails.user.username} */}
           {timeLines.length === 0 || timeLines === undefined ? (
-            <EmptyLayout>
-              <TbMessageCircleOff size={100} />
-              <h1> No Messages</h1>
-              <p>When you have message,</p>
-              <p>you will see them here</p>
-              <h1>
-                {selectedConversation.type === "group"
-                  ? selectedConversation.groupName
-                  : selectedConversation._id}
-              </h1>
-            </EmptyLayout>
+            <NoMessage selectedConversation={selectedConversation} />
           ) : (
             timeLines.map((timeline) => {
               const timestampDate = moment(timeline.originalDate).format(
                 "dd/MM/yyyy"
               );
-              // {selectedConversation.type === 'group' ? <g}
+              // const timestampDate =
 
               return (
                 <div className="timeline-container" key={timeline.timeLine}>
@@ -227,7 +222,7 @@ const Center = () => {
                       </div>
                     );
                   })}
-                  <TimeDivider date={timestampDate} />
+                  <TimeDivider timeline={timeline.originalDate} />
                 </div>
               );
             })

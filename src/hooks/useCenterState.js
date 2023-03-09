@@ -51,11 +51,17 @@ const useCenter = () => {
     toggleReactionModal();
   };
  
+  const handleSettings = (message) => {
+    // if (setting === "Remove") {
+    dispatch(_deleteMessage({ messageId: message._id }));
+    // }
+  };
   
   return {
     currentMessage,
     toggleReactionModal, handleMessageAction, 
     reactionVisible,
+    handleSettings, 
     toggleSettingModal,
     setReactionVisible,
     settingsModalVisbile, selectedMessage, handleSelectedMessage , 

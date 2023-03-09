@@ -6,6 +6,7 @@ import { names } from '../names';
 
 export const _updateConversationUser = (details) => {
 
+  console.log('called');
   return async dispatch => {
     // dispatch(setLoading());
     try {

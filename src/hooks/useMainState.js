@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRedux } from "./useRedux";
 const useMain = () => {
-  const { loadingConversation, dispatch, newMessageAdd } = useRedux();
+  const { loadingConversation, dispatch, selectedConversation, newMessageAdd } =
+    useRedux();
   const ref = useRef(null);
   const scrollRef = useRef();
   const [replyTo, setReplyTo] = useState(null);
@@ -12,7 +13,6 @@ const useMain = () => {
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
-
   const toggleIsReply = () => {
     setReply((p) => !p);
     setReplyTo(null);
@@ -21,17 +21,15 @@ const useMain = () => {
   const handleSelectedReply = (msg) => {
     setReplyTo(msg);
     setReply(true);
-    console.log('main replty to',  replyTo, msg );
+    console.log("main replty to", replyTo, msg);
   };
-  
+
   const selectedEmoji = (emoji) => {
     setMessage(`${message}` + emoji.emoji);
-   
   };
-  
+
   const handleMessageInput = (e) => {
     setMessage(e.target.value);
-
   };
   // toggle emoji box
   const toggleEmojiBox = () => {
@@ -61,28 +59,30 @@ const useMain = () => {
     }
   }, [loadingConversation]);
 
- 
-
-
   const scrollDown = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-};
+  };
 
-useEffect(() => {
-  if (newMessageAdd) {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-    setReplyTo(null);
-  }
-}, [newMessageAdd]);
+  useEffect(() => {
+    if (newMessageAdd) {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      setReplyTo(null);
+    }
+  }, [newMessageAdd]);
+
+  useEffect(() => {
+    if (selectedConversation) {
+      setTimeout(() => {
+        scrollDown();
+      }, 1500);
+    }
+  }, [selectedConversation]);
 
   useEffect(() => {
     setTimeout(() => {
       scrollDown();
     }, 1500);
   }, []);
-
-
-
 
   return {
     filled,
@@ -96,10 +96,15 @@ useEffect(() => {
     handleOutsideClick,
     ref,
     handleToggleRight,
-    selectedEmoji, 
+    selectedEmoji,
     toggleRight,
-    handleSelectedReply, 
-    replyTo, isReply, setReply, setReplyTo, toggleIsReply , scrollRef
+    handleSelectedReply,
+    replyTo,
+    isReply,
+    setReply,
+    setReplyTo,
+    toggleIsReply,
+    scrollRef,
   };
 };
 

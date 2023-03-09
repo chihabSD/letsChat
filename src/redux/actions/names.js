@@ -17,4 +17,5 @@ export const names = {
   SEARCH_USER: "search_user",
   DELETE_CONVERSATION: "delete_conversation",
   UPDATE_USER_IN_CONVERSATION: "update_user_in_covnersation",
+  EXIST_CONVERSATION: "exist_conversation",
 };
