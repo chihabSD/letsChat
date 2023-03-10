@@ -34,7 +34,12 @@ export const friendsReducer = createSlice({
     },
     // the message sent
     insertSentMessage: (state, action) => {
+      console.log("sent message");
       state.messages.push(action.payload);
+
+      // const currentOldMessage =
+      state.selectedConversation.latestMessage = action.payload;
+      // console.log(state.selectedConversation.latestMessage);
     },
 
     // update message
@@ -89,6 +94,7 @@ export const friendsReducer = createSlice({
     },
     // insert conversation done
     getInitialConversations: (state, action) => {
+      console.log("a new conversaiotn is ", action.payload);
       state.conversations = [...action.payload];
     },
     // insert conversation
@@ -151,8 +157,7 @@ export const {
   getMessagesPerConversation,
   getInitialConversations,
   insertUpdatedMessage,
-
-  handleImagePreview, 
+  handleImagePreview,
   setSelectedReaction,
   insertLatestReaction,
   setNewMessageAdded,

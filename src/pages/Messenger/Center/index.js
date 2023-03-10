@@ -120,7 +120,6 @@ const Center = () => {
     return (
       <div className="center">
         <div className="messages-container">
-          There are no messages for this chat
           <NoMessage />
           <MessageBox>{emojiBoxyToggled && <EmojiBox el={ref} />}</MessageBox>
         </div>
@@ -148,6 +147,7 @@ const Center = () => {
         toggleImagePreview,
         // message reactions
         messageReactionVisible,
+
         toggleMessageReactions,
       }}
     >

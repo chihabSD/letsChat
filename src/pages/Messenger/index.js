@@ -36,7 +36,12 @@ const MessengerUI = () => {
     rightSideToggled,
     selectedEmoji,
   } = useMain();
-  const { toggleNewConversation, newConversationVisible, toggleNewGroup, newGroup } = useModal();
+  const {
+    toggleNewConversation,
+    newConversationVisible,
+    toggleNewGroup,
+    newGroup,
+  } = useModal();
   const {
     dispatch,
     conversations,
@@ -178,7 +183,9 @@ const MessengerUI = () => {
         toggleRightSide,
         rightSideToggled,
         toggleNewConversation,
-        newConversationVisible, toggleNewGroup, newGroup
+        newConversationVisible,
+        toggleNewGroup,
+        newGroup,
       }}
     >
       <MainLayOut rightSideToggled={rightSideToggled}>

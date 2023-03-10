@@ -8,13 +8,13 @@ import LeftHeader from "./LeftHeader";
 import SearchFriendBox from "./SearchFriendBox";
 
 const Left = () => {
-  const { newConversationVisible, newGroup } = useContext(ConversationContext);
+  const { newConversationVisible, newGroup, toggleNewConversation, toggleNewGroup } = useContext(ConversationContext);
   return (
     <>
       {newConversationVisible && <NewConversation />}
       {newGroup && <NewGroup />}
       <div className="leftside">
-        <LeftHeader />
+        <LeftHeader toggleNewConversation={toggleNewConversation} toggleNewGroup={toggleNewGroup}/>
         <SearchFriendBox />
         <ChatList />
       </div>
