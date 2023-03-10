@@ -30,7 +30,6 @@ export const friendsReducer = createSlice({
 
     // get messages for conversation
     getMessagesPerConversation: (state, action) => {
-      console.log("Get messages for conversation");
       state.messages = [...action.payload];
     },
     // the message sent
@@ -40,11 +39,10 @@ export const friendsReducer = createSlice({
 
     // update message
     insertUpdatedMessage: (state, action) => {
-
       // copy of old state
       let oldState = current(state.messages);
 
-      // find index of the message 
+      // find index of the message
       let getIndex = oldState.findIndex(
         (msg) => msg._id === action.payload._id
       );
@@ -60,7 +58,6 @@ export const friendsReducer = createSlice({
       // set new state value
 
       state.messages = [...filteredItem];
-   ;
     },
 
     // update current reaction
@@ -139,11 +136,12 @@ export const friendsReducer = createSlice({
 
     /************************** END OF CONVERSATION REDUCERS  ********************************** */
 
-    insertImagePreview: (state, action) => {
+    handleImagePreview: (state, action) => {
+      if (state.imagePreview.length > 0) {
+        state.imagePreview = [];
+        return;
+      }
       state.imagePreview = action.payload;
-    },
-    resetImagePreview: (state, action) => {
-      state.imagePreview = [];
     },
   },
 });
@@ -153,8 +151,8 @@ export const {
   getMessagesPerConversation,
   getInitialConversations,
   insertUpdatedMessage,
-  resetImagePreview,
-  insertImagePreview,
+
+  handleImagePreview, 
   setSelectedReaction,
   insertLatestReaction,
   setNewMessageAdded,

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {  useContext, useState } from "react";
 import { GrClose } from "react-icons/gr";
-import { useRedux } from "../hooks/useRedux";
-import { _toggleReactionListModal } from "../redux/reducers/toggler";
-import { UserImage } from "./UserImage";
-const MessageReactions = () => {
+import { UserImage } from "../components/UserImage";
+import { CenterContext } from "../contexts";
+import { useRedux } from "../hooks";
+// import { useRedux } from "../hooks/useRedux";
+const MessageReaction = () => {
   const {
     dispatch,
     currentMessageReactions,
@@ -15,6 +16,7 @@ const MessageReactions = () => {
     setSeelectedOpton(option);
   };
 
+  const {  toggleMessageReactions } = useContext(CenterContext);
   return (
     <div className="message-reactions-modal">
       <div className="message-reactions-modal-inner">
@@ -24,7 +26,7 @@ const MessageReactions = () => {
           </div>
           <div
             className="closeBtn"
-            onClick={() => dispatch(_toggleReactionListModal())}
+            onClick={toggleMessageReactions}
           >
             <GrClose color="white" />
           </div>
@@ -71,4 +73,5 @@ const MessageReactions = () => {
   );
 };
 
-export default MessageReactions;
+export default MessageReaction;
+

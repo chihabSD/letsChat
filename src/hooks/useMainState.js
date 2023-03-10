@@ -12,6 +12,12 @@ const useMain = () => {
   const [toggleRight, setToggleRight] = useState(false);
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [rightSideToggled, setRightSideToggled] = useState(false);
+
+  
+  const toggleRightSide = () => {
+    setRightSideToggled((p) => !p);
+  };
 
   const toggleIsReply = () => {
     setReply((p) => !p);
@@ -47,7 +53,6 @@ const useMain = () => {
     setToggleRight((prev) => !prev);
   };
 
-  
   useEffect(() => {
     if (filled < 100 && isRunning) {
       setTimeout(() => setFilled((prev) => (prev += 2)), 50);
@@ -106,6 +111,7 @@ const useMain = () => {
     setReplyTo,
     toggleIsReply,
     scrollRef,
+    toggleRightSide, rightSideToggled
   };
 };
 

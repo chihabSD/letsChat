@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsChevronRight } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
-import { GroupContext } from "../../../contexts/index";
+import { ConversationContext, GroupContext } from "../../../contexts/index";
 import { UserImage } from "../../../components/UserImage";
 import { findCurrentUserDetails } from "../../../helpers/findMethods";
 import { useRedux } from "../../../hooks/useRedux";
@@ -9,7 +9,6 @@ import EditGroupAdmins from "../../../Modals/EditGroupAdmins";
 import { _deleteConversation } from "../../../redux/actions/friends/deleteConversation";
 import { _existConversation } from "../../../redux/actions/friends/exitConversation";
 import { _updateConversationUser } from "../../../redux/actions/friends/updateConversationUser";
-import { _toggleRightSide } from "../../../redux/reducers/toggler";
 import { useGroup } from "../../../hooks/groupState";
 import AddUsersToGroup from "../../../Modals/AddUsersToGroup";
 import { FaCross } from "react-icons/fa";
@@ -22,7 +21,7 @@ const IsGroup = () => {
     selectedConversation,
     messages,
   } = useRedux();
-
+const { toggleRightSide } = useContext(ConversationContext)
   const { groupName, members } = selectedConversation;
   const {
     toggleEditGroupAdmins,
@@ -57,7 +56,7 @@ const IsGroup = () => {
         <header>
           <div
             className="icon-close"
-            onClick={() => dispatch(_toggleRightSide())}
+            onClick={        toggleRightSide}
           >
             <GrClose />
           </div>

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaImage, FaPlus, FaSearch } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
-import { useRedux } from "../hooks/useRedux";
+import { UserImage } from "../components/UserImage";
+import { ConversationContext } from "../contexts";
+import { useRedux } from "../hooks";
 import { _addToChatList } from "../redux/actions/friends/addToChatList";
+
 import { _searchUser } from "../redux/actions/friends/searchUser";
 import { insertSearchUsers } from "../redux/reducers/friends";
-import { _toggleNewConversation } from "../redux/reducers/toggler";
-import { UserImage } from "./UserImage";
 const NewConversation = () => {
   const {
     dispatch,
@@ -15,12 +16,12 @@ const NewConversation = () => {
     conversations,
     account: { image, _id },
   } = useRedux();
-
+  const {toggleNewConversation } = useContext(ConversationContext)
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const handleSelectedUser = (user) => {
     dispatch(_addToChatList({ receiverId: user._id }));
-    dispatch(_toggleNewConversation());
+    dispatch(toggleNewConversation);
     dispatch(insertSearchUsers([]));
   };
 
@@ -50,7 +51,7 @@ const NewConversation = () => {
           </div>
           <div
             className="closeBtn"
-            onClick={() => dispatch(_toggleNewConversation())}
+            onClick={toggleNewConversation}
           >
             <GrClose color="white" />
           </div>

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-    rightSideToggled :false, 
     emojiBoxyToggled: false, 
     messageMessagePreview: false, 
     reactionListModal : false, 
@@ -25,10 +24,7 @@ export const toggleSlicer = createSlice({
 
       state.emojiBoxyToggled = false
     }, 
-    _toggleRightSide: (state, action) => {
-      state.rightSideToggled = !state.rightSideToggled;
-      
-    },
+   
     _toggleNewGroup: (state, action) => {
       state.newGroup = !state.newGroup;
     },

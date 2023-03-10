@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-const useRedux = () => {
+export const useRedux = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const {
@@ -20,7 +20,6 @@ const useRedux = () => {
     },
     profileReducer: { authenticated, account },
     toggleReducer: {
-      rightSideToggled,
       emojiBoxyToggled,
       messageMessagePreview,
       reactionListModal,
@@ -30,7 +29,6 @@ const useRedux = () => {
   } = state;
   return {
     dispatch,
-    rightSideToggled,
     emojiBoxyToggled,
     currentMessage,
     currentMessageReactions, 
@@ -54,4 +52,4 @@ const useRedux = () => {
   };
 };
 
-export { useRedux };
+// export { useRedux };

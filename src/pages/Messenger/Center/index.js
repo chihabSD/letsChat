@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { TbMessageCircleOff } from "react-icons/tb";
+import React, { useContext } from "react";
 import ReplyBottom from "./ReplyBottom";
 import { Header } from "./Header";
 
@@ -14,13 +13,11 @@ import {
 } from "../../../redux/reducers/toggler";
 import EmojiBox from "./EmojiBox";
 import MessageBox from "./MessageBox";
-import EmptyLayout from "../../../Layouts/EmptyLayout";
 import moment from "moment";
 import { TimeDivider } from "./TimeDivider";
 import { UserImage } from "../../../components/UserImage";
 import MessageContents from "./MessageContents";
 import MessageSetting from "./MessageSetting";
-import { insertImagePreview } from "../../../redux/reducers/friends";
 import { _reactToMessage } from "../../../redux/actions/message/reactToMessage";
 import { _deleteMessage } from "../../../redux/actions/message/deleteMessage";
 import Reply from "./Reply";
@@ -31,28 +28,32 @@ import NoMessage from "./NoMessage";
 import { findCurrentUserDetails } from "../../../helpers/findMethods";
 import ContentsHidden from "./ContentsHidden";
 import { groupMessages } from "../../../helpers/groupMessages";
+import ImagePreview from "../../../Modals/ImagePreview";
+import { useModal } from "../../../hooks";
+import MessageReaction from "../../../Modals/MessageReaction";
 const Center = () => {
   const {
     messages,
     dispatch,
-    updatingMessage,
     selectedConversation,
     emojiBoxyToggled,
     account: { _id },
   } = useRedux();
 
-  // const findUser = selectedConversation.members.find(user => user.user._id == _id)
-
   const { handleSelectedReply, scrollRef, replyTo, isReply, setReplyTo } =
     useContext(ConversationContext);
   const { ref } = useMain();
   const {
+    imagePreviewVisible,
+    toggleImagePreview,
+    messageReactionVisible,
+    toggleMessageReactions,
+  } = useModal();
+  const {
     currentMessage,
     toggleReactionModal,
     reactionVisible,
-    toggleSettingModal,
     setReactionVisible,
-    handleImagePreview,
     handleMessageAction,
     handleSelectedMessage,
     selectedMessage,
@@ -64,7 +65,6 @@ const Center = () => {
     dispatch(_toggleEmojiBox());
   });
   useClickOutside(currentMessage, () => {
-    // toggleReactionModal()
     setReactionVisible(false);
   });
 
@@ -143,15 +143,20 @@ const Center = () => {
         handleRestore,
         handleMessageAction,
         handleSelectedMessage,
-        handleImagePreview,
+
+        // image preveiw
+        toggleImagePreview,
+        // message reactions
+        messageReactionVisible,
+        toggleMessageReactions,
       }}
     >
+      {imagePreviewVisible && <ImagePreview />}
+      {messageReactionVisible && <MessageReaction />}
       <div className="center">
-        <Header selectedConversation={selectedConversation} />
+        <Header />
 
         <div className="messages-container">
-          {/* {findCurrentUserDetails.user.username} */}
-
           {timeLines.map((timeline) => {
             const timestampDate = moment(timeline.originalDate).format(
               "dd/MM/yyyy"

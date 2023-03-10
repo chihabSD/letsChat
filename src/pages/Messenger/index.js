@@ -16,6 +16,7 @@ import PreLoading from "./PreLoading";
 import Right from "./Right";
 import NoConversation from "./NoConversation";
 import NoSelectedChat from "./NoSelectedChat";
+import { useModal } from "../../hooks";
 
 const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
 const MessengerUI = () => {
@@ -31,9 +32,11 @@ const MessengerUI = () => {
     toggleIsReply,
     setMessage,
     toggleEmojiBox,
+    toggleRightSide,
+    rightSideToggled,
     selectedEmoji,
   } = useMain();
-
+  const { toggleNewConversation, newConversationVisible, toggleNewGroup, newGroup } = useModal();
   const {
     dispatch,
     conversations,
@@ -50,7 +53,7 @@ const MessengerUI = () => {
 
   const instance = axios.create();
   instance.defaults.headers.common = {};
- 
+
   // Handle message upload
   const handleImageUpload = async (event) => {
     const formData = new FormData();
@@ -141,8 +144,7 @@ const MessengerUI = () => {
   var ranonce = false;
   useEffect(() => {
     if (!ranonce) {
-  
-      console.log('useEffect in index ranonce is called');
+      console.log("useEffect in index ranonce is called");
       dispatch(_getChatList());
       ranonce = true;
     }
@@ -173,9 +175,13 @@ const MessengerUI = () => {
         scrollRef,
         isReply,
         setReplyTo,
+        toggleRightSide,
+        rightSideToggled,
+        toggleNewConversation,
+        newConversationVisible, toggleNewGroup, newGroup
       }}
     >
-      <MainLayOut>
+      <MainLayOut rightSideToggled={rightSideToggled}>
         <Left />
         {/* IF NO CONVERSATION SELECTED */}
         {selectedConversation === null ? (

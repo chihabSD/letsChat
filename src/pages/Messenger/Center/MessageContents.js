@@ -1,27 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineStop } from "react-icons/ai";
-import { FaBicycle, FaReply, FaTrash, FaTrashRestore } from "react-icons/fa";
-import { Oval } from "react-loader-spinner";
+import React, { useContext  } from "react";
 import { CenterContext, ConversationContext } from "../../../contexts";
-// import Reply from "../../../../../backend/src/models/reply";
 import { useRedux } from "../../../hooks/useRedux";
-import { setSelectedReaction } from "../../../redux/reducers/friends";
-import { _toggleReactionListModal } from "../../../redux/reducers/toggler";
-import DeletedMessage from "./DeletedMessage";
+import {
+  handleImagePreview,
+  setSelectedReaction,
+} from "../../../redux/reducers/friends";
+// import { _toggleReactionListModal } from "../../../redux/reducers/toggler";
 import { MessageTime } from "./MessageTime";
-import Reply from "./Reply";
-const MessageContents = ({
-  message,
-  direction,
-}) => {
-  const {replyTo} = useContext(ConversationContext)
-  const {  handleImagePreview} = useContext(CenterContext)
-  const [updated, setUpdated] = useState(false);
+const MessageContents = ({ message, direction }) => {
+  const { replyTo } = useContext(ConversationContext);
+  const { toggleImagePreview, toggleMessageReactions } = useContext(CenterContext);
   const {
     account: { _id },
-    updatingMessage,
     messages,
-
+    imagePreview,
     dispatch,
   } = useRedux();
 
@@ -36,9 +28,19 @@ const MessageContents = ({
     let reactionLength = findReaction.reactions.reactions.length;
     const updateReaction = () => {
       dispatch(setSelectedReaction(findReaction));
-      dispatch(_toggleReactionListModal());
+      // dispatch(_toggleReactionListModal());
+      toggleMessageReactions()
     };
-
+    const handleImage = (img) => {
+      // console.log(img, imagePreview);
+      if (imagePreview.length > 0) {
+        dispatch(handleImagePreview([]));
+        toggleImagePreview();
+        return;
+      }
+      dispatch(handleImagePreview({ imageUrl: img }));
+      toggleImagePreview();
+    };
     return (
       <div
         className={`${
@@ -51,7 +53,8 @@ const MessageContents = ({
         {message.type === "image" && (
           <div
             className="message-image"
-            onClick={() => handleImagePreview(message)}
+            // onClick={toggleImagePreview}
+            onClick={() => handleImage(message.imageUrl)}
           >
             <img src={message.imageUrl} />
           </div>

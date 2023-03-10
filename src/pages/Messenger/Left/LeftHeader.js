@@ -1,17 +1,13 @@
-import React, { useRef, useState } from "react";
-import { FaChevronDown, FaEllipsisH, FaEllipsisV } from "react-icons/fa";
+import React, { useContext, useRef, useState } from "react";
+import {  FaEllipsisV } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { IMAGE_URL } from "../../../api/endpoint";
 import { UserImage } from "../../../components/UserImage";
+import { ConversationContext } from "../../../contexts";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useRedux } from "../../../hooks/useRedux";
 import { _logout } from "../../../redux/actions/auth/logout";
-import {
-  _toggleNewConversation,
-  _toggleNewGroup,
-} from "../../../redux/reducers/toggler";
-
 const LeftHeader = () => {
+  const {toggleNewConversation, toggleNewGroup  } = useContext(ConversationContext)
   const navigate = useNavigate();
   const options = ["Private conversation", "New Group", "Settings", "Log out"];
   const [optionVisible, setOptionVisible] = useState(false);
@@ -30,12 +26,13 @@ const LeftHeader = () => {
 
   const handleOption = (option) => {
     if (option === "Private conversation") {
-      dispatch(_toggleNewConversation());
+      // dispatch(_toggleNewConversation());
+      toggleNewConversation()
       toggleOptions();
       return;
     }
     if (option === "New Group") {
-      dispatch(_toggleNewGroup());
+      toggleNewGroup()
       toggleOptions();
       return;
     }

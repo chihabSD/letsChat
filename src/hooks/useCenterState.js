@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { _deleteMessage } from "../redux/actions/message/deleteMessage";
-import { insertImagePreview } from "../redux/reducers/friends";
 import { _toggleMessageImagePrview } from "../redux/reducers/toggler";
 import { useRedux } from "./useRedux";
 // import { insertImagePreview } from "../../../redux/reducers/friends";
@@ -11,8 +10,6 @@ const useCenter = () => {
   const [settingsModalVisbile, setSettingsModalVisible] = useState(false);
   const [selectedMessage, setSeelectedMessage] = useState(null);
 
-
-
   const toggleSettingModal = () => {
     setSettingsModalVisible((prev) => !prev);
   };
@@ -21,12 +18,11 @@ const useCenter = () => {
     setReactionVisible((prev) => !prev);
   };
 
-  
-  const handleImagePreview = (msg) => {
-    const { imageUrl } = msg;
-    dispatch(insertImagePreview({ imageUrl }));
-    dispatch(_toggleMessageImagePrview());
-  };
+  // const handleImagePreview = (msg) => {
+  //   const { imageUrl } = msg;
+  //   // dispatch(insertImagePreview({ imageUrl }));
+  //   dispatch(_toggleMessageImagePrview());
+  // };
 
   // RESTORE
   const handleRestore = (msg) => {
@@ -50,22 +46,25 @@ const useCenter = () => {
     setSeelectedMessage(message._id);
     toggleReactionModal();
   };
- 
+
   const handleSettings = (message) => {
     // if (setting === "Remove") {
     dispatch(_deleteMessage({ messageId: message._id }));
     // }
   };
-  
+
   return {
     currentMessage,
-    toggleReactionModal, handleMessageAction, 
+    toggleReactionModal,
+    handleMessageAction,
     reactionVisible,
-    handleSettings, 
+    handleSettings,
     toggleSettingModal,
     setReactionVisible,
-    settingsModalVisbile, selectedMessage, handleSelectedMessage , 
-     handleImagePreview, handleRestore
+    settingsModalVisbile,
+    selectedMessage,
+    handleSelectedMessage,
+    handleRestore,
   };
 };
 

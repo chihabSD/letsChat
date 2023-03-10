@@ -1,25 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaImage, FaPlus, FaSearch } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
+import { UserImage } from "../components/UserImage";
+import { ConversationContext } from "../contexts";
 import { useRedux } from "../hooks/useRedux";
 import { _addToChatList } from "../redux/actions/friends/addToChatList";
 import { _searchUser } from "../redux/actions/friends/searchUser";
-import { _toggleNewGroup } from "../redux/reducers/toggler";
-import { UserImage } from "./UserImage";
-const NewGroupModal = () => {
-  const {
-    dispatch,
-    friends,
-    searchUsers,
-    currentMessageReactions,
-    account: { image },
-  } = useRedux();
-
+const NewGroup = () => {
+  const { dispatch, searchUsers } = useRedux();
+  const { toggleNewGroup } = useContext(ConversationContext);
   const [selectedUsers, setSelectedUsers] = useState([]);
-//   const [keyword, setKeyword] = useState("");
-//   const [groupName, setGroupName] = useState("");
-  const [inputs, setInputs] = useState({keyword:'', groupName:""})
-  const { keyword, groupName} = inputs
+
+  const [inputs, setInputs] = useState({ keyword: "", groupName: "" });
+  const { keyword, groupName } = inputs;
   const handleSelectedUser = (user) => {
     const userExists = selectedUsers.find((i) => i._id === user._id);
     if (userExists) return null;
@@ -30,14 +23,14 @@ const NewGroupModal = () => {
     setSelectedUsers(newList);
   };
   const handleInput = (e) => {
-    setInputs( {...inputs, [e.target.name]: e.target.value});
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
   const handleGroupCreation = () => {
-    // console.log("create group", inputs, selectedUsers);
-    // users, groupName,   isGroup
-    dispatch(_addToChatList({users:selectedUsers, groupName, isGroup:true}))
-    dispatch(_toggleNewGroup())
+    dispatch(
+      _addToChatList({ users: selectedUsers, groupName, isGroup: true })
+    );
+    dispatch(toggleNewGroup);
   };
 
   useEffect(() => {
@@ -52,7 +45,7 @@ const NewGroupModal = () => {
           <div className="title">
             <h1>Create a group</h1>
           </div>
-          <div className="closeBtn" onClick={() => dispatch(_toggleNewGroup())}>
+          <div className="closeBtn" onClick={toggleNewGroup}>
             <GrClose color="white" />
           </div>
         </header>
@@ -65,7 +58,8 @@ const NewGroupModal = () => {
               </div>
             </div>
 
-            <input placeholder="Group name" 
+            <input
+              placeholder="Group name"
               value={groupName}
               name="groupName"
               onChange={(e) => handleInput(e)}
@@ -76,7 +70,6 @@ const NewGroupModal = () => {
             <input
               placeholder="Search for a user to add to group "
               value={keyword}
-              
               name="keyword"
               onChange={(e) => handleInput(e)}
             />
@@ -137,4 +130,4 @@ const NewGroupModal = () => {
   );
 };
 
-export default NewGroupModal;
+export default NewGroup;

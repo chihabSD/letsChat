@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsChevronRight } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
 import { UserImage } from "../../../components/UserImage";
+import { ConversationContext } from "../../../contexts";
 import { useRedux } from "../../../hooks/useRedux";
 import { _deleteConversation } from "../../../redux/actions/friends/deleteConversation";
-import { _toggleRightSide } from "../../../redux/reducers/toggler";
 
 const IsPrivate = () => {
   const {selectedConversation} = useRedux ()
   const { groupName,  members } = selectedConversation;
   const { rightSideToggled, dispatch } = useRedux();
+  const { toggleRightSide } = useContext(ConversationContext)
   return (
     <div className={`${rightSideToggled ? "hideright" : "right"}`}>
       <header>
         <div
           className="icon-close"
-          onClick={() => dispatch(_toggleRightSide())}
+          onClick={toggleRightSide}
         >
           <GrClose />
         </div>

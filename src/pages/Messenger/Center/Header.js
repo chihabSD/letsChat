@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsArrowLeft } from "react-icons/bs";
+import { ConversationContext } from "../../../contexts";
 import { useRedux } from "../../../hooks/useRedux";
-import { _toggleRightSide } from "../../../redux/reducers/toggler";
 import GroupHeader from "./GroupHeader";
 
 export const Header = () => {
   const {
     dispatch,
     selectedConversation, 
-    rightSideToggled,
     account: { _id },
   } = useRedux();
+  const { rightSideToggled, toggleRightSide } = useContext(ConversationContext);
   const { type, members } = selectedConversation;
   const returnUser = members?.find(({user}) => user._id != _id);
   if(type === 'group'){
@@ -21,7 +21,7 @@ export const Header = () => {
       {returnUser.user.username}
 
       <div className="chat-header-right">
-        <div onClick={() => dispatch(_toggleRightSide())}>
+        <div onClick={toggleRightSide}>
           {rightSideToggled && (
             <div className="expand-toggle">
               <BsArrowLeft size={25} />
