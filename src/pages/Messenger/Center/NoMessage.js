@@ -9,11 +9,7 @@ const NoMessage = ({ selectedConversation }) => {
       <h1> No Messages</h1>
       <p>When you have message,</p>
       <p>you will see them here</p>
-      <h1>
-        {selectedConversation.type === "group"
-          ? selectedConversation.groupName
-          : selectedConversation._id}
-      </h1>
+     
     </EmptyLayout>
   );
 };

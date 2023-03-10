@@ -7,7 +7,6 @@ import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useMain } from "../../../hooks/useMainState";
 import { useCenter } from "../../../hooks/useCenterState";
 import { useRedux } from "../../../hooks/useRedux";
-import { _getFriends } from "../../../redux/actions/friends/getFriends";
 import {
   _toggleEmojiBox,
   _toggleMessageImagePrview,
@@ -31,10 +30,10 @@ import { CenterContext, ConversationContext } from "../../../contexts";
 import NoMessage from "./NoMessage";
 import { findCurrentUserDetails } from "../../../helpers/findMethods";
 import ContentsHidden from "./ContentsHidden";
+import { groupMessages } from "../../../helpers/groupMessages";
 const Center = () => {
   const {
     messages,
-    timeLines,
     dispatch,
     updatingMessage,
     selectedConversation,
@@ -113,9 +112,24 @@ const Center = () => {
     }
   };
 
-  if (findCurrentUserDetails(selectedConversation, _id).isLeft){
-    return     <ContentsHidden selectedConversation={selectedConversation}/>
+  if (findCurrentUserDetails(selectedConversation, _id).isLeft) {
+    return <ContentsHidden selectedConversation={selectedConversation} />;
   }
+
+  if (messages.length === 0) {
+    return (
+      <div className="center">
+        <div className="messages-container">
+          There are no messages for this chat
+          <NoMessage />
+          <MessageBox>{emojiBoxyToggled && <EmojiBox el={ref} />}</MessageBox>
+        </div>
+      </div>
+    );
+  }
+
+  let timeLines = groupMessages(messages);
+
   return (
     <CenterContext.Provider
       value={{
@@ -136,97 +150,92 @@ const Center = () => {
         <Header selectedConversation={selectedConversation} />
 
         <div className="messages-container">
-
-
           {/* {findCurrentUserDetails.user.username} */}
-          {timeLines.length === 0 || timeLines === undefined ? (
-            <NoMessage selectedConversation={selectedConversation} />
-          ) : (
-            timeLines.map((timeline) => {
-              const timestampDate = moment(timeline.originalDate).format(
-                "dd/MM/yyyy"
-              );
-              // const timestampDate =
 
-              return (
-                <div className="timeline-container" key={timeline.timeLine}>
-                  {timeline.messages.map((message) => {
-                    const { contentType } = message;
-                    let condition =
-                      message.deletedBy !== undefined &&
-                      message.deletedBy.length > 0 &&
-                      message.deletedBy.find((user) => user.by == _id);
+          {timeLines.map((timeline) => {
+            const timestampDate = moment(timeline.originalDate).format(
+              "dd/MM/yyyy"
+            );
+            // const timestampDate =
 
-                    const className = "chat-box-container";
-                    return message.senderId._id === _id ||
-                      message.senderId._id === undefined ? (
-                      <div
-                        id={message._id}
-                        className={className}
-                        ref={scrollRef}
-                        key={message._id}
-                      >
-                        {condition ? (
+            return (
+              <div className="timeline-container" key={timeline.timeLine}>
+                {timeline.messages.map((message) => {
+                  const { contentType } = message;
+                  let condition =
+                    message.deletedBy !== undefined &&
+                    message.deletedBy.length > 0 &&
+                    message.deletedBy.find((user) => user.by == _id);
+
+                  const className = "chat-box-container";
+                  return message.senderId._id === _id ||
+                    message.senderId._id === undefined ? (
+                    <div
+                      id={message._id}
+                      className={className}
+                      ref={scrollRef}
+                      key={message._id}
+                    >
+                      {condition ? (
+                        <div className="message-container">
+                          <DeletedMessage message={message} _id={_id} />
+                        </div>
+                      ) : (
+                        contentType === "message" && (
                           <div className="message-container">
-                            <DeletedMessage message={message} _id={_id} />
+                            <MessageSetting message={message} />
+                            <MessageContents message={message} direction />
                           </div>
-                        ) : (
-                          contentType === "message" && (
-                            <div className="message-container">
-                              <MessageSetting message={message} />
-                              <MessageContents message={message} direction />
-                            </div>
-                          )
-                        )}
-                        {contentType == "reply" && (
-                          <div className="reply-container">
-                            <Reply _id={_id} message={message} direction />
+                        )
+                      )}
+                      {contentType == "reply" && (
+                        <div className="reply-container">
+                          <Reply _id={_id} message={message} direction />
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div
+                      className="chat-box-container left"
+                      ref={scrollRef}
+                      key={message._id}
+                    >
+                      {contentType == "reply" && (
+                        <div className="reply-container left">
+                          <div className="left">
+                            <UserImage
+                              image={
+                                message.contentType === "reply"
+                                  ? message.senderId.image
+                                  : message.senderId.image
+                              }
+                              style={{ width: "40px", height: "40px" }}
+                            />
                           </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div
-                        className="chat-box-container left"
-                        ref={scrollRef}
-                        key={message._id}
-                      >
-                        {contentType == "reply" && (
-                          <div className="reply-container left">
-                            <div className="left">
-                              <UserImage
-                                image={
-                                  message.contentType === "reply"
-                                    ? message.senderId.image
-                                    : message.senderId.image
-                                }
-                                style={{ width: "40px", height: "40px" }}
-                              />
-                            </div>
-                            <Reply _id={_id} message={message} direction />
-                          </div>
-                        )}
+                          <Reply _id={_id} message={message} direction />
+                        </div>
+                      )}
 
-                        {condition ? (
+                      {condition ? (
+                        <div className="message-container">
+                          <DeletedMessage message={message} _id={_id} />
+                        </div>
+                      ) : (
+                        contentType === "message" && (
                           <div className="message-container">
-                            <DeletedMessage message={message} _id={_id} />
+                            <UserProfilePicLeft message={message} />
+                            <MessageContents message={message} />
+                            <MessageSetting message={message} />
                           </div>
-                        ) : (
-                          contentType === "message" && (
-                            <div className="message-container">
-                              <UserProfilePicLeft message={message} />
-                              <MessageContents message={message} />
-                              <MessageSetting message={message} />
-                            </div>
-                          )
-                        )}
-                      </div>
-                    );
-                  })}
-                  <TimeDivider timeline={timeline.originalDate} />
-                </div>
-              );
-            })
-          )}
+                        )
+                      )}
+                    </div>
+                  );
+                })}
+                <TimeDivider timeline={timeline.originalDate} />
+              </div>
+            );
+          })}
         </div>
 
         {/* BOTTOM REPLY BOX  */}

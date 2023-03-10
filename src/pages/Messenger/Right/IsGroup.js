@@ -12,6 +12,7 @@ import { _updateConversationUser } from "../../../redux/actions/friends/updateCo
 import { _toggleRightSide } from "../../../redux/reducers/toggler";
 import { useGroup } from "../../../hooks/groupState";
 import AddUsersToGroup from "../../../Modals/AddUsersToGroup";
+import { FaCross } from "react-icons/fa";
 
 const IsGroup = () => {
   const {
@@ -90,11 +91,12 @@ const IsGroup = () => {
                       </div>
                     </div>
                     <div className="right">
+                 
                       <p
                         onClick={() =>
                           dispatch(
                             _updateConversationUser({
-                              updateType: "makeAdmin",
+                              updateType: "removeUser",
                               user: user._id,
                               conversationType: selectedConversation.type,
                               conversationId: selectedConversation._id,
@@ -102,7 +104,7 @@ const IsGroup = () => {
                           )
                         }
                       >
-                        <BsChevronRight />
+                        <GrClose />
                       </p>
                     </div>
                   </div>

@@ -47,6 +47,7 @@ const useMain = () => {
     setToggleRight((prev) => !prev);
   };
 
+  
   useEffect(() => {
     if (filled < 100 && isRunning) {
       setTimeout(() => setFilled((prev) => (prev += 2)), 50);

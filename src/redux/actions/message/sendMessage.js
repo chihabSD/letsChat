@@ -4,6 +4,7 @@ import {   clearNewMessageAdded, insertSentMessage, setNewMessageAdded } from '.
 import { names } from '../names';
 
 export const _sendMessage= (details) => {
+  console.log('send message is sent');
   return async dispatch => {
     try {
       const {data:{message}} = await messageApiHandler (names.SEND_MESSAGE, details);

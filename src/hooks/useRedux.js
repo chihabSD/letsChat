@@ -9,7 +9,6 @@ const useRedux = () => {
       friends,
       latestReaction,
       newMessageAdd , 
-      timeLines, 
       currentMessage,
       messages,
       searchUsers, 
@@ -51,7 +50,7 @@ const useRedux = () => {
     messageMessagePreview,
     imagePreview,
     loadingConversation, 
-    timeLines,  newMessageAdd, updatingMessage, newConversation
+      newMessageAdd, updatingMessage, newConversation
   };
 };
 

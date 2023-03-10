@@ -142,6 +142,7 @@ const MessengerUI = () => {
   useEffect(() => {
     if (!ranonce) {
   
+      console.log('useEffect in index ranonce is called');
       dispatch(_getChatList());
       ranonce = true;
     }

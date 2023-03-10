@@ -1,12 +1,10 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { groupMessages } from "../../helpers/groupMessages";
-var moment = require("moment"); // require
+
 const initialState = {
   friends: {},
   searchUsers: [],
   conversations: [],
   messages: [],
-  timeLines: [],
   imagePreview: [],
   updatedMessages: [],
   updatingMessage: false,
@@ -27,9 +25,98 @@ export const friendsReducer = createSlice({
     setSelectedReaction: (state, action) => {
       state.currentMessageReactions = action.payload;
     },
-    // get friens
-    getFriends: (state, action) => {
-      state.friends = action.payload;
+
+    /************************* MESSAGES ********************************* */
+
+    // get messages for conversation
+    getMessagesPerConversation: (state, action) => {
+      console.log("Get messages for conversation");
+      state.messages = [...action.payload];
+    },
+    // the message sent
+    insertSentMessage: (state, action) => {
+      state.messages.push(action.payload);
+    },
+
+    // update message
+    insertUpdatedMessage: (state, action) => {
+
+      // copy of old state
+      let oldState = current(state.messages);
+
+      // find index of the message 
+      let getIndex = oldState.findIndex(
+        (msg) => msg._id === action.payload._id
+      );
+
+      // remove item it
+      let filteredItem = oldState.filter(
+        (item) => item._id != action.payload._id
+      );
+
+      // replace item
+      filteredItem.splice(getIndex, 0, action.payload);
+
+      // set new state value
+
+      state.messages = [...filteredItem];
+   ;
+    },
+
+    // update current reaction
+    insertLatestReaction: (state, action) => {
+      let currentReactions = [...current(state.messages)];
+      let newObj = currentReactions.map((item, index) => {
+        if (item._id === action.payload._id) {
+          return { ...item, ...action.payload };
+        }
+        return {
+          ...item,
+        };
+      });
+
+      state.messages = [...newObj];
+    },
+
+    setNewMessageAdded: (state, action) => {
+      state.newMessageAdd = true;
+    },
+    clearNewMessageAdded: (state, action) => {
+      state.newMessageAdd = false;
+    },
+
+    /************************** CONVERSATION ********************************** */
+    // when a new conversation is added done
+    insertNewConversation: (state, action) => {
+      state.conversations.unshift(action.payload);
+    },
+    // insert conversation done
+    getInitialConversations: (state, action) => {
+      state.conversations = [...action.payload];
+    },
+    // insert conversation
+    handleCurrentConversation: (state, action) => {
+      state.selectedConversation = action.payload;
+    },
+
+    // load converstion done
+    setLoadingConversation: (state, action) => {
+      state.loadingConversation = true;
+    },
+
+    // clear conversation load done
+    clearLoadingConversation: (state, action) => {
+      state.loadingConversation = false;
+    },
+
+    // delete conversation/group done
+    deleteConversation: (state, action) => {
+      const filtered = current(state.conversations).filter(
+        (conversation) => conversation._id != action.payload
+      );
+      state.conversations = [...filtered];
+
+      state.selectedConversation = filtered[0];
     },
 
     // update current conversation
@@ -49,117 +136,8 @@ export const friendsReducer = createSlice({
       state.conversations = [...filteredItem];
       state.selectedConversation = action.payload;
     },
-    // delete conversation/group
-    deleteConversation: (state, action) => {
-      const filtered = current(state.conversations).filter(
-        (conversation) => conversation._id != action.payload
-      );
-      state.conversations = [...filtered];
 
-      state.selectedConversation = filtered[0];
-    },
-
-    // insert new Conversation
-    insertNewConversation: (state, action) => {
-      state.conversations.unshift(action.payload);
-      state.selectedConversation = action.payload;
-    },
-    // insert conversation
-    insertConversation: (state, action) => {
-      // state.selectedConversation = action.payload[0];
-      state.conversations = [...action.payload];
-   
-    },
-    // insert conversation
-    handleCurrentConversation: (state, action) => {
-      state.selectedConversation = action.payload;
-    },
-  setLoadingConversation :(state, action) => {
-    state.loadingConversation = true
-  }, 
-  clearLoadingConversation :(state, action) => {
-
-        state.loadingConversation = false;
-  },  
-    // insert messages and create times
-    insertMessages: (state, action) => {
-      // if there are no messages
-      if (action.payload.length === 0 || action.payload == []) {
-        state.timeLines = [];
-        // state.messages = [];
-      } else {
-        state.timeLines = groupMessages(action.payload);
-        const tempArray = [];
-        action.payload.map((msg) => {
-          tempArray.push(msg);
-        });
-        state.messages = [...action.payload];
-      }
-    },
-
-    insertUpdatedMessage: (state, action) => {
-      let newArr = [];
-      current(state.timeLines).map((item) => {
-        item.messages.map((r) => {
-          newArr.push(r);
-        });
-      });
-
-      // get the index of the item you want to remove
-      let getIndex = newArr.findIndex((msg) => msg._id === action.payload._id);
-
-      // filter the old item
-      let filteredItem = newArr.filter(
-        (item) => item._id != action.payload._id
-      );
-
-      filteredItem.splice(getIndex, 0, action.payload);
-      state.timeLines = groupMessages([...filteredItem]);
-    },
-
-    // the message sent
-    insertSentMessage: (state, action) => {
-      let formatedDate = moment(action.payload.createdAt).format("YYYY-MM-DD");
-      let currentMessages = current(state.timeLines);
-      currentMessages.findIndex((msg) => msg.timeLine === formatedDate);
-      let newObj = currentMessages.map((item, index) => {
-        if (item.timeLine === formatedDate) {
-          return { ...item, messages: [...item.messages, action.payload] };
-        }
-        return {
-          ...item,
-        };
-      });
-
-      // Latest conversation
-      let newConversation = current(state.conversations).map((item, index) => {
-        if (item._id === action.payload.conversationId) {
-          return { ...item, latestMessage: action.payload };
-        }
-        return {
-          ...item,
-        };
-      });
-
-      state.conversations = [...newConversation];
-      state.messages.push(action.payload);
-      state.timeLines = newObj;
-    },
-
-    // update current reaction
-    insertLatestReaction: (state, action) => {
-      let currentReactions = [...current(state.messages)];
-      let newObj = currentReactions.map((item, index) => {
-        if (item._id === action.payload._id) {
-          return { ...item, ...action.payload };
-        }
-        return {
-          ...item,
-        };
-      });
-
-      state.messages = [...newObj];
-    },
+    /************************** END OF CONVERSATION REDUCERS  ********************************** */
 
     insertImagePreview: (state, action) => {
       state.imagePreview = action.payload;
@@ -167,20 +145,13 @@ export const friendsReducer = createSlice({
     resetImagePreview: (state, action) => {
       state.imagePreview = [];
     },
-    setNewMessageAdded: (state, action) => {
-      state.newMessageAdd = true;
-    },
-    clearNewMessageAdded: (state, action) => {
-      state.newMessageAdd = false;
-    },
   },
 });
 
 export const {
-  getFriends,
   insertSentMessage,
-  insertMessages,
-  insertConversation,
+  getMessagesPerConversation,
+  getInitialConversations,
   insertUpdatedMessage,
   resetImagePreview,
   insertImagePreview,
@@ -192,6 +163,8 @@ export const {
   insertSearchUsers,
   insertNewConversation,
   deleteConversation,
-  updatingExistingConversation, clearLoadingConversation, setLoadingConversation
+  updatingExistingConversation,
+  clearLoadingConversation,
+  setLoadingConversation,
 } = friendsReducer.actions;
 export default friendsReducer.reducer;
