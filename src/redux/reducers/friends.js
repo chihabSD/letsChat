@@ -32,14 +32,18 @@ export const friendsReducer = createSlice({
     getMessagesPerConversation: (state, action) => {
       state.messages = [...action.payload];
     },
-    // the message sent
+    //  handle sent message
     insertSentMessage: (state, action) => {
-      console.log("sent message");
+      const msg = action.payload;
+      let oldState = current(state.conversations);
+
+      const newArray = oldState.map((i) =>
+        i._id === msg.conversationId ? { ...i, latestMessage: msg } : i
+      );
+
+      state.conversations = [...newArray];
       state.messages.push(action.payload);
 
-      // const currentOldMessage =
-      state.selectedConversation.latestMessage = action.payload;
-      // console.log(state.selectedConversation.latestMessage);
     },
 
     // update message
@@ -94,7 +98,6 @@ export const friendsReducer = createSlice({
     },
     // insert conversation done
     getInitialConversations: (state, action) => {
-      console.log("a new conversaiotn is ", action.payload);
       state.conversations = [...action.payload];
     },
     // insert conversation
@@ -126,6 +129,8 @@ export const friendsReducer = createSlice({
     updatingExistingConversation: (state, action) => {
       // get the index of the item you want to remove
       let currentConversation = current(state.conversations);
+      
+  
       let getIndex = currentConversation.findIndex(
         (conversation) => conversation._id === action.payload._id
       );

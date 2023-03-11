@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
+import { IMAGE_URL } from "../../../api/endpoint";
 import { UserImage } from "../../../components/UserImage";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getMessage } from "../../../redux/actions/message/getMessage";
@@ -12,39 +13,29 @@ const Chat = ({ conversation }) => {
     account: { _id },
   } = useRedux();
 
-  // const { latestMessage} = selectedConversation
+  const { latestMessage } = conversation;
   const [optionsVisible, setOptionsVisible] = useState();
-  const [currentLatestMessage, setCurrentLatestMessage] = useState(
-    conversation.latestMessage
-  );
-
   const options = ["Delete", "Edit"];
   const userFound = conversation.members.find(({ user }) => user._id !== _id);
 
-  const msg = "Conversation not started yet";
-  const isCurrentConversation =
+  const currentConversation =
     selectedConversation && selectedConversation._id === conversation._id;
+  let isLatestMessage = latestMessage && latestMessage
 
-  // if active conversation, check if has latestest message and display it else dispay message
-  // if not active, also check message and display it if it exists
+  // render last message
   let renderLastMessage = () => {
-    if (isCurrentConversation) {
-      return currentLatestMessage
-        ? currentLatestMessage.type === "text"
-          ? currentLatestMessage.message
-          : "Image"
-        : msg;
+    if (isLatestMessage) {
+      return latestMessage.type === "text" ? (
+        <TextMessage msg={latestMessage.message} />
+      ) : (
+        <PhotoType />
+      );
+    } else {
+      return "Conversation not started yet!";
     }
-
-    return conversation.latestMessage && conversation.latestMessage
-      ? conversation.type === "text"
-        ? conversation.message
-        : "Image"
-      : msg;
   };
   const handleConversation = () => {
-    if (isCurrentConversation) {
-      console.log("Private chat already exist");
+    if (currentConversation) {
       return;
     } else {
       dispatch(_getMessage(conversation._id));
@@ -52,14 +43,9 @@ const Chat = ({ conversation }) => {
     }
   };
 
-  useEffect(() => {
-    if (selectedConversation) {
-      setCurrentLatestMessage(selectedConversation.latestMessage);
-    }
-  }, [selectedConversation]);
   return (
     <div
-      className={`${isCurrentConversation ? "chat select-chat" : "chat"}`}
+      className={`${currentConversation ? "chat select-chat" : "chat"}`}
       onClick={() => handleConversation()}
     >
       <div className="chat-left">
@@ -68,12 +54,10 @@ const Chat = ({ conversation }) => {
       <div className="chat-right">
         <div className="chat-right-top">
           <h4> {userFound.user.username} </h4>
-
           <div>99</div>
         </div>
         <div className="chat-right-bottom">
-          <p>{renderLastMessage()}</p>
-
+          {renderLastMessage()}
           <BsChevronDown />
         </div>
       </div>
@@ -82,3 +66,9 @@ const Chat = ({ conversation }) => {
 };
 
 export default Chat;
+const PhotoType = () => {
+  return <p>Phot </p>;
+};
+const TextMessage = ({ msg }) => {
+  return <p>{msg}</p>;
+};
