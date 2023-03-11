@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ConversationContext } from "../../contexts";
 
 import { useMain } from "../../hooks/useMainState";
@@ -17,9 +17,24 @@ import Right from "./Right";
 import NoConversation from "./NoConversation";
 import NoSelectedChat from "./NoSelectedChat";
 import { useModal } from "../../hooks";
+import io from "socket.io-client";
 
+const SOCKET_URL = "http://localhost:5000";
+// const socket = io.connect(SOCKET_URL)
+
+// const io = require("socket.io-client");
+// const socket = io(SOCKET_URL, {
+//   withCredentials: true,
+//   extraHeaders: {
+//     "my-custom-header": "abcd"
+//   }
+// });
+
+// var socket, selectedConversationCompare
 const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
 const MessengerUI = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const socket = useRef();
   const {
     filled,
     message,
@@ -48,7 +63,7 @@ const MessengerUI = () => {
     loadingConversation,
     selectedConversation,
 
-    account: { _id },
+    account,
   } = useRedux();
 
   const handleSelectedReply = (msg) => {
@@ -70,7 +85,7 @@ const MessengerUI = () => {
       // setImageUploading(true);
 
       const receivers = selectedConversation.members.filter(
-        ({ user }) => user._id !== _id
+        ({ user }) => user._id !== account._id
       );
       dispatch(
         _sendMessage({
@@ -99,7 +114,7 @@ const MessengerUI = () => {
   // handle message submission
   const handleMessageSubmission = () => {
     const receivers = selectedConversation.members.filter(
-      ({ user }) => user._id !== _id
+      ({ user }) => user._id !== account._id
     );
 
     dispatch(
@@ -155,7 +170,26 @@ const MessengerUI = () => {
     }
   }, []);
 
-  // if messages are still loading, display loading progress
+  // import {io}  from "socket.io-client";
+
+  useEffect(() => {
+    if (!socket.current) {
+      socket.current = io.connect(SOCKET_URL);
+      setIsConnected(true);
+    }
+
+    // ... other codes
+  }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      socket.current.emit("connectUser", { user: account });
+    }
+  }, [isConnected]);
+
+
+  
+
   if (loadingConversation) {
     return <PreLoading filled={filled} />;
   }
@@ -191,6 +225,7 @@ const MessengerUI = () => {
       <MainLayOut rightSideToggled={rightSideToggled}>
         <Left />
         {/* IF NO CONVERSATION SELECTED */}
+        <div>{isConnected ? "Connected" : "Not connected"}</div>
         {selectedConversation === null ? (
           <NoSelectedChat />
         ) : (
