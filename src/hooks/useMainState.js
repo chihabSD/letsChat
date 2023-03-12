@@ -13,6 +13,7 @@ const useMain = () => {
   const [filled, setFilled] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [rightSideToggled, setRightSideToggled] = useState(false);
+  const [activeUsers, setActiveUsers] = useState([]);
 
   
   const toggleRightSide = () => {
@@ -111,7 +112,7 @@ const useMain = () => {
     setReplyTo,
     toggleIsReply,
     scrollRef,
-    toggleRightSide, rightSideToggled
+    toggleRightSide, rightSideToggled, activeUsers, setActiveUsers
   };
 };
 

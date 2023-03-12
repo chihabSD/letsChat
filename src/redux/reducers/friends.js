@@ -1,7 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
-  friends: {},
+  activeUsers: [],
   searchUsers: [],
   conversations: [],
   messages: [],
@@ -154,6 +154,9 @@ export const friendsReducer = createSlice({
       }
       state.imagePreview = action.payload;
     },
+    setActiveUsers: (state, action) => {
+    state.activeUsers = [...action.payload]
+    },
   },
 });
 
@@ -174,5 +177,6 @@ export const {
   updatingExistingConversation,
   clearLoadingConversation,
   setLoadingConversation,
+  setActiveUsers
 } = friendsReducer.actions;
 export default friendsReducer.reducer;

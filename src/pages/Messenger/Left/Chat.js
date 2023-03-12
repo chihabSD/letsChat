@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { IMAGE_URL } from "../../../api/endpoint";
 import { UserImage } from "../../../components/UserImage";
 import { useRedux } from "../../../hooks/useRedux";
 import { _getMessage } from "../../../redux/actions/message/getMessage";
@@ -10,18 +9,20 @@ const Chat = ({ conversation }) => {
   const {
     dispatch,
     selectedConversation,
+    activeUsers, 
     account: { _id },
   } = useRedux();
-
   const { latestMessage } = conversation;
   const [optionsVisible, setOptionsVisible] = useState();
   const options = ["Delete", "Edit"];
   const userFound = conversation.members.find(({ user }) => user._id !== _id);
 
+  // const test = activeUsers.length > 0 ? activeUsers.map(user => user.userId) :"Of"
   const currentConversation =
     selectedConversation && selectedConversation._id === conversation._id;
   let isLatestMessage = latestMessage && latestMessage
 
+  // console.log());
   // render last message
   let renderLastMessage = () => {
     if (isLatestMessage) {
@@ -43,6 +44,7 @@ const Chat = ({ conversation }) => {
     }
   };
 
+  const isOnline = activeUsers && activeUsers.length > 0 ? activeUsers.find(u => u.userId == userFound.user._id) : null
   return (
     <div
       className={`${currentConversation ? "chat select-chat" : "chat"}`}
@@ -53,7 +55,8 @@ const Chat = ({ conversation }) => {
       </div>
       <div className="chat-right">
         <div className="chat-right-top">
-          <h4> {userFound.user.username} </h4>
+          {/* <h4> {userFound.user.username} {activeUsers.length > 0 ? activeUsers.find(user => user.userId == userFound._id ? "Online":"Offline"):"Offline"} </h4> */}
+          <h4> {userFound.user.username} {activeUsers.length > 0 ? isOnline ? "Online":null:null} </h4>
           <div>99</div>
         </div>
         <div className="chat-right-bottom">

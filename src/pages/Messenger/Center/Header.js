@@ -7,6 +7,7 @@ import GroupHeader from "./GroupHeader";
 export const Header = () => {
   const {
     dispatch,
+    activeUsers, 
     selectedConversation, 
     account: { _id },
   } = useRedux();
@@ -16,9 +17,11 @@ export const Header = () => {
   if(type === 'group'){
     return <GroupHeader selectedConversation={selectedConversation} />
   }
+  const isOnline = activeUsers && activeUsers.length > 0 ? activeUsers.find(u => u.userId == returnUser.user._id) : null
   return (
     <div className="chat-header">
-      {returnUser.user.username}
+      {returnUser.user.username} 
+      {isOnline ? "Online":null}
 
       <div className="chat-header-right">
         <div onClick={toggleRightSide}>

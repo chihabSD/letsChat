@@ -18,6 +18,8 @@ import NoConversation from "./NoConversation";
 import NoSelectedChat from "./NoSelectedChat";
 import { useModal } from "../../hooks";
 import io from "socket.io-client";
+import { setActiveUsers } from "../../redux/reducers/friends";
+import { setSocket, setSocketDisConnected } from "../../redux/reducers/socket";
 
 const SOCKET_URL = "http://localhost:5000";
 // const socket = io.connect(SOCKET_URL)
@@ -34,7 +36,7 @@ const SOCKET_URL = "http://localhost:5000";
 const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`;
 const MessengerUI = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const socket = useRef();
+  const socketRef = useRef();
   const {
     filled,
     message,
@@ -62,7 +64,8 @@ const MessengerUI = () => {
     conversations,
     loadingConversation,
     selectedConversation,
-
+    connected,
+    socket,
     account,
   } = useRedux();
 
@@ -170,25 +173,111 @@ const MessengerUI = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isConnected) {
+      setTimeout(() => {
+        dispatch(setSocket(socketRef.current.id));
+      }, 1000);
+    }
+  }, [isConnected]);
+
+  useEffect(() => {
+    if (connected && socketRef.current) {
+      // when the user disconnecte
+      socketRef.current.on("userDisconnected", (users) => {
+        console.log(users.length);
+        const filteredUsers =
+          users && users.filter((u) => u.userId !== account._id);
+        dispatch(setActiveUsers(filteredUsers));
+      });
+
+      // register user to socket
+      socketRef.current.emit("registerUser", {
+        socketId: socketRef.current.id,
+        account,
+      });
+
+      socketRef.current.on("connectedUsers", (users) => {
+        const filteredUsers =
+          users && users.filter((u) => u.userId !== account._id);
+        dispatch(setActiveUsers(filteredUsers));
+      });
+      //   console.log(data);
+      // });
+      socketRef.current.on("disconnect", function () {
+        // reconnect
+        setIsConnected(false);
+        dispatch(setSocket({}));
+        dispatch(setSocketDisConnected());
+        setTimeout(() => {
+          socketRef.current.emit("registerUser", {
+            socketId: socketRef.current.id,
+            account,
+          });
+        }, 3000);
+
+        socketRef.current = io.connect(SOCKET_URL, {
+          reconnection: true,
+          reconnectionDelay: 500,
+          reconnectionAttempts: 10,
+        });
+
+        console.log("server is down");
+      });
+    }
+  }, [connected, socketRef.current]);
+
   // import {io}  from "socket.io-client";
 
   useEffect(() => {
-    if (!socket.current) {
-      socket.current = io.connect(SOCKET_URL);
+    if (!socketRef.current) {
+      dispatch(setSocketDisConnected());
+      socketRef.current = io.connect(SOCKET_URL, {
+        reconnection: true,
+        reconnectionDelay: 2000,
+        reconnectionAttempts: 10,
+      });
       setIsConnected(true);
     }
 
     // ... other codes
   }, []);
 
-  useEffect(() => {
-    if (isConnected) {
-      socket.current.emit("connectUser", { user: account });
-    }
-  }, [isConnected]);
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     setTimeout(() => {
+  //       console.log("Connection is emitted");
+  //       socket.current.emit("connectUser", { user: account });
+  //     }, 5000);
+  //   }
+  //   // ... other codes
+  // }, [isConnected]);
 
+  // useEffect(() => {
+  //   if (socket.current.on("disconnect")) {
+  //     socket.current.on("disconnect", function () {
+  //       setIsConnected(false);
 
-  
+  //       socket.current = io.connect(SOCKET_URL);
+  //       setIsConnected(true);
+
+  //       console.log("server disconnected");
+  //     });
+  //   }
+  // }, [socket.current]);
+
+  // useEffect(() => {
+  //   socket.current.on("connectedUsers", (users) => {
+  //     const filteredUsers =
+  //       users && users.filter((u) => u.userId !== account._id);
+
+  //     dispatch(setActiveUsers(filteredUsers));
+  //   });
+
+  //   socket.current.on("userDisconnected", (data) => {
+  //     console.log(data);
+  //   });
+  // }, []);
 
   if (loadingConversation) {
     return <PreLoading filled={filled} />;
@@ -198,6 +287,7 @@ const MessengerUI = () => {
   if (conversations.length == 0) {
     return <NoConversation />;
   }
+
   // display conversations and rest of contents
   return (
     <ConversationContext.Provider
@@ -225,7 +315,9 @@ const MessengerUI = () => {
       <MainLayOut rightSideToggled={rightSideToggled}>
         <Left />
         {/* IF NO CONVERSATION SELECTED */}
-        <div>{isConnected ? "Connected" : "Not connected"}</div>
+        <div style={{ position: "absolute", top: "0", left: "0", right: "0" }}>
+          {isConnected ? "Connected" : "Not connected"}
+        </div>
         {selectedConversation === null ? (
           <NoSelectedChat />
         ) : (
